@@ -3,10 +3,10 @@
 'use client';
 
 import { Suspense } from 'react';
-import { StatsCards } from '@/components/dashboard/stats-cards';
-import { RealtimeFeed } from '@/components/dashboard/realtime-feed';
-import { TopCompanies } from '@/components/dashboard/top-companies';
-import { ESGRiskChart } from '@/components/dashboard/esg-risk-chart';
+import { StatsCards } from '@/components/dashboard/widgets/stats-cards';
+import { RealtimeFeed } from '@/components/dashboard/widgets/realtime-feed';
+import { TopCompanies } from '@/components/dashboard/widgets/top-companies';
+import { ESGRiskChart } from '@/components/dashboard/widgets/esg-risk-chart';
 import { useDashboardStats, useRiskTrend } from '@/hooks/queries/useDashboard';
 import { getDaysAgo, toISODateString, getToday } from '@/lib/utils/date';
 import { useRouter } from 'next/navigation';

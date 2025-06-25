@@ -89,7 +89,7 @@ export function useAnalyzeText() {
   
   return useMutation({
     mutationFn: (text: string) => analysisApi.analyzeText(text),
-    onSuccess: (data) => {
+    onSuccess: () => {
       // 관련 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.analyses] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.recentAnalyses] });

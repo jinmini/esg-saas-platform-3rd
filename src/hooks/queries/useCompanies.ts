@@ -109,7 +109,7 @@ export function useCreateCompany() {
 
   return useMutation({
     mutationFn: companiesApi.createCompany,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.companies] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.companyStats] });
       toast.success('기업이 추가되었습니다');
@@ -127,7 +127,7 @@ export function useUpdateCompany() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) =>
       companiesApi.updateCompany(id, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.companies] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.company, variables.id] });
       toast.success('기업 정보가 수정되었습니다');

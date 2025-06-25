@@ -56,7 +56,6 @@ export function ESGRiskChart({
   }));
 
   const ChartComponent = chartType === 'area' ? AreaChart : LineChart;
-  const DataComponent = chartType === 'area' ? Area : Line;
 
   const chartColors = {
     environmental: '#10b981', // green-500

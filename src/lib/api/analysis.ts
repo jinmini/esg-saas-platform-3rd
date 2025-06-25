@@ -6,7 +6,6 @@ import {
   AnalysisFilter,
   PaginatedResponse,
   PaginationParams,
-  ApiResponse,
 } from '@/types';
 
 // 분석 결과 목록 조회

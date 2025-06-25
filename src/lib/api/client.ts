@@ -1,6 +1,6 @@
 // API 클라이언트 설정
 
-import { ApiResponse, PaginatedResponse, PaginationParams } from '@/types';
+import { PaginationParams } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1';
 
