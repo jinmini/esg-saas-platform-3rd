@@ -47,7 +47,13 @@ export async function getCrawlSchedules(): Promise<Array<{
   nextRun: string;
   enabled: boolean;
 }>> {
-  const response = await apiClient.get<{ items: any[] }>('/crawl-jobs/schedules');
+  const response = await apiClient.get<{ items: Array<{
+    id: string;
+    keywords: string[];
+    interval: string;
+    nextRun: string;
+    enabled: boolean;
+  }> }>('/crawl-jobs/schedules');
   return response.items;
 }
 
@@ -77,7 +83,14 @@ export async function getNewsSources(): Promise<Array<{
   lastCrawled?: string;
   articleCount: number;
 }>> {
-  const response = await apiClient.get<{ items: any[] }>('/crawl-jobs/sources');
+  const response = await apiClient.get<{ items: Array<{
+    id: string;
+    name: string;
+    url: string;
+    enabled: boolean;
+    lastCrawled?: string;
+    articleCount: number;
+  }> }>('/crawl-jobs/sources');
   return response.items;
 }
 

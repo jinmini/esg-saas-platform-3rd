@@ -62,7 +62,11 @@ const DATA_MAPPINGS = {
 export function DataIntegration({ disclosure, onDataMapped }: DataIntegrationProps) {
   const [isMapping, setIsMapping] = useState(false);
   const [mappingProgress, setMappingProgress] = useState(0);
-  const [mappedData, setMappedData] = useState<any[]>([]);
+  const [mappedData, setMappedData] = useState<Array<{
+    source: string;
+    value: string;
+    confidence: number;
+  }>>([]);
   const [autoFilled, setAutoFilled] = useState(false);
 
   const mappingInfo = DATA_MAPPINGS[disclosure as keyof typeof DATA_MAPPINGS];

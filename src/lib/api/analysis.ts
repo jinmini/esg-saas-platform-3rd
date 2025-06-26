@@ -14,9 +14,19 @@ export async function getAnalyses(
 ): Promise<PaginatedResponse<AnalysisResult>> {
   const { page, limit, sortBy, sortOrder, ...filters } = params;
   
+  // 배열 타입을 문자열로 변환
+  const processedFilters: Record<string, string | number | boolean> = {};
+  Object.entries(filters).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      processedFilters[key] = value.join(',');
+    } else if (value !== undefined) {
+      processedFilters[key] = value;
+    }
+  });
+  
   const queryParams = {
     ...buildPaginationParams({ page, limit, sortBy, sortOrder }),
-    ...filters,
+    ...processedFilters,
   };
   
   return apiClient.get<PaginatedResponse<AnalysisResult>>('/analysis', queryParams);

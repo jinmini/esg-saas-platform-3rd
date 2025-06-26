@@ -100,7 +100,7 @@ export function ESGRiskChart({
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{title}</CardTitle>
-          <Tabs value={selectedMetrics} onValueChange={(v) => setSelectedMetrics(v as any)}>
+          <Tabs value={selectedMetrics} onValueChange={(v) => setSelectedMetrics(v as 'all' | 'E' | 'S' | 'G')}>
             <TabsList>
               <TabsTrigger value="all">전체</TabsTrigger>
               <TabsTrigger value="E">환경</TabsTrigger>

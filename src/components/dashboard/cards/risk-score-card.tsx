@@ -67,7 +67,7 @@ export function RiskScoreCard({
         <CardTitle className="text-sm font-medium line-clamp-1">
           {companyName}
         </CardTitle>
-        <Badge variant={getBadgeVariant() as any}>
+        <Badge variant={getBadgeVariant() as "default" | "secondary" | "destructive" | "outline"}>
           {riskLevelText}
         </Badge>
       </CardHeader>

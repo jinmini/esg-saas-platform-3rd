@@ -27,7 +27,15 @@ export async function getRealtimeAlerts(limit: number = 10): Promise<Array<{
   companyId?: string;
   analysisId?: string;
 }>> {
-  const response = await apiClient.get<{ items: any[] }>('/dashboard/alerts', {
+  const response = await apiClient.get<{ items: Array<{
+    id: string;
+    type: 'high_risk' | 'new_issue' | 'trend_change';
+    title: string;
+    message: string;
+    timestamp: string;
+    companyId?: string;
+    analysisId?: string;
+  }> }>('/dashboard/alerts', {
     limit: limit.toString(),
   });
   return response.items;
@@ -41,7 +49,13 @@ export async function getIndustryRiskSummary(): Promise<Array<{
   criticalIssues: number;
   trend: number;
 }>> {
-  const response = await apiClient.get<{ items: any[] }>('/dashboard/industry-summary');
+  const response = await apiClient.get<{ items: Array<{
+    industry: string;
+    avgRiskScore: number;
+    totalCompanies: number;
+    criticalIssues: number;
+    trend: number;
+  }> }>('/dashboard/industry-summary');
   return response.items;
 }
 
@@ -52,7 +66,12 @@ export async function getSASBDistribution(): Promise<Array<{
   avgRiskScore: number;
   topCompanies: string[];
 }>> {
-  const response = await apiClient.get<{ items: any[] }>('/dashboard/sasb-distribution');
+  const response = await apiClient.get<{ items: Array<{
+    category: string;
+    count: number;
+    avgRiskScore: number;
+    topCompanies: string[];
+  }> }>('/dashboard/sasb-distribution');
   return response.items;
 }
 
@@ -97,23 +116,28 @@ export async function getHotTopics(limit: number = 20): Promise<Array<{
   trend: 'up' | 'down' | 'stable';
   relatedCompanies: string[];
 }>> {
-  const response = await apiClient.get<{ items: any[] }>('/dashboard/hot-topics', {
+  const response = await apiClient.get<{ items: Array<{
+    keyword: string;
+    count: number;
+    trend: 'up' | 'down' | 'stable';
+    relatedCompanies: string[];
+  }> }>('/dashboard/hot-topics', {
     limit: limit.toString(),
   });
   return response.items;
 }
 
 // 대시보드 위젯 데이터 일괄 조회
-export async function getDashboardWidgets(widgets: string[]): Promise<Record<string, any>> {
+export async function getDashboardWidgets(widgets: string[]): Promise<Record<string, unknown>> {
   return apiClient.post('/dashboard/widgets', { widgets });
 }
 
 // 대시보드 레이아웃 저장
-export async function saveDashboardLayout(layout: any): Promise<void> {
+export async function saveDashboardLayout(layout: { widgets: Array<{ id: string; x: number; y: number; w: number; h: number }> }): Promise<void> {
   return apiClient.post('/dashboard/layout', { layout });
 }
 
 // 대시보드 레이아웃 조회
-export async function getDashboardLayout(): Promise<any> {
+export async function getDashboardLayout(): Promise<{ widgets: Array<{ id: string; x: number; y: number; w: number; h: number }> }> {
   return apiClient.get('/dashboard/layout');
 }

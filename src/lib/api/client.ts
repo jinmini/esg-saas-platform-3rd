@@ -17,7 +17,7 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
-    public data?: any
+    public data?: unknown
   ) {
     super(message);
     this.name = 'ApiError';
@@ -70,10 +70,15 @@ async function fetchApi<T>(
 // GET 요청
 export async function get<T>(
   endpoint: string,
-  params?: Record<string, any>
+  params?: Record<string, string | number | boolean>
 ): Promise<T> {
   const queryString = params
-    ? '?' + new URLSearchParams(params).toString()
+    ? '?' + new URLSearchParams(
+        Object.entries(params).reduce((acc, [key, value]) => {
+          acc[key] = String(value);
+          return acc;
+        }, {} as Record<string, string>)
+      ).toString()
     : '';
   
   return fetchApi<T>(`${endpoint}${queryString}`, {
@@ -84,7 +89,7 @@ export async function get<T>(
 // POST 요청
 export async function post<T>(
   endpoint: string,
-  body?: any
+  body?: unknown
 ): Promise<T> {
   return fetchApi<T>(endpoint, {
     method: 'POST',
@@ -95,7 +100,7 @@ export async function post<T>(
 // PUT 요청
 export async function put<T>(
   endpoint: string,
-  body?: any
+  body?: unknown
 ): Promise<T> {
   return fetchApi<T>(endpoint, {
     method: 'PUT',

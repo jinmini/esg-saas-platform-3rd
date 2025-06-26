@@ -8,7 +8,17 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronRight, FileText, Globe, Leaf, Users } from "lucide-react";
 
 interface GRICascadeSelectorProps {
-  standards: any;
+  standards: Record<string, {
+    id: string;
+    name: string;
+    description: string;
+    standards: Array<{
+      id: string;
+      name: string;
+      description: string;
+      disclosures: Array<{ id: string; name: string; mandatory: boolean }>;
+    }>;
+  }>;
   onCategorySelect: (category: string) => void;
   onStandardSelect: (standard: string) => void;
   onNext: () => void;
@@ -52,7 +62,7 @@ export function GRICascadeSelector({
 
       {/* 카테고리 선택 */}
       <div className="grid grid-cols-2 gap-4">
-        {Object.values(standards).map((category: any) => {
+        {Object.values(standards).map((category) => {
           const Icon = categoryIcons[category.id as keyof typeof categoryIcons];
           const isSelected = selectedCategory === category.id;
           
@@ -94,7 +104,7 @@ export function GRICascadeSelector({
         <div className="mt-6">
           <h4 className="text-base font-medium mb-3">세부 표준 선택</h4>
           <div className="space-y-3">
-            {standards[selectedCategory].standards.map((standard: any) => {
+            {standards[selectedCategory].standards.map((standard) => {
               const isSelected = selectedStandard === standard.id;
               
               return (
@@ -122,7 +132,7 @@ export function GRICascadeSelector({
                             {standard.disclosures.length}개 공시사항
                           </Badge>
                           <Badge variant="outline" className="text-xs">
-                            필수 {standard.disclosures.filter((d: any) => d.mandatory).length}개
+                            필수 {standard.disclosures.filter((d) => d.mandatory).length}개
                           </Badge>
                         </div>
                       )}

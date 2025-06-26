@@ -125,7 +125,7 @@ export function useUpdateCompany() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) =>
+    mutationFn: ({ id, data }: { id: string; data: Partial<{ name: string; industry: string; ticker?: string; description?: string; logoUrl?: string }> }) =>
       companiesApi.updateCompany(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.companies] });

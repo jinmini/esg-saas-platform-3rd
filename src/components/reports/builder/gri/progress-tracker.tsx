@@ -10,7 +10,8 @@ import {
   Globe,
   FileText,
   Leaf,
-  Users
+  Users,
+  HelpCircle
 } from "lucide-react";
 
 interface ProgressTrackerProps {
@@ -89,7 +90,7 @@ export function GRIProgressTracker({
   return (
     <div className="p-4 space-y-4">
       {Object.values(standards).map((category: any) => {
-        const Icon = categoryIcons[category.id as keyof typeof categoryIcons];
+        const Icon = categoryIcons[category.id as keyof typeof categoryIcons] || HelpCircle;
         const isSelectedCategory = selectedCategory === category.id;
         const categoryProgress = getCategoryProgress(category);
         
