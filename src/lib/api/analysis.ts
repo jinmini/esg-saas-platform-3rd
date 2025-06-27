@@ -1,6 +1,7 @@
 // 분석 관련 API
 
 import { apiClient, buildPaginationParams } from './client';
+import { mockAnalysisResponse } from './mock-analysis-response';
 import {
   AnalysisResult,
   AnalysisFilter,
@@ -97,6 +98,18 @@ export async function getAnalysisStats(): Promise<{
   avgRiskScore: number;
 }> {
   return apiClient.get('/analysis/stats');
+}
+
+// [MOCK] 기업 분석 결과 조회 (테스트용)
+export async function getCompanyAnalysisMock(companyName: string): Promise<typeof mockAnalysisResponse> {
+  console.log(`[Mock API] "${companyName}"에 대한 분석 요청을 수신했습니다.`);
+  
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log(`[Mock API] "${companyName}"에 대한 분석 결과를 반환합니다.`);
+      resolve(mockAnalysisResponse);
+    }, 1000); // 1초 딜레이
+  });
 }
 
 // 분석 결과 내보내기

@@ -20,6 +20,9 @@ interface ProgressTrackerProps {
   selectedStandard: string | null;
   selectedDisclosure: string | null;
   responses: Record<string, any>;
+  onCategorySelect: (categoryId: string) => void;
+  onStandardSelect: (standardId: string) => void;
+  onDisclosureSelect: (disclosureId: string) => void;
 }
 
 const categoryIcons = {
@@ -36,7 +39,10 @@ export function GRIProgressTracker({
   selectedCategory,
   selectedStandard,
   selectedDisclosure,
-  responses
+  responses,
+  onCategorySelect,
+  onStandardSelect,
+  onDisclosureSelect
 }: ProgressTrackerProps) {
   const getDisclosureStatus = (disclosureId: string, mandatory: boolean) => {
     if (responses[disclosureId]) {
@@ -97,9 +103,12 @@ export function GRIProgressTracker({
         return (
           <div key={category.id} className="space-y-2">
             {/* 카테고리 헤더 */}
-            <div className={`flex items-center gap-2 p-2 rounded-lg transition-colors ${
-              isSelectedCategory ? "bg-primary/10" : "hover:bg-muted/50"
-            }`}>
+            <div 
+              className={`flex items-center gap-2 p-2 rounded-lg transition-colors cursor-pointer ${
+                isSelectedCategory ? "bg-primary/10" : "hover:bg-muted/50"
+              }`}
+              onClick={() => onCategorySelect(category.id)}
+            >
               <Icon className={`h-4 w-4 ${
                 isSelectedCategory ? "text-primary" : "text-muted-foreground"
               }`} />
@@ -126,11 +135,14 @@ export function GRIProgressTracker({
                   return (
                     <div key={standard.id} className="space-y-2">
                       {/* 표준 헤더 */}
-                      <div className={`p-2 rounded border-l-2 transition-colors ${
-                        isSelectedStandard 
-                          ? "border-primary bg-primary/5" 
-                          : "border-transparent hover:bg-muted/30"
-                      }`}>
+                      <div 
+                        className={`p-2 rounded border-l-2 transition-colors cursor-pointer ${
+                          isSelectedStandard 
+                            ? "border-primary bg-primary/5" 
+                            : "border-transparent hover:bg-muted/30"
+                        }`}
+                        onClick={() => onStandardSelect(standard.id)}
+                      >
                         <div className="flex items-center justify-between">
                           <span className={`text-xs font-medium ${
                             isSelectedStandard ? "text-primary" : ""
@@ -159,11 +171,12 @@ export function GRIProgressTracker({
                             return (
                               <div
                                 key={disclosure.id}
-                                className={`flex items-center gap-2 p-2 rounded text-xs transition-colors ${
+                                className={`flex items-center gap-2 p-2 rounded text-xs transition-colors cursor-pointer ${
                                   isSelected 
                                     ? "bg-primary/10 border border-primary/20" 
                                     : "hover:bg-muted/30"
                                 }`}
+                                onClick={() => onDisclosureSelect(disclosure.id)}
                               >
                                 <StatusIcon status={status} />
                                 <span className={`flex-1 ${

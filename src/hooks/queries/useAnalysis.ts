@@ -73,6 +73,16 @@ export function useCompanyAnalyses(companyId: string, params: PaginationParams) 
   });
 }
 
+// [MOCK] 기업 분석 조회 (테스트용)
+export function useCompanyAnalysisMock(companyName: string) {
+  return useQuery({
+    queryKey: [QUERY_KEYS.companyAnalyses, companyName],
+    queryFn: () => analysisApi.getCompanyAnalysisMock(companyName),
+    enabled: !!companyName, // companyName이 있을 때만 쿼리 실행
+    staleTime: Infinity, // Mock 데이터이므로 stale 타임 무한 설정
+  });
+}
+
 // SASB 카테고리별 분석 조회
 export function useSASBAnalyses(category: string, params: PaginationParams) {
   return useQuery({

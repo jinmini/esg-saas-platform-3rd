@@ -3,84 +3,57 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
   Tooltip,
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { formatChartDate } from '@/lib/utils/date';
-import { useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface ChartData {
-  date: string;
-  environmental: number;
-  social: number;
-  governance: number;
-  overall?: number;
+  name: string;
+  value: number;
 }
 
 interface ESGRiskChartProps {
   data: ChartData[];
   title?: string;
   isLoading?: boolean;
-  interval?: 'daily' | 'weekly' | 'monthly';
-  chartType?: 'line' | 'area';
+  chartType?: 'pie' | 'donut';
 }
+
+const COLORS: { [key: string]: string } = {
+  '환경(E)': '#10b981', // green-500
+  '사회(S)': '#3b82f6', // blue-500
+  '지배구조(G)': '#8b5cf6', // violet-500
+  '통합ESG': '#f59e0b', // amber-500
+  '기타': '#6b7280', // gray-500
+};
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  if (percent < 0.05) return null; // 너무 작은 값은 레이블 생략
+
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
 
 export function ESGRiskChart({
   data,
-  title = 'ESG 리스크 추이',
+  title = 'ESG 카테고리 분포',
   isLoading = false,
-  interval = 'daily',
-  chartType = 'line',
+  chartType = 'pie',
 }: ESGRiskChartProps) {
-  const [selectedMetrics, setSelectedMetrics] = useState<'all' | 'E' | 'S' | 'G'>('all');
-
-  // 차트 데이터 포맷팅
-  const formattedData = data?.map(item => ({
-    ...item,
-    date: formatChartDate(item.date, interval),
-    environmental: Math.round(item.environmental * 100),
-    social: Math.round(item.social * 100),
-    governance: Math.round(item.governance * 100),
-    overall: item.overall ? Math.round(item.overall * 100) : undefined,
-  }));
-
-  const ChartComponent = chartType === 'area' ? AreaChart : LineChart;
-
-  const chartColors = {
-    environmental: '#10b981', // green-500
-    social: '#3b82f6',        // blue-500
-    governance: '#f59e0b',    // amber-500
-    overall: '#6366f1',       // indigo-500
-  };
-
-  const chartConfig = {
-    environmental: {
-      label: '환경(E)',
-      color: chartColors.environmental,
-      show: selectedMetrics === 'all' || selectedMetrics === 'E',
-    },
-    social: {
-      label: '사회(S)',
-      color: chartColors.social,
-      show: selectedMetrics === 'all' || selectedMetrics === 'S',
-    },
-    governance: {
-      label: '지배구조(G)',
-      color: chartColors.governance,
-      show: selectedMetrics === 'all' || selectedMetrics === 'G',
-    },
-  };
 
   if (isLoading) {
     return (
@@ -89,47 +62,52 @@ export function ESGRiskChart({
           <CardTitle>{title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-[300px] w-full" />
+          <Skeleton className="h-[300px] w-full rounded-full" />
         </CardContent>
       </Card>
     );
   }
 
+  const total = data.reduce((sum, entry) => sum + entry.value, 0);
+  if (total === 0) {
+    return (
+       <Card>
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center h-[300px]">
+          <p className="text-muted-foreground">분석 데이터가 없습니다.</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>{title}</CardTitle>
-          <Tabs value={selectedMetrics} onValueChange={(v) => setSelectedMetrics(v as 'all' | 'E' | 'S' | 'G')}>
-            <TabsList>
-              <TabsTrigger value="all">전체</TabsTrigger>
-              <TabsTrigger value="E">환경</TabsTrigger>
-              <TabsTrigger value="S">사회</TabsTrigger>
-              <TabsTrigger value="G">지배구조</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
-          <ChartComponent data={formattedData}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis
-              dataKey="date"
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              axisLine={false}
-            />
-            <YAxis
-              domain={[0, 100]}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `${value}%`}
-            />
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={110}
+              innerRadius={chartType === 'donut' ? 60 : 0}
+              fill="#8884d8"
+              dataKey="value"
+              nameKey="name"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[entry.name] || COLORS['기타']} />
+              ))}
+            </Pie>
             <Tooltip
-              formatter={(value: number) => `${value}%`}
-              labelStyle={{ color: '#000' }}
+              formatter={(value: number) => `${value}건`}
               contentStyle={{
                 backgroundColor: 'rgba(255, 255, 255, 0.95)',
                 border: '1px solid #e5e7eb',
@@ -137,44 +115,10 @@ export function ESGRiskChart({
               }}
             />
             <Legend
-              verticalAlign="bottom"
-              height={36}
-              iconType="line"
+              iconType="circle"
+              formatter={(value, entry) => <span className="text-gray-700">{value}</span>}
             />
-            
-            {Object.entries(chartConfig).map(([key, config]) => {
-              if (!config.show) return null;
-              
-              if (chartType === 'area') {
-                return (
-                  <Area
-                    key={key}
-                    type="monotone"
-                    dataKey={key}
-                    stroke={config.color}
-                    fill={config.color}
-                    fillOpacity={0.1}
-                    strokeWidth={2}
-                    name={config.label}
-                    connectNulls
-                  />
-                );
-              }
-              
-              return (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  stroke={config.color}
-                  strokeWidth={2}
-                  name={config.label}
-                  dot={false}
-                  connectNulls
-                />
-              );
-            })}
-          </ChartComponent>
+          </PieChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>

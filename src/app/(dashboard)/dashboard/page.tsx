@@ -2,170 +2,145 @@
 
 'use client';
 
-import { Suspense } from 'react';
-import { StatsCards } from '@/components/dashboard/widgets/stats-cards';
-import { RealtimeFeed } from '@/components/dashboard/widgets/realtime-feed';
-import { TopCompanies } from '@/components/dashboard/widgets/top-companies';
+import { useState } from 'react';
+import { useCompanyAnalysisMock } from '@/hooks/queries/useAnalysis';
+import { AnalysisForm } from '@/components/dashboard/forms/analysis-form';
 import { ESGRiskChart } from '@/components/dashboard/widgets/esg-risk-chart';
-import { useDashboardStats, useRiskTrend } from '@/hooks/queries/useDashboard';
-import { getDaysAgo, toISODateString, getToday } from '@/lib/utils/date';
-import { useRouter } from 'next/navigation';
+import { RealtimeFeed } from '@/components/dashboard/widgets/realtime-feed';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Terminal } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card } from '@/components/ui/card';
 
-function DashboardContent() {
-  const router = useRouter();
-  const { data: stats, isLoading: statsLoading } = useDashboardStats();
-  
-  // 30일간의 리스크 추이
-  const startDate = toISODateString(getDaysAgo(30));
-  const endDate = toISODateString(getToday());
-  const { data: riskTrend, isLoading: trendLoading } = useRiskTrend({
-    startDate,
-    endDate,
-    interval: 'daily'
-  });
+export default function DashboardPage() {
+  const [companyToAnalyze, setCompanyToAnalyze] = useState<string>('');
 
-  const handleAnalysisClick = (analysisId: string) => {
-    router.push(`/analysis/${analysisId}`);
+  const { data: analysisResult, isLoading, isError, error } = useCompanyAnalysisMock(companyToAnalyze);
+
+  const handleAnalyze = (companyName: string) => {
+    setCompanyToAnalyze(companyName);
   };
 
-  const handleCompanyClick = (companyId: string) => {
-    router.push(`/companies/${companyId}`);
-  };
+  const renderContent = () => {
+    if (isLoading) {
+      return <DashboardSkeleton />;
+    }
 
-  const handleViewAllCompanies = () => {
-    router.push('/companies');
+    if (isError) {
+      return (
+        <Alert variant="destructive">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>오류 발생</AlertTitle>
+          <AlertDescription>
+            데이터를 불러오는 중 문제가 발생했습니다: {error.message}
+          </AlertDescription>
+        </Alert>
+      );
+    }
+
+    if (!analysisResult) {
+       return (
+        <div className="text-center py-10">
+          <p className="text-muted-foreground">분석할 회사를 입력하고 '분석' 버튼을 눌러주세요.</p>
+        </div>
+      );
+    }
+
+    const { analysis_summary, analyzed_news } = analysisResult;
+    
+    // ESG Risk Chart에 맞는 데이터 형태로 변환
+    const chartData = Object.entries(analysis_summary.esg_distribution).map(([key, value]) => ({
+      name: key,
+      value: value,
+    }));
+
+    return (
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <ESGRiskChart
+            data={chartData}
+            isLoading={false}
+            chartType="pie"
+          />
+        </div>
+        
+        <div className="lg:col-span-1">
+          <Card>
+             <CardHeader>
+              <CardTitle>종합 감성 분석</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* 여기에 감성 분석 차트 추가 예정 */}
+              <pre className="text-sm p-4 bg-gray-100 rounded-md">
+                {JSON.stringify(analysis_summary.sentiment_distribution, null, 2)}
+              </pre>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <div className="lg:col-span-3">
+          <RealtimeFeed
+            newsItems={analyzed_news}
+            isLoading={false}
+          />
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="space-y-6">
-      {/* 페이지 헤더 */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">ESG 리스크 대시보드</h1>
+        <h1 className="text-3xl font-bold tracking-tight">ESG 뉴스 분석 대시보드</h1>
         <p className="text-muted-foreground mt-2">
-          실시간 ESG 리스크 모니터링 및 분석
+          Mock API를 사용하여 기업의 ESG 관련 뉴스를 분석하고 시각화합니다.
         </p>
       </div>
 
-      {/* 통계 카드 */}
-      <StatsCards 
-        stats={stats} 
-        isLoading={statsLoading}
-      />
-
-      {/* 차트와 고위험 기업 */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <ESGRiskChart
-            data={riskTrend || []}
-            isLoading={trendLoading}
-            interval="daily"
-            chartType="area"
-          />
-        </div>
-        
-        <div>
-          <TopCompanies
-            limit={5}
-            onCompanyClick={handleCompanyClick}
-            onViewAll={handleViewAllCompanies}
-          />
-        </div>
-      </div>
-
-      {/* 실시간 피드와 추가 정보 */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div>
-          <h2 className="text-xl font-semibold mb-4">실시간 분석</h2>
-          <RealtimeFeed
-            limit={10}
-            onItemClick={handleAnalysisClick}
-          />
-        </div>
-        
-        <div className="space-y-6">
-          {/* 오늘의 하이라이트 */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">오늘의 주요 이슈</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">신규 기사</span>
-                <span className="font-medium">{stats?.totalArticles || 0}건</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">고위험 알림</span>
-                <span className="font-medium text-destructive">{stats?.criticalIssues || 0}건</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">평균 리스크</span>
-                <span className="font-medium">{Math.round((stats?.avgRiskScore || 0) * 100)}%</span>
-              </div>
-            </div>
-          </Card>
-
-          {/* 빠른 작업 */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">빠른 작업</h3>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => router.push('/analysis/new')}
-                className="p-3 text-sm font-medium text-center rounded-lg border hover:bg-accent transition-colors"
-              >
-                텍스트 분석
-              </button>
-              <button
-                onClick={() => router.push('/crawler/new')}
-                className="p-3 text-sm font-medium text-center rounded-lg border hover:bg-accent transition-colors"
-              >
-                크롤링 시작
-              </button>
-              <button
-                onClick={() => router.push('/reports')}
-                className="p-3 text-sm font-medium text-center rounded-lg border hover:bg-accent transition-colors"
-              >
-                리포트 생성
-              </button>
-              <button
-                onClick={() => router.push('/settings')}
-                className="p-3 text-sm font-medium text-center rounded-lg border hover:bg-accent transition-colors"
-              >
-                설정
-              </button>
-            </div>
-          </Card>
-        </div>
+      <AnalysisForm onAnalyze={handleAnalyze} isLoading={isLoading} />
+      
+      <div className="mt-6">
+        {renderContent()}
       </div>
     </div>
   );
 }
 
-export default function DashboardPage() {
+function DashboardSkeleton() {
   return (
-    <Suspense fallback={
-      <div className="space-y-6">
-        <Skeleton className="h-10 w-64" />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {[...Array(4)].map((_, i) => (
-            <Card key={i} className="p-6">
-              <Skeleton className="h-4 w-24 mb-2" />
-              <Skeleton className="h-8 w-20" />
-            </Card>
-          ))}
-        </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <Card className="p-6">
-              <Skeleton className="h-[300px]" />
-            </Card>
-          </div>
-          <Card className="p-6">
-            <Skeleton className="h-[300px]" />
-          </Card>
-        </div>
+    <div className="grid gap-6 lg:grid-cols-3">
+      <div className="lg:col-span-2">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-1/2" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-64 w-full" />
+          </CardContent>
+        </Card>
       </div>
-    }>
-      <DashboardContent />
-    </Suspense>
+      <div className="lg:col-span-1">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-3/4" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-64 w-full" />
+          </CardContent>
+        </Card>
+      </div>
+      <div className="lg:col-span-3">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-1/4" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[...Array(3)].map((_, i) => (
+              <Skeleton key={i} className="h-16 w-full" />
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
