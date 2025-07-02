@@ -13,8 +13,7 @@ import {
   ArrowDown,
   Minus
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { formatRiskScore } from '@/lib/utils/risk';
+import { cn, formatRiskScore } from '@/lib/utils';
 
 interface StatCardProps {
   title: string;

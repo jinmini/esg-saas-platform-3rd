@@ -15,8 +15,7 @@ import {
   TrendingDown
 } from 'lucide-react';
 import { useHighRiskCompanies } from '@/hooks/queries/useCompanies';
-import { formatRiskScore, getRiskLevel, getRiskLevelText } from '@/lib/utils/risk';
-import { cn } from '@/lib/utils';
+import { formatRiskScore, getRiskLevel, getRiskLevelText, cn } from '@/lib/utils';
 
 interface TopCompaniesProps {
   limit?: number;

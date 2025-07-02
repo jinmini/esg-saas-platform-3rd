@@ -6,8 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { formatTimeAgo } from '@/lib/utils/date';
-import { cn } from '@/lib/utils';
+import { formatTimeAgo, cn } from '@/lib/utils';
 import { mockAnalysisResponse } from '@/lib/api/mock-analysis-response'; // 타입 추론용
 
 type AnalyzedNews = (typeof mockAnalysisResponse)['analyzed_news'][number];

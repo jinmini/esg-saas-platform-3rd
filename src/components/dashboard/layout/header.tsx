@@ -148,7 +148,6 @@ export function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-9 w-9 rounded-full">
               <Avatar className="h-9 w-9">
-                <AvatarImage src="/avatars/user.png" alt="사용자" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
             </Button>

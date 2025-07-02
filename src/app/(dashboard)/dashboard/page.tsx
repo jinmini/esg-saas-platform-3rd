@@ -1,146 +1,140 @@
-// ESG 리스크 대시보드 페이지
+// ESG 총괄 관리 대시보드
 
 'use client';
 
 import { useState } from 'react';
-import { useCompanyAnalysisMock } from '@/hooks/queries/useAnalysis';
-import { AnalysisForm } from '@/components/dashboard/forms/analysis-form';
-import { ESGRiskChart } from '@/components/dashboard/widgets/esg-risk-chart';
-import { RealtimeFeed } from '@/components/dashboard/widgets/realtime-feed';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { WorkflowOverview } from '@/components/dashboard/widgets/workflow-overview';
+import { CompanyFinancialsWidget } from '@/components/dashboard/widgets/company-financials';
+import { ESGIssuesMatrix } from '@/components/dashboard/widgets/esg-issues-matrix';
+import { CompanySelector } from '@/components/dashboard/widgets/company-selector';
+import { 
+  mockWorkflowStatuses, 
+  mockCompaniesFinancials, 
+  mockCompaniesOverview 
+} from '@/lib/dashboard-mock-data';
 
 export default function DashboardPage() {
-  const [companyToAnalyze, setCompanyToAnalyze] = useState<string>('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  
+  // 선택된 기업의 이슈들 필터링
+  const selectedCompany = mockCompaniesOverview.find(c => c.id === selectedCompanyId);
+  const selectedCompanyIssues = selectedCompany?.activeIssues || [];
 
-  const { data: analysisResult, isLoading, isError, error } = useCompanyAnalysisMock(companyToAnalyze);
+  return (
+    <div className="space-y-6">
+      {/* 헤더 */}
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">ESG 통합 관리 대시보드</h1>
+        <p className="text-muted-foreground mt-2">
+          담당 기업의 ESG 보고서 진행 상황과 이슈를 통합 관리합니다.
+        </p>
+      </div>
 
-  const handleAnalyze = (companyName: string) => {
-    setCompanyToAnalyze(companyName);
-  };
-
-  const renderContent = () => {
-    if (isLoading) {
-      return <DashboardSkeleton />;
-    }
-
-    if (isError) {
-      return (
-        <Alert variant="destructive">
-          <Terminal className="h-4 w-4" />
-          <AlertTitle>오류 발생</AlertTitle>
-          <AlertDescription>
-            데이터를 불러오는 중 문제가 발생했습니다: {error.message}
-          </AlertDescription>
-        </Alert>
-      );
-    }
-
-    if (!analysisResult) {
-       return (
-        <div className="text-center py-10">
-          <p className="text-muted-foreground">분석할 회사를 입력하고 '분석' 버튼을 눌러주세요.</p>
-        </div>
-      );
-    }
-
-    const { analysis_summary, analyzed_news } = analysisResult;
-    
-    // ESG Risk Chart에 맞는 데이터 형태로 변환
-    const chartData = Object.entries(analysis_summary.esg_distribution).map(([key, value]) => ({
-      name: key,
-      value: value,
-    }));
-
-    return (
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <ESGRiskChart
-            data={chartData}
+      {/* 상단 레이아웃: 워크플로우 + 기업 선택 */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="lg:col-span-1">
+          <WorkflowOverview 
+            workflows={mockWorkflowStatuses}
             isLoading={false}
-            chartType="pie"
           />
         </div>
         
         <div className="lg:col-span-1">
-          <Card>
-             <CardHeader>
-              <CardTitle>종합 감성 분석</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* 여기에 감성 분석 차트 추가 예정 */}
-              <pre className="text-sm p-4 bg-gray-100 rounded-md">
-                {JSON.stringify(analysis_summary.sentiment_distribution, null, 2)}
-              </pre>
-            </CardContent>
-          </Card>
-        </div>
-        
-        <div className="lg:col-span-3">
-          <RealtimeFeed
-            newsItems={analyzed_news}
+          <CompanySelector 
+            companies={mockCompaniesOverview}
+            selectedCompanyId={selectedCompanyId}
+            onCompanySelect={setSelectedCompanyId}
             isLoading={false}
           />
         </div>
       </div>
-    );
-  };
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">ESG 뉴스 분석 대시보드</h1>
-        <p className="text-muted-foreground mt-2">
-          Mock API를 사용하여 기업의 ESG 관련 뉴스를 분석하고 시각화합니다.
-        </p>
+      {/* 중간 레이아웃: 기업 재무 현황 */}
+      <div className="grid gap-6">
+        <CompanyFinancialsWidget 
+          companies={mockCompaniesFinancials}
+          isLoading={false}
+        />
       </div>
 
-      <AnalysisForm onAnalyze={handleAnalyze} isLoading={isLoading} />
-      
-      <div className="mt-6">
-        {renderContent()}
+      {/* 하단 레이아웃: ESG 이슈 매트릭스 */}
+      <div className="grid gap-6">
+        <ESGIssuesMatrix 
+          issues={selectedCompanyIssues}
+          selectedCompany={selectedCompany?.name}
+          isLoading={false}
+        />
       </div>
-    </div>
-  );
-}
 
-function DashboardSkeleton() {
-  return (
-    <div className="grid gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-2">
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-1/2" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-64 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-      <div className="lg:col-span-1">
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-3/4" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-64 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-      <div className="lg:col-span-3">
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-1/4" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {[...Array(3)].map((_, i) => (
-              <Skeleton key={i} className="h-16 w-full" />
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+      {/* 추가 정보나 액션 섹션 */}
+      {selectedCompany && (
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4 text-blue-900">
+            📊 {selectedCompany.name} 통합 현황
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+            <div className="bg-white rounded-lg p-4 border border-blue-100">
+              <p className="text-blue-600 font-medium">ESG 점수</p>
+              <p className="text-2xl font-bold text-blue-800">{selectedCompany.esgScore}/100</p>
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 border border-green-100">
+              <p className="text-green-600 font-medium">진행 중인 보고서</p>
+              <p className="text-2xl font-bold text-green-800">{selectedCompany.reportStatus.length}건</p>
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 border border-orange-100">
+              <p className="text-orange-600 font-medium">활성 이슈</p>
+              <p className="text-2xl font-bold text-orange-800">{selectedCompany.activeIssues.length}건</p>
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 border border-purple-100">
+              <p className="text-purple-600 font-medium">위험 등급</p>
+              <p className="text-2xl font-bold text-purple-800">
+                {selectedCompany.riskLevel === 'low' && '낮음'}
+                {selectedCompany.riskLevel === 'medium' && '보통'}
+                {selectedCompany.riskLevel === 'high' && '높음'}
+              </p>
+            </div>
+          </div>
+
+          {/* 빠른 액션 버튼들 */}
+          <div className="flex flex-wrap gap-3 mt-6">
+            <button 
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+              onClick={() => window.open('/reports/builder/gri', '_blank')}
+            >
+              <span>📝</span>
+              <span>GRI 보고서 작성</span>
+            </button>
+            
+            <button 
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+              onClick={() => window.open('/crawler', '_blank')}
+            >
+              <span>📰</span>
+              <span>뉴스 분석</span>
+            </button>
+            
+            <button 
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center space-x-2"
+              onClick={() => {/* 향후 상세 페이지 구현 */}}
+            >
+              <span>📈</span>
+              <span>상세 분석</span>
+            </button>
+            
+            <button 
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center space-x-2"
+              onClick={() => {/* 향후 설정 페이지 구현 */}}
+            >
+              <span>⚙️</span>
+              <span>설정</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
