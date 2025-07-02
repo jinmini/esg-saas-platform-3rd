@@ -32,6 +32,7 @@ export interface Attachment {
 export interface GRIResponse {
   content: string;
   attachments: Attachment[];
+  lastModified?: string;
 }
 
 export interface GRIEntry {

@@ -1,0 +1,56 @@
+{
+    "search_info": {
+      "company": "삼성전자",
+      "total": 1500,
+      "start": 1,
+      "display": 100,
+      "last_build_date": "Mon, 25 Dec 2023 10:30:00 +0900",
+      "original_count": 120,
+      "duplicates_removed": 20,
+      "deduplication_enabled": true
+    },
+    "analyzed_news": [
+      {
+        "news_item": {
+          "title": "삼성전자, 친환경 반도체 생산 확대로 탄소중립 목표 달성",
+          "original_link": "https://example.com/news/123",
+          "link": "https://news.naver.com/...",
+          "description": "삼성전자가 2030년까지 RE100 달성을 위해...",
+          "pub_date": "Mon, 25 Dec 2023 09:00:00 +0900",
+          "mention_count": 3,
+          "duplicate_links": ["https://news.naver.com/..."],
+          "similarity_score": 0.95
+        },
+        "esg_classification": {
+          "esg_category": "환경(E)",
+          "confidence_score": 0.89,
+          "keywords": ["친환경", "탄소중립", "재생에너지"],
+          "classification_method": "ml_model"
+        },
+        "sentiment_analysis": {
+          "sentiment": "긍정",
+          "confidence_score": 0.92,
+          "positive": 0.85,
+          "negative": 0.10,
+          "neutral": 0.05,
+          "analysis_method": "ml_model"
+        }
+      }
+    ],
+    "analysis_summary": {
+      "total_analyzed": 100,
+      "esg_distribution": {
+        "환경(E)": 35,
+        "사회(S)": 28,
+        "지배구조(G)": 22,
+        "통합ESG": 10,
+        "기타": 5
+      },
+      "sentiment_distribution": {
+        "긍정": 45,
+        "부정": 25,
+        "중립": 30
+      }
+    },
+    "ml_service_status": "connected"
+  }

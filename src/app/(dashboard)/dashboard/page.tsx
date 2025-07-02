@@ -7,14 +7,23 @@ import { WorkflowOverview } from '@/components/dashboard/widgets/workflow-overvi
 import { CompanyFinancialsWidget } from '@/components/dashboard/widgets/company-financials';
 import { ESGIssuesMatrix } from '@/components/dashboard/widgets/esg-issues-matrix';
 import { CompanySelector } from '@/components/dashboard/widgets/company-selector';
+import { StatsCards } from '@/components/dashboard/widgets/stats-cards';
 import { 
-  mockWorkflowStatuses, 
-  mockCompaniesFinancials, 
   mockCompaniesOverview 
 } from '@/lib/dashboard-mock-data';
+import { 
+  useDashboardStats, 
+  useDashboardWorkflows, 
+  useDashboardFinancials 
+} from '@/hooks/api/use-dashboard';
 
 export default function DashboardPage() {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  
+  // 🚀 API 훅 사용 - 모든 위젯 API 연동!
+  const { data: dashboardStats, isLoading: statsLoading } = useDashboardStats();
+  const { data: workflows, isLoading: workflowsLoading } = useDashboardWorkflows();
+  const { data: financials, isLoading: financialsLoading } = useDashboardFinancials();
   
   // 선택된 기업의 이슈들 필터링
   const selectedCompany = mockCompaniesOverview.find(c => c.id === selectedCompanyId);
@@ -30,12 +39,18 @@ export default function DashboardPage() {
         </p>
       </div>
 
+      {/* 🚀 새로운 패턴: API 연동 StatsCards */}
+      <StatsCards 
+        stats={dashboardStats}
+        isLoading={statsLoading}
+      />
+
       {/* 상단 레이아웃: 워크플로우 + 기업 선택 */}
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="lg:col-span-1">
           <WorkflowOverview 
-            workflows={mockWorkflowStatuses}
-            isLoading={false}
+            workflows={workflows || []}
+            isLoading={workflowsLoading}
           />
         </div>
         
@@ -52,8 +67,8 @@ export default function DashboardPage() {
       {/* 중간 레이아웃: 기업 재무 현황 */}
       <div className="grid gap-6">
         <CompanyFinancialsWidget 
-          companies={mockCompaniesFinancials}
-          isLoading={false}
+          companies={financials || []}
+          isLoading={financialsLoading}
         />
       </div>
 

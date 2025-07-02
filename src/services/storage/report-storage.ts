@@ -12,6 +12,11 @@ interface ESGPlatformDB extends DBSchema {
       syncStatus: 'synced' | 'pending' | 'failed'
       version: number
     }
+    indexes: {
+      'framework': string
+      'lastModified': string
+      'syncStatus': string
+    }
   }
   'sync-queue': {
     key: string
@@ -22,6 +27,10 @@ interface ESGPlatformDB extends DBSchema {
       data: any
       timestamp: number
       retryCount: number
+    }
+    indexes: {
+      'reportId': string
+      'timestamp': number
     }
   }
   'user-preferences': {

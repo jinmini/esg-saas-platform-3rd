@@ -1,4 +1,4 @@
-import { GriData, FieldType, GriRequirement } from '@/types/gri';
+import { GriData, FieldType } from '@/types/gri';
 
 // Mock GRI data for UI development - 실제 운영시에는 API에서 가져올 예정
 export const mockGriData: GriData = {

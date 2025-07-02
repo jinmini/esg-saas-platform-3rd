@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { mockStandards, mockGriData } from '@/lib/gri-mock-data';
+import React, { useState } from 'react';
+import { mockGriData } from '@/lib/gri-mock-data';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Circle, AlertTriangle, FileDown, Loader2 } from "lucide-react";
+import { CheckCircle2, FileDown, Loader2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
-import { GRIResponse, Attachment, GRIEntry } from '@/types/gri';
+import { GRIResponse, GRIEntry } from '@/types/gri';
 import { identifyESGCategory } from '@/lib/esg-data-utils';
 import KoreanEsgReportTemplate from '../../templates/korean-esg-report-template';
 
@@ -35,27 +35,7 @@ export default function ReportPreview({ responses }: ReportPreviewProps) {
     };
   };
 
-  // 카테고리별 진행률 계산
-  const getCategoryProgress = () => {
-    const categoryProgress: Record<string, { total: number; completed: number }> = {};
 
-    Object.entries(mockGriData).forEach(([categoryId, categoryData]) => {
-      const totalRequirements = Object.values(categoryData).reduce((acc, disclosure) => {
-        return acc + Object.keys(disclosure.requirements).length;
-      }, 0);
-
-      const completedRequirements = Object.values(categoryData).reduce((acc, disclosure) => {
-        return acc + Object.keys(disclosure.requirements).filter(reqId => responses[reqId]?.content?.trim()).length;
-      }, 0);
-
-      categoryProgress[categoryId] = {
-        total: totalRequirements,
-        completed: completedRequirements
-      };
-    });
-
-    return categoryProgress;
-  };
 
   // 완료된 공시사항 가져오기
   const getCompletedDisclosures = () => {
@@ -66,7 +46,7 @@ export default function ReportPreview({ responses }: ReportPreviewProps) {
       esgCategory: 'E' | 'S' | 'G' | 'unknown';
     }> = [];
 
-    Object.entries(mockGriData).forEach(([categoryId, categoryData]) => {
+    Object.entries(mockGriData).forEach(([, categoryData]) => {
       Object.entries(categoryData).forEach(([disclosureId, disclosure]) => {
         Object.keys(disclosure.requirements).forEach(reqId => {
           const response = responses[reqId];
@@ -97,7 +77,7 @@ export default function ReportPreview({ responses }: ReportPreviewProps) {
       disclosure: { code: string; title: string; description: string };
     }> = [];
 
-    Object.entries(mockGriData).forEach(([categoryId, categoryData]) => {
+    Object.entries(mockGriData).forEach(([, categoryData]) => {
       Object.entries(categoryData).forEach(([disclosureId, disclosure]) => {
         const hasIncompleteRequirements = Object.keys(disclosure.requirements).some(reqId => 
           !responses[reqId]?.content?.trim()
@@ -173,7 +153,6 @@ export default function ReportPreview({ responses }: ReportPreviewProps) {
   };
 
   const totalProgress = getTotalProgress();
-  const categoryProgress = getCategoryProgress();
   const completedDisclosures = getCompletedDisclosures();
   const incompleteDisclosures = getIncompleteDisclosures();
 
@@ -317,7 +296,7 @@ export default function ReportPreview({ responses }: ReportPreviewProps) {
                         <code className="text-xs bg-gray-100 px-2 py-1 rounded">{item.disclosure.code}</code>
                       </div>
                       <div className="text-xs text-gray-500">
-                        {new Date(item.response.lastModified || Date.now()).toLocaleDateString('ko-KR')}
+                        {new Date().toLocaleDateString('ko-KR')}
                       </div>
                     </div>
                     <h4 className="font-medium text-gray-900 mb-1">{item.disclosure.title}</h4>

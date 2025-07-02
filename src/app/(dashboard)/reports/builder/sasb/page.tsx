@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { Badge } from "@/components/ui/badge";
 import { 
   ArrowLeft, 
@@ -17,11 +17,12 @@ import {
   Eye, 
   Download,
   TrendingUp,
-  DollarSign,
   Users,
   Shield
 } from "lucide-react";
 import { useRouter } from 'next/navigation';
+import { useAutoSave } from "@/hooks/useAutoSave";
+import { ReportStorageService } from "@/services/storage/report-storage";
 
 // SASB Industry Categories
 const SASB_INDUSTRIES = {
@@ -90,23 +91,43 @@ export default function SASBBuilderPage() {
   const [selectedSector, setSelectedSector] = useState<string | null>('commercial-banks');
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [progress, setProgress] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load responses from localStorage
+  // 자동 저장 기능
+  const { isSaving, lastSaved, getSyncStatus } = useAutoSave('sasb-report', responses, {
+    framework: 'sasb',
+    enabled: true,
+    debounceMs: 2000,
+    onSaveSuccess: () => {
+      console.log('✅ SASB 보고서가 저장되었습니다.', new Date().toLocaleTimeString());
+    },
+    onSaveError: (error) => {
+      console.error('❌ SASB 보고서 저장 실패:', error);
+    }
+  });
+
+  // 페이지 로딩 시 IndexedDB에서 데이터 불러오기
   useEffect(() => {
-    const savedResponses = localStorage.getItem('sasbResponses');
-    if (savedResponses) {
+    async function loadSavedData() {
       try {
-        setResponses(JSON.parse(savedResponses));
+        setIsLoading(true);
+        const storageService = ReportStorageService.getInstance();
+        const savedData = await storageService.getReport('sasb-report');
+        
+        if (savedData) {
+          setResponses(savedData);
+          console.log('📄 저장된 SASB 보고서를 불러왔습니다.');
+        }
       } catch (error) {
-        console.error('Error loading SASB responses:', error);
+        console.error('❌ SASB 보고서 불러오기 실패:', error);
+        setResponses({});
+      } finally {
+        setIsLoading(false);
       }
     }
-  }, []);
 
-  // Save responses to localStorage
-  useEffect(() => {
-    localStorage.setItem('sasbResponses', JSON.stringify(responses));
-  }, [responses]);
+    loadSavedData();
+  }, []);
 
   const handleResponseChange = (metricId: string, value: string) => {
     setResponses(prev => ({ ...prev, [metricId]: value }));
@@ -125,6 +146,18 @@ export default function SASBBuilderPage() {
 
   const currentIndustry = selectedIndustry ? SASB_INDUSTRIES[selectedIndustry as keyof typeof SASB_INDUSTRIES] : null;
   const currentSector = currentIndustry?.sectors.find(s => s.id === selectedSector);
+
+  // 로딩 상태 표시
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-sm text-gray-600">SASB 보고서를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen w-full flex flex-col">
@@ -151,6 +184,22 @@ export default function SASBBuilderPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {isSaving && (
+              <div className="flex items-center gap-1 text-blue-600 mr-2">
+                <div className="animate-spin h-3 w-3 border border-blue-600 border-t-transparent rounded-full"></div>
+                <span className="text-xs">저장 중...</span>
+              </div>
+            )}
+            {lastSaved && (
+              <span className="text-xs text-gray-500 mr-2">
+                마지막 저장: {lastSaved.toLocaleTimeString()}
+              </span>
+            )}
+            <div className={`h-2 w-2 rounded-full mr-2 ${
+              getSyncStatus() === 'synced' ? 'bg-green-500' : 
+              getSyncStatus() === 'pending' ? 'bg-yellow-500' : 
+              getSyncStatus() === 'failed' ? 'bg-red-500' : 'bg-gray-400'
+            }`} title={`동기화 상태: ${getSyncStatus()}`}></div>
             <Button variant="outline" size="sm">
               <Save className="h-4 w-4 mr-2" />
               저장

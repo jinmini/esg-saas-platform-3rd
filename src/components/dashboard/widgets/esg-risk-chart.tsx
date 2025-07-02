@@ -116,7 +116,7 @@ export function ESGRiskChart({
             />
             <Legend
               iconType="circle"
-              formatter={(value, entry) => <span className="text-gray-700">{value}</span>}
+              formatter={(value) => <span className="text-gray-700">{value}</span>}
             />
           </PieChart>
         </ResponsiveContainer>

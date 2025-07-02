@@ -1,6 +1,5 @@
 // ESG 실제 데이터 활용 유틸리티
-import esgContent from '../../public/docs/processed_docs/esg_esg_content.json';
-import esgStructure from '../../public/docs/processed_docs/esg_structure.json';
+
 
 // ESG 카테고리별 실제 사례 매핑
 export interface ESGExample {

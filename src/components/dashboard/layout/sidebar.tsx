@@ -63,6 +63,15 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
+// 개발 환경에서만 표시되는 메뉴
+const developmentItems: SidebarItem[] = process.env.NODE_ENV === 'development' ? [
+  {
+    title: 'API 테스트',
+    href: '/api-test',
+    icon: <Search className="h-4 w-4" />,
+  },
+] : [];
+
 const quickLinks = [
   {
     title: '고위험 알림',
@@ -125,7 +134,7 @@ export function Sidebar() {
               메인 메뉴
             </p>
           )}
-          {sidebarItems.map((item) => {
+          {[...sidebarItems, ...developmentItems].map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
             
             return (
