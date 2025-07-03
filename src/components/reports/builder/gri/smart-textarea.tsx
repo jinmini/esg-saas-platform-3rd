@@ -1,17 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Textarea } from '@/shared/ui/TextArea';
+import { Button } from '@/shared/ui/Button';
+import { Badge } from '@/shared/ui/Badge';
+import { Card, CardContent } from '@/shared/ui/Card';
 import { Lightbulb, CheckCircle2, AlertTriangle, Sparkles } from 'lucide-react';
 import { 
   getLengthGuide, 
   getSuggestions, 
   validateReportStyle, 
   identifyESGCategory 
-} from '@/lib/esg-data-utils';
+} from '@/shared/lib/esg-data-utils';
 
 // As defined in gri3.md
 export type GRIFieldType = 'short_text' | 'quantitative' | 'medium_text' | 'long_text';

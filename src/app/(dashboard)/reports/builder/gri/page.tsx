@@ -6,10 +6,10 @@ import React, { useState, useEffect } from 'react';
 import { GRIDynamicForm } from "@/components/reports/builder/gri/dynamic-form";
 import { GRIProgressTracker } from "@/components/reports/builder/gri/progress-tracker";
 import ReportPreview from "@/components/reports/builder/gri/report-preview";
-import { mockStandards } from "@/lib/gri-mock-data";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GRIResponse } from "@/types/gri";
+import { mockStandards } from "@/shared/lib/gri-mock-data";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
+import { GRIResponse } from "@/shared/types/gri";
 import { useAutoSave } from "@/hooks/useAutoSave";
 import { ReportStorageService } from "@/services/storage/report-storage";
 

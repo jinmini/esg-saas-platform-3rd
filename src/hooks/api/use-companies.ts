@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { httpClient } from '@/lib/api/http-client'
-import { Company, ApiResponse } from '@/types/api'
+import { httpClient } from '@/shared/api/http-client'
+import { Company, ApiResponse } from '@/shared/types/api'
 
 // 회사 목록 조회
 export function useCompanies() {

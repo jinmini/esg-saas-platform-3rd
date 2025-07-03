@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { mockGriData } from '@/lib/gri-mock-data';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { mockGriData } from '@/shared/lib/gri-mock-data';
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
+import { Badge } from "@/shared/ui/Badge";
+import { Progress } from "@/shared/ui/Progress";
 import { CheckCircle2, FileDown, Loader2 } from "lucide-react";
-import { Button } from '@/components/ui/button';
-import { GRIResponse, GRIEntry } from '@/types/gri';
-import { identifyESGCategory } from '@/lib/esg-data-utils';
+import { Button } from '@/shared/ui/Button';
+import { GRIResponse, GRIEntry } from '@/shared/types/gri';
+import { identifyESGCategory } from '@/shared/lib/esg-data-utils';
 import KoreanEsgReportTemplate from '../../templates/korean-esg-report-template';
 
 interface ReportPreviewProps {

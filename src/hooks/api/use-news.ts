@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { newsService } from '@/lib/api/news-service'
-import { NewsAnalysisParams } from '@/types/api'
+import { NewsAnalysisParams } from '@/shared/types/api'
 
 // 회사 뉴스 분석 조회
 export function useNewsAnalysis(params: NewsAnalysisParams) {

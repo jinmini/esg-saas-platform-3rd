@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { mockGriData } from '@/lib/gri-mock-data';
-import { GriRequirement, GRIResponse } from '@/types/gri';
+import { mockGriData } from '@/shared/lib/gri-mock-data';
+import { GriRequirement, GRIResponse } from '@/shared/types/gri';
 import SmartTextarea from './smart-textarea';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/shared/ui/Card";
+import { Input } from "@/shared/ui/Input";
+import { Label } from "@/shared/ui/Label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/Select";
 
 
 interface GRIDynamicFormProps {

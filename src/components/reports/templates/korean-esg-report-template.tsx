@@ -1,6 +1,6 @@
 import React from 'react';
-import { GRIEntry } from '@/types/gri';
-import { identifyESGCategory } from '@/lib/esg-data-utils';
+import { GRIEntry } from '@/shared/types/gri';
+import { identifyESGCategory } from '@/shared/lib/esg-data-utils';
 
 interface KoreanEsgReportTemplateProps {
   reportData: GRIEntry[];

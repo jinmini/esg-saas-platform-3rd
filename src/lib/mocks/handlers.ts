@@ -9,7 +9,7 @@ import {
   LoginRequest, 
   LoginResponse,
   ApiResponse 
-} from '@/types/api'
+} from '@/shared/types/api'
 
 // Mock 데이터 생성 함수들
 const createMockCompanies = (): Company[] => [

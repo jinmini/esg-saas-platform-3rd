@@ -1,7 +1,7 @@
 // 대시보드 관련 API
 
-import { apiClient } from './client';
-import { DashboardStats, RiskTrendData, CompanyRisk } from '@/types';
+import { apiClient } from '../../shared/api/client';
+import { DashboardStats, RiskTrendData, CompanyRisk } from '@/shared/types';
 
 // 대시보드 통계 조회
 export async function getDashboardStats(): Promise<DashboardStats> {

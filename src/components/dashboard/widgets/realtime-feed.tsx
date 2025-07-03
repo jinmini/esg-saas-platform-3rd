@@ -2,11 +2,11 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { formatTimeAgo, cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Badge } from '@/shared/ui/Badge';
+import { Skeleton } from '@/shared/ui/Skeleton';
+import { ScrollArea } from '@/shared/ui/ScrollArea';
+import { formatTimeAgo, cn } from '@/shared/lib';
 import { mockAnalysisResponse } from '@/lib/api/mock-analysis-response'; // 타입 추론용
 
 type AnalyzedNews = (typeof mockAnalysisResponse)['analyzed_news'][number];

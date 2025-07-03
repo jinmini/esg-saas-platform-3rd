@@ -7,7 +7,7 @@ import BenefitsSection from '@/components/landing/BenefitsSection';
 import PartnerSection from '@/components/landing/PartnerSection';
 import CTASection from '@/components/landing/CTASection';
 import Footer from '@/components/landing/Footer';
-import ScrollToTop from '@/components/landing/ScrollToTop';
+import ScrollToTop from '@/shared/ui/ScrollToTop';
 import { useEffect } from 'react';
 
 export default function LandingPage() {

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
+import { Button } from "@/shared/ui/Button";
+import { Badge } from "@/shared/ui/Badge";
+import { Progress } from "@/shared/ui/Progress";
 import { 
   CheckCircle2, 
   AlertCircle, 

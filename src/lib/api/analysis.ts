@@ -1,13 +1,13 @@
 // 분석 관련 API
 
-import { apiClient, buildPaginationParams } from './client';
-import { mockAnalysisResponse } from './mock-analysis-response';
+import { apiClient, buildPaginationParams } from '@/shared/api/client';
+import { mockAnalysisResponse } from '@/lib/api/mock-analysis-response';
 import {
   AnalysisResult,
   AnalysisFilter,
   PaginatedResponse,
   PaginationParams,
-} from '@/types';
+} from '@/shared/types';
 
 // 분석 결과 목록 조회
 export async function getAnalyses(

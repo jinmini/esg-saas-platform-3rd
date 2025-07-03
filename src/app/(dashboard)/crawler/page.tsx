@@ -7,10 +7,10 @@ import { useCompanyAnalysisMock } from '@/hooks/queries/useAnalysis';
 import { AnalysisForm } from '@/components/dashboard/forms/analysis-form';
 import { ESGRiskChart } from '@/components/dashboard/widgets/esg-risk-chart';
 import { RealtimeFeed } from '@/components/dashboard/widgets/realtime-feed';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/Alert';
 import { Terminal } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/shared/ui/Skeleton';
 
 export default function CrawlerPage() {
   const [companyToAnalyze, setCompanyToAnalyze] = useState<string>('');

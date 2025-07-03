@@ -2,8 +2,8 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Skeleton } from '@/shared/ui/Skeleton';
 import { 
   FileText, 
   TrendingUp, 
@@ -13,7 +13,7 @@ import {
   ArrowDown,
   Minus
 } from 'lucide-react';
-import { cn, formatRiskScore } from '@/lib/utils';
+import { cn, formatRiskScore } from '@/shared/lib';
 
 interface StatCardProps {
   title: string;

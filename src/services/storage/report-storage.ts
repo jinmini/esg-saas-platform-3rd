@@ -1,5 +1,5 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb'
-import { GRIResponse } from '@/types/gri'
+import { GRIResponse } from '@/shared/types/gri'
 
 interface ESGPlatformDB extends DBSchema {
   reports: {

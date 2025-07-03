@@ -2,12 +2,12 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Progress } from '@/shared/ui/Progress';
+import { Badge } from '@/shared/ui/Badge';
 import { Clock, Calendar } from 'lucide-react';
-import { formatTimeAgo, formatDate } from '@/lib/utils';
-import { WorkflowStatus, getWorkflowStatusColor } from '@/lib/dashboard-mock-data';
+import { formatTimeAgo, formatDate } from '@/shared/lib';
+import { WorkflowStatus, getWorkflowStatusColor } from '@/shared/lib/dashboard-mock-data';
 
 interface WorkflowOverviewProps {
   workflows: WorkflowStatus[];

@@ -1,5 +1,5 @@
 import { ApiIntegrationTest, StorageIntegrationTest } from '@/components/test/api-integration-test'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
 
 export default function ApiTestPage() {
   return (

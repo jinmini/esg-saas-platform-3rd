@@ -1,7 +1,7 @@
 // 크롤링 관련 API
 
-import { apiClient } from './client';
-import { CrawlJob } from '@/types';
+import { apiClient } from '../../shared/api/client';
+import { CrawlJob } from '@/shared/types';
 
 // 크롤링 작업 시작
 export async function startCrawlJob(params: {

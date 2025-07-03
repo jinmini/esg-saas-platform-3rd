@@ -2,11 +2,11 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select';
+import { Badge } from '@/shared/ui/Badge';
 import { Building2, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { CompanyOverview, getRiskLevelColor } from '@/lib/dashboard-mock-data';
+import { CompanyOverview, getRiskLevelColor } from '@/shared/lib/dashboard-mock-data';
 
 interface CompanySelectorProps {
   companies: CompanyOverview[];

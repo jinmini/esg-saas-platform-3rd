@@ -2,10 +2,10 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Badge } from '@/shared/ui/Badge';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { getRiskLevel, getRiskLevelText, formatRiskScore, cn } from '@/lib/utils';
+import { getRiskLevel, getRiskLevelText, formatRiskScore, cn } from '@/shared/lib';
 
 interface RiskScoreCardProps {
   companyName: string;

@@ -1,14 +1,52 @@
+# Build output
 .next
+
+# Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# Dependencies
 node_modules
 
-public/docs/logs
-public/docs/processed_docs
-public/docs
+# Generated documentation
+public/docs/*
 
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
 
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
+
+# Task files
+# tasks.json
+# tasks/
+
+# Tooling
+.roo/
+.taskmaster/
+.trae/
+.roomodes
+.clinerules/
+.cursor/
+.windsurf/
+
+# Documentation
+AGENTS.md
+CLAUDE.md

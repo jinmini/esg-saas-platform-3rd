@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { analysisApi } from '@/lib/api';
-import { AnalysisFilter, PaginationParams } from '@/types';
+import { AnalysisFilter, PaginationParams } from '@/shared/types';
 import { toast } from 'sonner';
 
 // Query Keys

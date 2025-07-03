@@ -1,6 +1,6 @@
 // API 모듈 통합 export
 
-export * from './client';
+export * from '../../shared/api/client';
 export * as analysisApi from './analysis';
 export * as companiesApi from './companies';
 export * as crawlerApi from './crawler';

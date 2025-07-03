@@ -2,10 +2,10 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
 
 import { TrendingUp, TrendingDown, Minus, Building2 } from 'lucide-react';
-import { CompanyFinancials } from '@/lib/dashboard-mock-data';
+import { CompanyFinancials } from '@/shared/lib/dashboard-mock-data';
 
 interface CompanyFinancialsProps {
   companies: CompanyFinancials[];

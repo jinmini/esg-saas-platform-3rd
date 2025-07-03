@@ -1,6 +1,6 @@
 // 기업 관련 API
 
-import { apiClient, buildPaginationParams } from './client';
+import { apiClient, buildPaginationParams } from '../../shared/api/client';
 import {
   Company,
   CompanyRisk,
@@ -8,7 +8,7 @@ import {
   RiskTrendData,
   PaginatedResponse,
   PaginationParams,
-} from '@/types';
+} from '@/shared/types';
 
 // 기업 목록 조회
 export async function getCompanies(

@@ -2,10 +2,10 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Badge } from '@/shared/ui/Badge';
 
-import { ESGIssue, getPriorityColor } from '@/lib/dashboard-mock-data';
+import { ESGIssue, getPriorityColor } from '@/shared/lib/dashboard-mock-data';
 import { Leaf, Users, Shield } from 'lucide-react';
 
 interface ESGIssuesMatrixProps {

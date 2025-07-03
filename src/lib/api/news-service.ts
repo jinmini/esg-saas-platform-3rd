@@ -1,9 +1,9 @@
-import { httpClient } from './http-client'
+import { httpClient } from '../../shared/api/http-client'
 import { 
   NewsAnalysisResponse, 
   NewsAnalysisParams, 
  
-} from '@/types/api'
+} from '@/shared/types/api'
 
 export class NewsService {
   private readonly basePath = '/api/v1/news'

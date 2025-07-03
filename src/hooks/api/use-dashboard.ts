@@ -1,8 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query'
-import { httpClient } from '@/lib/api/http-client'
-import { DashboardStats, ApiResponse, WorkflowStatus, CompanyFinancials } from '@/types/api'
+import { httpClient } from '@/shared/api/http-client'
+import { DashboardStats, ApiResponse, WorkflowStatus, CompanyFinancials } from '@/shared/types/api'
 
 // 대시보드 통계 조회
 export function useDashboardStats() {

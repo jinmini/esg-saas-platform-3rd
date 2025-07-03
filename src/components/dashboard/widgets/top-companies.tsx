@@ -2,11 +2,11 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
+import { Badge } from '@/shared/ui/Badge';
+import { Skeleton } from '@/shared/ui/Skeleton';
+import { Button } from '@/shared/ui/Button';
+import { ScrollArea } from '@/shared/ui/ScrollArea';
 import { 
   Building2, 
   AlertTriangle,
@@ -15,7 +15,7 @@ import {
   TrendingDown
 } from 'lucide-react';
 import { useHighRiskCompanies } from '@/hooks/queries/useCompanies';
-import { formatRiskScore, getRiskLevel, getRiskLevelText, cn } from '@/lib/utils';
+import { formatRiskScore, getRiskLevel, getRiskLevelText, cn } from '@/shared/lib';
 
 interface TopCompaniesProps {
   limit?: number;

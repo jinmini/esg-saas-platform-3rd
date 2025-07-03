@@ -2,9 +2,9 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/ui/Button";
+import { Card } from "@/shared/ui/Card";
+import { Badge } from "@/shared/ui/Badge";
 import { ChevronRight, FileText, Globe, Leaf, Users } from "lucide-react";
 
 interface GRICascadeSelectorProps {

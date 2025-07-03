@@ -10,7 +10,7 @@ import { CompanySelector } from '@/components/dashboard/widgets/company-selector
 import { StatsCards } from '@/components/dashboard/widgets/stats-cards';
 import { 
   mockCompaniesOverview 
-} from '@/lib/dashboard-mock-data';
+} from '@/shared/lib/dashboard-mock-data';
 import { 
   useDashboardStats, 
   useDashboardWorkflows, 

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Metadata } from 'next';
-import { Sidebar } from '@/components/dashboard/layout/sidebar';
-import { Header } from '@/components/dashboard/layout/header';
+import { Sidebar } from '@/shared/ui/DashboardSidebar';
+import { Header } from '@/shared/ui/DashboardHeader';
 
 export const metadata: Metadata = {
   title: 'ESG Risk Analyzer - 대시보드',
