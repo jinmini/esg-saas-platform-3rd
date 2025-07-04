@@ -1,4 +1,4 @@
-import { INTEGRATED_SECTIONS } from '@/entities/report/constants/integrated';
+import { INTEGRATED_SECTIONS } from '@/entities/report/model/constants';
 
 /**
  * 통합 보고서 진행률(%) 계산

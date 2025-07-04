@@ -1,0 +1,1 @@
+export { ESGRiskChart } from './EsgRiskChart'; 

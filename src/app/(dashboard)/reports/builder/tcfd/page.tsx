@@ -8,29 +8,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/sha
 import { Progress } from "@/shared/ui/Progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
-import { Badge } from "@/shared/ui/Badge";
 import { 
   ArrowLeft, 
   Leaf, 
   Save, 
   Eye, 
   Download,
-  Target,
-  TrendingUp,
-  Shield,
-
-  AlertTriangle,
-  CheckCircle2
+  Target
 } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useAutoSave } from "@/hooks/useAutoSave";
-import { ReportStorageService } from "@/services/storage/report-storage";
-import { TCFD_PILLARS } from "@/widgets/reports/tcfd/constants/pillars";
-import { tcfdPillarColors } from "@/widgets/reports/tcfd/constants/colors";
-import { getTcfdPillarIcon } from "@/widgets/reports/tcfd/constants/icons";
-import { PillarSelector } from "@/widgets/reports/tcfd/components/PillarSelector";
-import { RecommendationForm } from "@/widgets/reports/tcfd/components/RecommendationForm";
-import { ReportPreview } from "@/widgets/reports/tcfd/components/ReportPreview";
+import { ReportStorageService } from "@/shared/lib/storage/report-storage";
+import { TCFD_PILLARS } from "@/widgets/tcfd-report-builder/lib";
+import { 
+  PillarSelector
+} from "@/widgets/tcfd-report-builder/ui";
 
 export default function TCFDBuilderPage() {
   const router = useRouter();
@@ -172,91 +164,17 @@ export default function TCFDBuilderPage() {
         {/* Sidebar - TCFD Pillars */}
         <ResizablePanel defaultSize={25} minSize={20}>
           <div className="h-full overflow-y-auto p-4">
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold mb-3">TCFD 4대 핵심 요소</h3>
-                <div className="space-y-3">
-                  {Object.values(TCFD_PILLARS).map((pillar) => (
-                    <Card 
-                      key={pillar.id}
-                      className={`cursor-pointer transition-all duration-200 ${
-                        selectedPillar === pillar.id 
-                          ? 'ring-2 ring-blue-500 bg-blue-50' 
-                          : 'hover:bg-gray-50'
-                      }`}
-                      onClick={() => {
-                        setSelectedPillar(pillar.id);
-                        setSelectedRecommendation(pillar.recommendations[0].id);
-                      }}
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg ${pillar.color.replace('text-', 'bg-').replace('-800', '-200')}`}>
-                            {pillar.icon}
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-medium text-sm">{pillar.name}</h4>
-                            <p className="text-xs text-muted-foreground mt-1">{pillar.description}</p>
-                            <div className="flex items-center gap-2 mt-2">
-                              <Badge variant="outline" className={pillar.color}>
-                                {pillar.recommendations.length}개 권고사항
-                              </Badge>
-                              <div className="flex items-center gap-1">
-                                {pillar.recommendations.map(rec => (
-                                  <div 
-                                    key={rec.id}
-                                    className={`w-2 h-2 rounded-full ${
-                                      responses[rec.id]?.trim().length > 0 
-                                        ? 'bg-green-500' 
-                                        : 'bg-gray-300'
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-
-              {currentPillar && (
-                <div>
-                  <h3 className="font-semibold mb-3">권고사항</h3>
-                  <div className="space-y-2">
-                    {currentPillar.recommendations.map((recommendation) => (
-                      <Card 
-                        key={recommendation.id}
-                        className={`cursor-pointer transition-all duration-200 ${
-                          selectedRecommendation === recommendation.id 
-                            ? 'ring-2 ring-green-500 bg-green-50' 
-                            : 'hover:bg-gray-50'
-                        }`}
-                        onClick={() => setSelectedRecommendation(recommendation.id)}
-                      >
-                        <CardContent className="p-3">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <h4 className="font-medium text-sm">{recommendation.name}</h4>
-                              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                                {recommendation.description}
-                              </p>
-                            </div>
-                            {responses[recommendation.id]?.trim().length > 0 ? (
-                              <CheckCircle2 className="h-4 w-4 text-green-600 ml-2 flex-shrink-0" />
-                            ) : (
-                              <div className="w-4 h-4 border-2 border-gray-300 rounded-full ml-2 flex-shrink-0" />
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            <PillarSelector
+              pillars={TCFD_PILLARS}
+              selectedPillar={selectedPillar}
+              selectedRecommendation={selectedRecommendation}
+              responses={responses}
+              onPillarSelect={(pillarId, firstRecommendationId) => {
+                setSelectedPillar(pillarId);
+                setSelectedRecommendation(firstRecommendationId);
+              }}
+              onRecommendationSelect={setSelectedRecommendation}
+            />
           </div>
         </ResizablePanel>
 

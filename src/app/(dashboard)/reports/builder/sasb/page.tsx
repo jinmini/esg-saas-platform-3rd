@@ -4,31 +4,26 @@ export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/shared/ui/Button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Progress } from "@/shared/ui/Progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
 
-import { Badge } from "@/shared/ui/Badge";
 import { 
   ArrowLeft, 
   Building2, 
   Save, 
   Eye, 
-  Download,
-  TrendingUp,
-  Users,
-  Shield
+  Download
 } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useAutoSave } from "@/hooks/useAutoSave";
-import { ReportStorageService } from "@/services/storage/report-storage";
-import { SASB_INDUSTRIES } from "@/widgets/reports/sasb/constants/industries";
-import { categoryColors } from "@/widgets/reports/sasb/constants/colors";
-import { getCategoryIcon } from "@/widgets/reports/sasb/constants/icons";
-import { IndustrySelector } from "@/widgets/reports/sasb/components/IndustrySelector";
-import { MetricForm } from "@/widgets/reports/sasb/components/MetricForm";
-import { ReportPreview } from "@/widgets/reports/sasb/components/ReportPreview";
+import { ReportStorageService } from "@/shared/lib/storage/report-storage";
+import { SASB_INDUSTRIES } from "@/widgets/sasb-report-builder/lib";
+import { 
+  IndustrySelector, 
+  MetricForm, 
+  ReportPreview 
+} from "@/widgets/sasb-report-builder/ui";
 
 export default function SASBBuilderPage() {
   const router = useRouter();
@@ -199,7 +194,7 @@ export default function SASBBuilderPage() {
               
               <TabsContent value="metrics" className="flex-1 overflow-y-auto p-6 mt-0">
                 <MetricForm
-                  sector={currentSector}
+                  sector={currentSector ?? null}
                   responses={responses}
                   onResponseChange={handleResponseChange}
                 />
@@ -208,7 +203,7 @@ export default function SASBBuilderPage() {
               <TabsContent value="preview" className="flex-1 overflow-y-auto p-6 mt-0">
                 <ReportPreview
                   industry={currentIndustry}
-                  sector={currentSector}
+                  sector={currentSector ?? null}
                   responses={responses}
                 />
               </TabsContent>

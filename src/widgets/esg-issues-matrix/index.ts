@@ -1,0 +1,1 @@
+export { ESGIssuesMatrix } from './EsgIssuesMatrix'; 

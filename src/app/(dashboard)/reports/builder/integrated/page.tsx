@@ -5,12 +5,13 @@ export const dynamic = 'force-dynamic';
 import React, { useState, useEffect } from 'react';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
 import { useAutoSave } from "@/hooks/useAutoSave";
-import { ReportStorageService } from "@/services/storage/report-storage";
+import { ReportStorageService } from "@/shared/lib/storage/report-storage";
 
-import { INTEGRATED_SECTIONS } from '@/entities/report/constants/integrated';
-import { BuilderHeader } from '@/widgets/reports/integrated/BuilderHeader';
-import { BuilderSidebar } from '@/widgets/reports/integrated/BuilderSidebar';
-import { BuilderContent } from '@/widgets/reports/integrated/BuilderContent';
+import {
+  BuilderHeader,
+  BuilderSidebar,
+  BuilderContent,
+} from '@/widgets/integrated-report-builder';
 import { getIntegratedReportProgress } from '@/features/report-builder/utils/progress';
 
 export default function IntegratedBuilderPage() {
@@ -99,13 +100,11 @@ export default function IntegratedBuilderPage() {
         <ResizablePanel defaultSize={25} minSize={20}>
           <BuilderSidebar 
             selectedSection={selectedSection}
-            selectedSubsection={selectedSubsection}
             responses={responses}
             onSectionSelect={(sectionId, subsectionId) => {
               setSelectedSection(sectionId);
               setSelectedSubsection(subsectionId);
             }}
-            onSubsectionSelect={setSelectedSubsection}
           />
         </ResizablePanel>
 

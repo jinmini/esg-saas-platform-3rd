@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useAutoSave } from '../useAutoSave'
-import { ReportStorageService } from '@/services/storage/report-storage'
+import { ReportStorageService } from '@/shared/lib/storage/report-storage'
 
 // ReportStorageService 모킹
 vi.mock('@/services/storage/report-storage', () => ({

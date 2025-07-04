@@ -179,3 +179,21 @@ export interface UserPreferences {
     refreshInterval: number; // seconds
   };
 }
+
+export interface SentimentTrendData {
+  date: string;
+  positive: number;
+  negative: number;
+  neutral: number;
+}
+
+export interface TodayHighlights {
+  newArticles: number;
+  highRiskAlerts: number;
+  topIssue: {
+    title: string;
+    company: string;
+    riskScore: number;
+  };
+  keyFindings: string[];
+}

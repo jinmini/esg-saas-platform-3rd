@@ -3,11 +3,11 @@
 'use client';
 
 import { useState } from 'react';
-import { WorkflowOverview } from '@/components/dashboard/widgets/workflow-overview';
-import { CompanyFinancialsWidget } from '@/components/dashboard/widgets/company-financials';
-import { ESGIssuesMatrix } from '@/components/dashboard/widgets/esg-issues-matrix';
-import { CompanySelector } from '@/components/dashboard/widgets/company-selector';
-import { StatsCards } from '@/components/dashboard/widgets/stats-cards';
+import { WorkflowOverview } from '@/widgets/workflow-overview';
+import { CompanyFinancialsWidget } from '@/widgets/company-financials';
+import { ESGIssuesMatrix } from '@/widgets/esg-issues-matrix';
+import { CompanySelector } from '@/widgets/company-selector';
+import { StatsCards } from '@/widgets/stats-cards';
 import { 
   mockCompaniesOverview 
 } from '@/shared/lib/mocks/dashboard-mock-data';

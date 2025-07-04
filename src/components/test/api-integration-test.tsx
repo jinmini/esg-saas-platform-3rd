@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useCompanies } from '@/hooks/api/use-companies'
+import { useCompanies } from '@/entities/company'
 import { useReports } from '@/hooks/api/use-reports'
 import { useDashboardStats } from '@/hooks/api/use-dashboard'
 import { useNewsAnalysis } from '@/hooks/api/use-news'
@@ -13,7 +13,7 @@ import { Badge } from '@/shared/ui/Badge'
 import { Textarea } from '@/shared/ui/TextArea'
 import { Alert, AlertDescription } from '@/shared/ui/Alert'
 import { useAutoSave } from '@/hooks/useAutoSave'
-import { ReportStorageService } from '@/services/storage/report-storage'
+import { ReportStorageService } from '@/shared/lib/storage/report-storage'
 import { 
   Database, 
   Save, 
@@ -23,6 +23,7 @@ import {
 
   Clock
 } from 'lucide-react'
+import type { Company } from '@/entities/company/model/types'
 
 export function ApiIntegrationTest() {
   const [testCompany, setTestCompany] = useState('삼성전자')
@@ -85,7 +86,7 @@ export function ApiIntegrationTest() {
           {companiesError && <p className="text-red-500">오류: {companiesError.message}</p>}
           {companies && (
             <div className="space-y-2">
-              {companies.map((company) => (
+              {(companies.items as import('@/entities/company/model/types').Company[])?.map((company) => (
                 <div key={company.id} className="flex justify-between items-center p-2 border rounded">
                   <span>{company.name}</span>
                   <Badge variant={company.risk_level === 'low' ? 'default' : 'destructive'}>
@@ -174,7 +175,7 @@ export function ApiIntegrationTest() {
                 <h4 className="font-semibold">분석 요약</h4>
                 <p>총 분석 뉴스: {newsAnalysis.analysis_summary.total_analyzed}개</p>
                 <div className="grid grid-cols-3 gap-2 mt-2">
-                  {Object.entries(newsAnalysis.analysis_summary.esg_distribution).map(([key, value]) => (
+                  {Object.entries(newsAnalysis.analysis_summary.esg_distribution as Record<string, number>).map(([key, value]) => (
                     <div key={key} className="text-sm">
                       {key}: {value}개
                     </div>

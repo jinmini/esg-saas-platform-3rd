@@ -1,7 +1,6 @@
 // 대시보드 관련 React Query 훅
 
 import { useQuery } from '@tanstack/react-query';
-import { dashboardApi } from '@/lib/api';
 
 // Query Keys
 const QUERY_KEYS = {

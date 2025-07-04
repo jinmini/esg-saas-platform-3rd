@@ -3,15 +3,17 @@
 export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
-import { mockStandards } from "@/widgets/reports/gri/constants/standards";
-import { GRIDynamicForm } from "@/widgets/reports/gri/components/DynamicForm";
-import { GRIProgressTracker } from "@/widgets/reports/gri/components/ProgressTracker";
-import ReportPreview from "@/widgets/reports/gri/components/ReportPreview";
+import { mockStandards } from "@/shared/lib/mocks/gri-mock-data";
+import { 
+  DynamicForm, 
+  ProgressTracker, 
+  ReportPreview 
+} from "@/widgets/gri-report-builder";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
 import { GRIResponse } from "@/shared/types/gri";
 import { useAutoSave } from "@/hooks/useAutoSave";
-import { ReportStorageService } from "@/services/storage/report-storage";
+import { ReportStorageService } from "@/shared/lib/storage/report-storage";
 
 export default function GriBuilderPage() {
   const [responses, setResponses] = useState<Record<string, GRIResponse>>({});
@@ -169,7 +171,7 @@ export default function GriBuilderPage() {
       <ResizablePanelGroup direction="horizontal" className="flex-grow">
         <ResizablePanel defaultSize={25} minSize={20}>
           <div className="h-full overflow-y-auto p-4">
-            <GRIProgressTracker
+            <ProgressTracker
               standards={mockStandards}
               selectedCategory={selectedCategory}
               selectedStandard={selectedStandard}
@@ -194,7 +196,7 @@ export default function GriBuilderPage() {
               
               <TabsContent value="form" className="flex-1 overflow-y-auto p-6 mt-0">
                 {selectedStandard ? (
-                  <GRIDynamicForm
+                  <DynamicForm
                     key={selectedStandard} // Re-mount component when standard changes
                     category={selectedCategory || ''}
                     standardId={selectedStandard}

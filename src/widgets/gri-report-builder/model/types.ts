@@ -1,0 +1,1 @@
+// Placeholder for types related to the GRI report builder 

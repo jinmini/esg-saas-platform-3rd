@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
-import { ReportStorageService } from '@/services/storage/report-storage'
+import { ReportStorageService } from '@/shared/lib/storage/report-storage'
 
 // Debounce 유틸리티 함수
 function debounce<T extends (...args: any[]) => any>(

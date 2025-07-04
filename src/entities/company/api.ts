@@ -1,9 +1,6 @@
 import { apiClient, buildPaginationParams } from '@/shared/api/client';
-import {
-  Company,
-  PaginatedResponse,
-  PaginationParams,
-} from '@/shared/types';
+import { PaginatedResponse, PaginationParams } from '@/shared/types';
+import { Company, CompanyStats } from './model/types';
 
 // 기업 목록 조회
 export async function getCompanies(
@@ -28,8 +25,8 @@ export async function getCompanyById(id: string): Promise<Company> {
 }
 
 // 기업 생성
-export async function createCompany(data: Omit<Company, 'id'>): Promise<Company> {
-  const response = await apiClient.post<Company>('/companies', data);
+export async function createCompany(companyData: Omit<Company, 'id'>): Promise<Company> {
+  const response = await apiClient.post<Company>('/companies', companyData);
   return response.data;
 }
 
@@ -45,14 +42,17 @@ export async function deleteCompany(id: string): Promise<void> {
 }
 
 // 기업 통계
-export async function getCompanyStats(): Promise<{
-  total: number;
-  byIndustry: Record<string, number>;
-  byRiskLevel: Record<string, number>;
-  avgRiskScore: number;
-}> {
-  const response = await apiClient.get('/companies/stats');
+export async function getCompanyStats(): Promise<CompanyStats> {
+  const response = await apiClient.get<CompanyStats>('/companies/stats');
   return response.data;
+}
+
+// 고위험 기업 목록 조회
+export async function getHighRiskCompanies(limit: number = 10): Promise<Company[]> {
+  const response = await apiClient.get<{ items: Company[] }>('/companies/high-risk', {
+    limit,
+  });
+  return response.data.items;
 }
 
 // 기업 검색
