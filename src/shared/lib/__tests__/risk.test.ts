@@ -8,8 +8,11 @@ import {
   calculateRiskTrend,
   getRiskIcon,
   getESGCategoryWeight,
-  adjustRiskByIndustry
-} from '@/shared/lib/'
+  adjustRiskByIndustry,
+  getRiskLabel,
+  Risk,
+  RISK_CALCULATION_CONFIG
+} from '@/entities/risk'
 
 describe('리스크 유틸리티 함수', () => {
   describe('getRiskLevel', () => {
@@ -41,6 +44,13 @@ describe('리스크 유틸리티 함수', () => {
       expect(getRiskColor('medium')).toBe('#f59e0b')
       expect(getRiskColor('high')).toBe('#ef4444')
       expect(getRiskColor('critical')).toBe('#991b1b')
+    })
+
+    it('should handle edge cases', () => {
+      expect(getRiskColor('low')).toBeTruthy()
+      expect(getRiskColor('medium')).toBeTruthy()
+      expect(getRiskColor('high')).toBeTruthy()
+      expect(getRiskColor('critical')).toBeTruthy()
     })
   })
 
@@ -180,6 +190,69 @@ describe('리스크 유틸리티 함수', () => {
     it('0 점수를 올바르게 처리해야 한다', () => {
       const result = adjustRiskByIndustry(0, '에너지', '온실가스 배출')
       expect(result).toBe(0)
+    })
+  })
+})
+
+describe('Risk Entity', () => {
+  describe('Risk Class', () => {
+    it('should create risk with correct level', () => {
+      const lowRisk = Risk.fromScore(0.2)
+      expect(lowRisk.getLevel()).toBe('low')
+      expect(lowRisk.getScore()).toBe(0.2)
+
+      const mediumRisk = Risk.fromScore(0.5)
+      expect(mediumRisk.getLevel()).toBe('medium')
+
+      const highRisk = Risk.fromScore(0.7)
+      expect(highRisk.getLevel()).toBe('high')
+
+      const criticalRisk = Risk.fromScore(0.9)
+      expect(criticalRisk.getLevel()).toBe('critical')
+    })
+
+    it('should calculate trend correctly', () => {
+      const currentRisk = Risk.fromScore(0.7)
+      const previousRisk = Risk.fromScore(0.5)
+      
+      const trend = currentRisk.calculateTrend(previousRisk)
+      expect(trend.trend).toBe('up')
+      expect(trend.percentage).toBe(40)
+    })
+
+    it('should apply category weights', () => {
+      const baseRisk = Risk.fromScore(0.5)
+      const weightedRisk = baseRisk.applyESGCategoryWeight('온실가스 배출')
+      
+      expect(weightedRisk.getScore()).toBe(0.75) // 0.5 * 1.5
+      expect(weightedRisk.getLevel()).toBe('high')
+    })
+  })
+
+  describe('getRiskLabel', () => {
+    it('should return correct Korean labels', () => {
+      expect(getRiskLabel('low')).toBe('낮음')
+      expect(getRiskLabel('medium')).toBe('보통')
+      expect(getRiskLabel('high')).toBe('높음')
+      expect(getRiskLabel('critical')).toBe('심각')
+    })
+  })
+
+  describe('Configuration', () => {
+    it('should have correct category weights', () => {
+      const { categoryWeights } = RISK_CALCULATION_CONFIG
+      expect(categoryWeights['온실가스 배출']).toBe(1.5)
+      expect(categoryWeights['대기 품질']).toBe(1.2)
+      expect(categoryWeights['에너지 관리']).toBe(1.3)
+      expect(categoryWeights['데이터 보안']).toBe(1.5)
+      expect(categoryWeights['비즈니스 윤리']).toBe(1.5)
+    })
+
+    it('should have correct level thresholds', () => {
+      const { levelThresholds } = RISK_CALCULATION_CONFIG
+      expect(levelThresholds.critical).toBe(0.8)
+      expect(levelThresholds.high).toBe(0.6)
+      expect(levelThresholds.medium).toBe(0.4)
     })
   })
 }) 

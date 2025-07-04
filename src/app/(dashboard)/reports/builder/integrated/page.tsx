@@ -7,10 +7,11 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/u
 import { useAutoSave } from "@/hooks/useAutoSave";
 import { ReportStorageService } from "@/services/storage/report-storage";
 
-import { INTEGRATED_SECTIONS } from './_constants';
-import { BuilderHeader } from './_components/BuilderHeader';
-import { BuilderSidebar } from './_components/BuilderSidebar';
-import { BuilderContent } from './_components/BuilderContent';
+import { INTEGRATED_SECTIONS } from '@/entities/report/constants/integrated';
+import { BuilderHeader } from '@/widgets/reports/integrated/BuilderHeader';
+import { BuilderSidebar } from '@/widgets/reports/integrated/BuilderSidebar';
+import { BuilderContent } from '@/widgets/reports/integrated/BuilderContent';
+import { getIntegratedReportProgress } from '@/features/report-builder/utils/progress';
 
 export default function IntegratedBuilderPage() {
   const [selectedSection, setSelectedSection] = useState<string>('organizational_overview');
@@ -19,7 +20,7 @@ export default function IntegratedBuilderPage() {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 자동 저장 기능
+  // 자동 저장 기능 (feature로 분리되어 있음)
   const { isSaving, lastSaved, getSyncStatus, saveNow } = useAutoSave('integrated-report', responses, {
     framework: 'integrated',
     enabled: true,
@@ -27,12 +28,12 @@ export default function IntegratedBuilderPage() {
     onSaveSuccess: () => {
       console.log('✅ 통합 보고서가 저장되었습니다.', new Date().toLocaleTimeString());
     },
-    onSaveError: (error) => {
+    onSaveError: (error: any) => {
       console.error('❌ 통합 보고서 저장 실패:', error);
     }
   });
 
-  // 페이지 로딩 시 IndexedDB에서 데이터 불러오기
+  // 페이지 로딩 시 IndexedDB에서 데이터 불러오기 (엔티티/서비스로 분리되어 있음)
   useEffect(() => {
     async function loadSavedData() {
       try {
@@ -44,7 +45,7 @@ export default function IntegratedBuilderPage() {
           setResponses(savedData);
           console.log('📄 저장된 통합 보고서를 불러왔습니다.');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('❌ 통합 보고서 불러오기 실패:', error);
         setResponses({});
       } finally {
@@ -55,15 +56,9 @@ export default function IntegratedBuilderPage() {
     loadSavedData();
   }, []);
 
-  // 진행률 계산
+  // 진행률 계산 (비즈니스 로직, feature/report-builder/utils로 분리)
   useEffect(() => {
-    const totalSubsections = Object.values(INTEGRATED_SECTIONS).reduce((acc, section) => acc + section.subsections.length, 0);
-    if (totalSubsections > 0) {
-      const completedSubsections = Object.keys(responses).filter(key => responses[key]?.trim().length > 0).length;
-      setProgress(Math.round((completedSubsections / totalSubsections) * 100));
-    } else {
-      setProgress(0);
-    }
+    setProgress(getIntegratedReportProgress(responses));
   }, [responses]);
 
   const handleResponseChange = (subsectionId: string, value: string) => {
@@ -74,7 +69,7 @@ export default function IntegratedBuilderPage() {
     try {
       await saveNow();
       alert("보고서가 저장되었습니다!");
-    } catch (error) {
+    } catch (error: any) {
       alert("저장 중 오류가 발생했습니다.");
     }
   };
@@ -155,3 +150,8 @@ export default function IntegratedBuilderPage() {
     </div>
   );
 }
+
+// [분리 제안]
+// - 진행률 계산 useEffect는 feature/report-builder/utils로 추출 가능
+// - handleSave, handleResponseChange 등은 추후 feature로 추출 가능
+// - ReportStorageService 관련 로직은 이미 서비스 계층에 위치

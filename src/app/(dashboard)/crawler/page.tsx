@@ -5,8 +5,8 @@
 import { useState } from 'react';
 import { useCompanyAnalysisMock } from '@/hooks/queries/useAnalysis';
 import { AnalysisForm } from '@/components/dashboard/forms/analysis-form';
-import { ESGRiskChart } from '@/components/dashboard/widgets/esg-risk-chart';
-import { RealtimeFeed } from '@/components/dashboard/widgets/realtime-feed';
+import { ESGRiskChart } from '@/widgets/esg-risk-chart';
+import { RealtimeFeed } from '@/widgets/realtime-feed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
 import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/Alert';
 import { Terminal } from 'lucide-react';

@@ -20,7 +20,7 @@ export function MSWProvider({ children }: MSWProviderProps) {
           setInitStep('모듈 로딩...')
           console.log('📦 MSW Provider: 브라우저 모듈 import 중')
           
-          const { startMocking } = await import('@/lib/mocks/browser')
+          const { startMocking } = await import('@/shared/lib/mocks/browser')
           
           setInitStep('서비스 워커 등록...')
           console.log('🚀 MSW Provider: startMocking 호출 중')
