@@ -1,0 +1,19 @@
+{
+  "name": "esg-genai-presentation",
+  "version": "1.0.0",
+  "description": "ESG GenAI Compliance Platform Presentation",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'No build step needed for static files'",
+    "start": "python -m http.server 3000"
+  },
+  "keywords": [
+    "esg",
+    "genai",
+    "presentation",
+    "compliance"
+  ],
+  "author": "ESG GenAI Team",
+  "license": "MIT"
+} 
