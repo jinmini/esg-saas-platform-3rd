@@ -9,131 +9,169 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/common.css">
   <style>
-    .milestone-item {
+    .content-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 40px;
+    }
+    
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    
+    .achievement-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
       display: flex;
       align-items: flex-start;
-      margin-bottom: 34px;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 24px;
-      transition: transform 0.2s ease;
+      gap: 24px;
+      transition: transform 0.3s ease;
+      border-top: 5px solid #4CAF50;
     }
-    .milestone-item:hover {
-      transform: translateX(10px);
+    
+    .achievement-card:hover {
+      transform: translateY(-5px);
+      background-color: rgba(255, 255, 255, 0.08);
     }
-    .checkmark-container {
-      background-color: rgba(76, 175, 80, 0.2);
-      color: #4CAF50;
-      width: 54px;
-      height: 54px;
+    
+    .achievement-icon {
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
+      background-color: rgba(76, 175, 80, 0.15);
+      color: #4CAF50;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 24px;
       flex-shrink: 0;
     }
-    .milestone-content {
-      flex-grow: 1;
+    
+    .achievement-content {
+      flex: 1;
     }
-    .milestone-title {
-      font-size: 24px;
+    
+    .achievement-title {
+      font-size: 20px;
       font-weight: 600;
       margin-bottom: 8px;
-      line-height: 1.3;
+      color: white;
     }
-    .milestone-desc {
-      font-size: 18px;
-      opacity: 0.8;
+    
+    .achievement-desc {
+      font-size: 16px;
       line-height: 1.5;
+      opacity: 0.85;
     }
+    
+    .highlight {
+      color: #4CAF50;
+      font-weight: 600;
+    }
+    
     .timeline-container {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 40px;
       position: relative;
       height: 100%;
-      padding: 20px 0;
     }
+    
     .timeline-line {
       position: absolute;
-      left: 20px;
-      top: 0;
-      bottom: 0;
+      left: 40px;
+      top: 80px;
+      bottom: 80px;
       width: 4px;
       background-color: rgba(76, 175, 80, 0.4);
       border-radius: 2px;
     }
+    
+    .timeline-item {
+      position: relative;
+      margin-left: 80px;
+      margin-bottom: 60px;
+      padding: 20px 25px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border-left: 4px solid #4CAF50;
+    }
+    
     .timeline-marker {
       position: absolute;
-      left: 0;
-      width: 44px;
-      height: 44px;
+      left: -60px;
+      top: 20px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: #0A2A4D;
-      border: 4px solid #4CAF50;
+      border: 3px solid #4CAF50;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #4CAF50;
       font-weight: 700;
-      z-index: 10;
+      font-size: 14px;
     }
-    .timeline-item {
-      position: relative;
-      margin-left: 70px;
-      padding: 20px 30px;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      margin-bottom: 50px;
-      max-width: 500px;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20px;
-      height: 4px;
-      background-color: rgba(76, 175, 80, 0.4);
-    }
+    
     .timeline-date {
-      position: absolute;
-      left: -150px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
       color: #4CAF50;
-      background-color: rgba(76, 175, 80, 0.1);
-      padding: 8px 16px;
-      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
+    
+    .timeline-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: white;
+    }
+    
+    .timeline-desc {
+      font-size: 16px;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+    
     .progress-stat {
       position: absolute;
       top: 40px;
       right: 40px;
       background-color: rgba(76, 175, 80, 0.1);
-      padding: 15px 25px;
-      border-radius: 30px;
+      padding: 20px 30px;
+      border-radius: 16px;
       border: 2px solid rgba(76, 175, 80, 0.3);
+      text-align: center;
     }
+    
     .progress-value {
       font-size: 48px;
       font-weight: 700;
       color: #4CAF50;
       line-height: 1;
     }
+    
     .progress-label {
       font-size: 16px;
       opacity: 0.8;
+      margin-top: 8px;
     }
-    .content-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      height: calc(100% - 120px);
-    }
-    .content-left {
-      padding-right: 20px;
+    
+    .current-stage {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(76, 175, 80, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4CAF50;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -168,95 +206,85 @@
       <div class="accent-line"></div>
       
       <div class="content-container">
-        <!-- 왼쪽 콘텐츠: 마일스톤 체크리스트 -->
+        <!-- 왼쪽 콘텐츠: 성과 카드들 -->
         <div class="content-left">
-          <div class="milestone-item">
-            <div class="checkmark-container">
-              <i class="fas fa-check text-3xl"></i>
+          <div class="achievements-grid">
+            <div class="achievement-card">
+              <div class="achievement-icon">
+                <i class="fas fa-shield-alt text-2xl"></i>
+              </div>
+              <div class="achievement-content">
+                <div class="achievement-title">인증 및 대시보드 프레임워크 구축</div>
+                <div class="achievement-desc">JWT 기반 인증 플로우 구현 및 위젯 기반 동적 대시보드 레이아웃 설계 완료</div>
+              </div>
             </div>
-            <div class="milestone-content">
-              <div class="milestone-title">인증 및 대시보드 프레임워크 구축</div>
-              <div class="milestone-desc">JWT 기반 인증 플로우 구현 및 위젯 기반 동적 대시보드 레이아웃 설계 완료</div>
+            
+            <div class="achievement-card">
+              <div class="achievement-icon">
+                <i class="fas fa-layer-group text-2xl"></i>
+              </div>
+              <div class="achievement-content">
+                <div class="achievement-title">다중 프레임워크 보고서 빌더 아키텍처</div>
+                <div class="achievement-desc">GRI, SASB, TCFD 등 확장 가능한 보고서 빌더 라우팅 구조 및 2단 레이아웃 구현</div>
+              </div>
             </div>
-          </div>
-          
-          <div class="milestone-item">
-            <div class="checkmark-container">
-              <i class="fas fa-check text-3xl"></i>
+            
+            <div class="achievement-card">
+              <div class="achievement-icon">
+                <i class="fas fa-database text-2xl"></i>
+              </div>
+              <div class="achievement-content">
+                <div class="achievement-title">클라이언트 사이드 데이터 영속성 확보</div>
+                <div class="achievement-desc"><span class="highlight">IndexedDB</span> 기반 자동 저장 시스템으로 네트워크 상태와 무관한 데이터 안정성 확보</div>
+              </div>
             </div>
-            <div class="milestone-content">
-              <div class="milestone-title">다중 프레임워크 보고서 빌더 아키텍처</div>
-              <div class="milestone-desc">GRI, SASB, TCFD 등 확장 가능한 보고서 빌더 라우팅 구조 및 2단 레이아웃 구현</div>
-            </div>
-          </div>
-          
-          <div class="milestone-item">
-            <div class="checkmark-container">
-              <i class="fas fa-check text-3xl"></i>
-            </div>
-            <div class="milestone-content">
-              <div class="milestone-title">클라이언트 사이드 데이터 영속성 확보</div>
-              <div class="milestone-desc"><span class="highlight">IndexedDB</span> 기반 자동 저장 시스템으로 네트워크 상태와 무관한 데이터 안정성 확보</div>
-            </div>
-          </div>
-          
-          <div class="milestone-item">
-            <div class="checkmark-container">
-              <i class="fas fa-check text-3xl"></i>
-            </div>
-            <div class="milestone-content">
-              <div class="milestone-title">AI 기반 작성 지원 기능 프로토타입</div>
-              <div class="milestone-desc"><span class="highlight">SmartTextarea</span> 컴포넌트와 <span class="highlight">useESGAssistant</span> 훅 개발 통한 AI 제안 기능 구현</div>
+            
+            <div class="achievement-card">
+              <div class="achievement-icon">
+                <i class="fas fa-robot text-2xl"></i>
+              </div>
+              <div class="achievement-content">
+                <div class="achievement-title">AI 기반 작성 지원 기능 프로토타입</div>
+                <div class="achievement-desc"><span class="highlight">SmartTextarea</span> 컴포넌트와 <span class="highlight">useESGAssistant</span> 훅 개발 통한 AI 제안 기능 구현</div>
+              </div>
             </div>
           </div>
         </div>
         
-        <!-- 오른쪽 콘텐츠: 타임라인 시각화 -->
+        <!-- 오른쪽 콘텐츠: 타임라인 -->
         <div class="content-right">
           <div class="timeline-container">
             <div class="timeline-line"></div>
             
-            <!-- 마커 1 -->
-            <div class="timeline-marker" style="top: 80px;">
-              1
-            </div>
-            <div class="timeline-item" style="top: 60px;">
+            <div class="timeline-item">
+              <div class="timeline-marker">1</div>
               <div class="timeline-date">2025년 4월</div>
-              <h3 class="text-xl font-semibold mb-2">MVP 초기 설계 및 요구사항 분석</h3>
-              <p class="text-base opacity-80">사용자 페르소나 정의 및 핵심 기능 요구사항 도출</p>
+              <div class="timeline-title">MVP 초기 설계 및 요구사항 분석</div>
+              <div class="timeline-desc">사용자 페르소나 정의 및 핵심 기능 요구사항 도출</div>
             </div>
             
-            <!-- 마커 2 -->
-            <div class="timeline-marker" style="top: 230px;">
-              2
-            </div>
-            <div class="timeline-item" style="top: 210px;">
+            <div class="timeline-item">
+              <div class="timeline-marker">2</div>
               <div class="timeline-date">2025년 5월</div>
-              <h3 class="text-xl font-semibold mb-2">프론트엔드 아키텍처 설계</h3>
-              <p class="text-base opacity-80">Next.js 기반 라우팅 구조 및 상태 관리 전략 수립</p>
+              <div class="timeline-title">프론트엔드 아키텍처 설계</div>
+              <div class="timeline-desc">Next.js 기반 라우팅 구조 및 상태 관리 전략 수립</div>
             </div>
             
-            <!-- 마커 3 -->
-            <div class="timeline-marker" style="top: 380px;">
-              3
-            </div>
-            <div class="timeline-item" style="top: 360px;">
+            <div class="timeline-item">
+              <div class="timeline-marker">3</div>
               <div class="timeline-date">2025년 6월</div>
-              <h3 class="text-xl font-semibold mb-2">핵심 UI 컴포넌트 개발</h3>
-              <p class="text-base opacity-80">대시보드 위젯, 보고서 빌더, 스마트 텍스트 에디터 구현</p>
+              <div class="timeline-title">핵심 UI 컴포넌트 개발</div>
+              <div class="timeline-desc">대시보드 위젯, 보고서 빌더, 스마트 텍스트 에디터 구현</div>
             </div>
             
-            <!-- 마커 4 -->
-            <div class="timeline-marker" style="top: 530px;">
-              4
-            </div>
-            <div class="timeline-item" style="top: 510px;">
+            <div class="timeline-item">
+              <div class="timeline-marker">4</div>
               <div class="timeline-date">2025년 7월</div>
-              <h3 class="text-xl font-semibold mb-2">MVP 완료 및 내부 테스트</h3>
-              <p class="text-base opacity-80">시스템 통합 테스트 및 MVP 기능 검증 완료</p>
-              <div class="mt-3 flex items-center">
-                <span class="inline-block w-4 h-4 rounded-full bg-green-500 mr-2"></span>
-                <span class="font-semibold text-green-500">현재 단계</span>
+              <div class="timeline-title">MVP 완료 및 내부 테스트</div>
+              <div class="timeline-desc">시스템 통합 테스트 및 MVP 기능 검증 완료</div>
+              <div class="current-stage">
+                <i class="fas fa-check-circle"></i>
+                <span>현재 단계</span>
               </div>
             </div>
           </div>

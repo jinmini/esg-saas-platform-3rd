@@ -91,7 +91,9 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/auth/login',
-    error: '/auth/error',
+    error: '/auth/login', // 에러 시 로그인 페이지로 리다이렉트
   },
   secret: process.env.NEXTAUTH_SECRET,
+  // 추가 보안 설정
+  debug: process.env.NODE_ENV === 'development',
 } 
