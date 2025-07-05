@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ESG GenAI Compliance Platform - Key Features &amp; Use Case</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A2A4D;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .slide-container {
+      width: 1920px;
+      min-height: 1080px;
+      position: relative;
+      padding: 80px 120px;
+    }
+    .slide-title {
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+    .accent-line {
+      width: 100px;
+      height: 6px;
+      background-color: #4CAF50;
+      margin-bottom: 40px;
+    }
+    .content-container {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 40px;
+    }
+    .comparison-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .comparison-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .comparison-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .comparison-title-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+    }
+    .comparison-content {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .comparison-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .comparison-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    .use-case-container {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+    }
+    .use-case-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .use-case-steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    .step-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      height: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+    .step-number {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: #4CAF50;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .step-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .step-icon {
+      font-size: 40px;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #4CAF50;
+    }
+    .step-description {
+      font-size: 16px;
+      line-height: 1.5;
+      flex-grow: 1;
+      text-align: center;
+    }
+    .step-arrow {
+      position: absolute;
+      top: 50%;
+      right: -15px;
+      transform: translateY(-50%);
+      color: #4CAF50;
+      font-size: 24px;
+      z-index: 1;
+    }
+    .dot-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    .logo-container {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A2A4D;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .footer {
+      position: absolute;
+      bottom: 40px;
+      left: 120px;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+    .highlight {
+      color: #4CAF50;
+      font-weight: 600;
+    }
+    .mock-ui {
+      height: 120px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+<div class="slide-container">
+<!-- 배경 패턴 -->
+<div class="dot-pattern">
+<svg height="400" viewbox="0 0 100 100" width="400">
+<pattern height="10" id="dots" patternunits="userSpaceOnUse" width="10">
+<circle cx="5" cy="5" fill="white" r="1"></circle>
+</pattern>
+<rect fill="url(#dots)" height="100" width="100"></rect>
+</svg>
+</div>
+<!-- 로고 -->
+<div class="logo-container">
+<div class="logo">
+<i class="fas fa-leaf"></i>
+</div>
+</div>
+<!-- 메인 콘텐츠 -->
+<div class="relative z-10">
+<h1 class="slide-title">ESG 담당자의 업무, 이렇게 바뀝니다</h1>
+<div class="accent-line"></div>
+<div class="content-container">
+<!-- As-Is vs To-Be 비교 -->
+<div class="comparison-container">
+<!-- 기존 방식 (As-Is) -->
+<div class="comparison-card">
+<div class="comparison-title">
+<div class="comparison-title-icon" style="background-color: rgba(255, 82, 82, 0.15); color: #FF5252;">
+<i class="fas fa-times text-2xl"></i>
+</div>
+              As-Is: 기존 ESG 보고 프로세스
+            </div>
+<div class="comparison-content">
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-table text-red-400"></i>
+</div>
+<div>복잡한 엑셀 작업으로 데이터 수집 및 처리 (<span class="highlight" style="color: #FF5252;">월 80시간+</span>)</div>
+</div>
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-database text-red-400"></i>
+</div>
+<div>분산된 데이터 소스로 일관성 확보 어려움</div>
+</div>
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-book text-red-400"></i>
+</div>
+<div>여러 표준 문서를 수작업으로 참고하며 보고서 작성</div>
+</div>
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-clock text-red-400"></i>
+</div>
+<div>실시간 이슈 대응 불가 (<span class="highlight" style="color: #FF5252;">평균 인지 7일</span>)</div>
+</div>
+<div class="mock-ui">
+<div class="flex flex-col items-center">
+<i class="fas fa-file-excel text-4xl mb-2 text-red-400"></i>
+<span>복잡한 수작업 스프레드시트</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 플랫폼 도입 후 (To-Be) -->
+<div class="comparison-card">
+<div class="comparison-title">
+<div class="comparison-title-icon" style="background-color: rgba(76, 175, 80, 0.15); color: #4CAF50;">
+<i class="fas fa-check text-2xl"></i>
+</div>
+              To-Be: 플랫폼 도입 후 프로세스
+            </div>
+<div class="comparison-content">
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-chart-line text-green-400"></i>
+</div>
+<div>통합 대시보드에서 ESG 데이터 자동 수집 및 분석 (<span class="highlight">시간 절감 85%</span>)</div>
+</div>
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-robot text-green-400"></i>
+</div>
+<div>AI 추천을 통한 항목별 최적 내용 제안</div>
+</div>
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-file-alt text-green-400"></i>
+</div>
+<div>자동화된 보고서 작성 및 데이터 연동</div>
+</div>
+<div class="comparison-item">
+<div class="comparison-icon">
+<i class="fas fa-bell text-green-400"></i>
+</div>
+<div>실시간 모니터링 및 알림 (<span class="highlight">이슈 즉시 감지</span>)</div>
+</div>
+<div class="mock-ui">
+<div class="flex flex-col items-center">
+<i class="fas fa-desktop text-4xl mb-2 text-green-400"></i>
+<span>직관적인 통합 대시보드</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 핵심 유스케이스 3단계 -->
+<div class="use-case-container">
+<div class="use-case-title">
+            핵심 유스케이스: GRI 보고서 작성 프로세스
+          </div>
+<div class="use-case-steps">
+<!-- 1단계 -->
+<div class="step-card">
+<div class="step-number">1</div>
+<div class="step-title">항목 선택</div>
+<div class="step-icon">
+<i class="fas fa-list-ul"></i>
+</div>
+<div class="step-description">
+<p>GRI 보고서 빌더에서 <span class="highlight">ProgressTracker</span>를 통해 '305-1 직접 온실가스 배출량' 항목 선택</p>
+</div>
+<div class="step-arrow">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+<!-- 2단계 -->
+<div class="step-card">
+<div class="step-number">2</div>
+<div class="step-title">AI 초안 작성</div>
+<div class="step-icon">
+<i class="fas fa-magic"></i>
+</div>
+<div class="step-description">
+<p><span class="highlight">SmartTextarea</span>가 연동된 데이터를 기반으로 "전년 대비 5.2% 감소한 배출량" 등 초안 제안</p>
+</div>
+<div class="step-arrow">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+<!-- 3단계 -->
+<div class="step-card">
+  <div class="step-number">3</div>
+  <div class="step-title">검토 및 완성</div>
+  <div class="step-icon">
+    <i class="fas fa-check-double"></i>
+  </div>
+  <div class="step-description">
+    <p>AI가 제안한 내용을 검토하고 <span class="highlight">자동 저장</span> 기능으로 안전하게 보관. 최종 보고서 생성</p>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 푸터 -->
+<div class="footer">
+  <p>ESG GenAI Compliance Platform | Key Features & Use Case</p>
+</div>
+</div>
+</body>
+</html>

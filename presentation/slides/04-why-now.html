@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG GenAI Compliance Platform - Why Now?</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/common.css">
+    <style>
+        .why-now-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            height: 600px;
+        }
+        .why-now-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-regulatory { border-color: #ef4444; }
+        .card-investor { border-color: #f59e0b; }
+        .card-ai { border-color: #10b981; }
+        
+        .icon-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .icon-regulatory { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .icon-investor { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .icon-ai { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .card-subtitle {
+            font-size: 16px;
+            color: #10b981;
+            font-weight: 500;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        .card-content {
+            font-size: 18px;
+            line-height: 1.6;
+            opacity: 0.85;
+            flex-grow: 1;
+        }
+        
+        .urgency-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background-color: #ef4444;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .wave-animation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--wave-color), transparent, var(--wave-color));
+            background-size: 200% 100%;
+            animation: wave 3s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .card-regulatory .wave-animation { --wave-color: #ef4444; }
+        .card-investor .wave-animation { --wave-color: #f59e0b; }
+        .card-ai .wave-animation { --wave-color: #10b981; }
+        
+        .inflection-text {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .inflection-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        
+        .inflection-subtitle {
+            font-size: 18px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- 배경 패턴 -->
+        <div class="dot-pattern">
+            <svg width="400" height="400" viewBox="0 0 100 100">
+                <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <circle cx="5" cy="5" r="1" fill="white" />
+                </pattern>
+                <rect width="100" height="100" fill="url(#dots)" />
+            </svg>
+        </div>
+        
+        <!-- 로고 -->
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+        </div>
+        
+        <!-- 메인 콘텐츠 -->
+        <div class="relative z-10">
+            <h1 class="slide-title">Why Now?</h1>
+            <div class="accent-line"></div>
+            
+            <div class="inflection-text">
+                <div class="inflection-title">
+                    <i class="fas fa-chart-line mr-3"></i>
+                    Market Inflection Point
+                </div>
+                <div class="inflection-subtitle">시장 변곡점이 도래했습니다</div>
+            </div>
+            
+            <div class="why-now-grid">
+                <!-- 규제 쓰나미 카드 -->
+                <div class="why-now-card card-regulatory">
+                    <div class="urgency-badge">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        URGENT
+                    </div>
+                    <div class="icon-container icon-regulatory">
+                        <i class="fas fa-balance-scale text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">규제 쓰나미</h3>
+                    <p class="card-subtitle">Regulatory Tsunami</p>
+                    <div class="card-content">
+                        <p>EU CSRD, 미국 SEC 기후공시규칙, 한국 K-택소노미 등 전 세계적으로 ESG 공시 의무화가 급속히 확산되고 있습니다.</p>
+                        <div style="margin-top: 16px; padding: 12px; background-color: rgba(239, 68, 68, 0.1); border-radius: 8px; font-size: 16px;">
+                            <strong>2025년부터 본격 시행</strong>
+                        </div>
+                    </div>
+                    <div class="wave-animation"></div>
+                </div>
+                
+                <!-- 투자자 압박 카드 -->
+                <div class="why-now-card card-investor">
+                    <div class="icon-container icon-investor">
+                        <i class="fas fa-chart-pie text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">투자자 압박</h3>
+                    <p class="card-subtitle">Investor Pressure</p>
+                    <div class="card-content">
+                        <p>ESG 투자 규모가 35조 달러를 돌파하며, 투자자들이 정확하고 신뢰할 수 있는 ESG 데이터를 요구하고 있습니다.</p>
+                        <div style="margin-top: 16px; padding: 12px; background-color: rgba(245, 158, 11, 0.1); border-radius: 8px; font-size: 16px;">
+                            <strong>$35조 ESG 투자 시장</strong>
+                        </div>
+                    </div>
+                    <div class="wave-animation"></div>
+                </div>
+                
+                <!-- AI 격차 카드 -->
+                <div class="why-now-card card-ai">
+                    <div class="icon-container icon-ai">
+                        <i class="fas fa-robot text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">AI 격차</h3>
+                    <p class="card-subtitle">AI Gap</p>
+                    <div class="card-content">
+                        <p>기존 ESG 솔루션은 수작업 중심으로 AI 기반 자동화 및 인사이트 제공에 한계가 있습니다.</p>
+                        <div style="margin-top: 16px; padding: 12px; background-color: rgba(16, 185, 129, 0.1); border-radius: 8px; font-size: 16px;">
+                            <strong>AI 자동화 필요성 급증</strong>
+                        </div>
+                    </div>
+                    <div class="wave-animation"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>ESG GenAI Compliance Platform | Why Now?</p>
+        </div>
+        
+        <!-- 네비게이션 -->
+        <div class="navigation">
+            <button onclick="window.location.href='03-market-analysis.html'" class="nav-btn nav-prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="window.location.href='05-competitive-landscape.html'" class="nav-btn nav-next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                window.location.href = '03-market-analysis.html';
+            } else if (event.key === 'ArrowRight') {
+                window.location.href = '05-competitive-landscape.html';
+            }
+        });
+    </script>
+</body>
+</html> 

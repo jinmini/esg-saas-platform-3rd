@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG GenAI Compliance Platform - Technology Architecture</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/common.css">
+    <style>
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            height: 600px;
+        }
+        .architecture-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-techstack { border-color: #8b5cf6; }
+        .card-architecture { border-color: #06b6d4; }
+        .card-scalability { border-color: #10b981; }
+        
+        .icon-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .icon-techstack { background-color: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+        .icon-architecture { background-color: rgba(6, 182, 212, 0.15); color: #06b6d4; }
+        .icon-scalability { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .card-content {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.85;
+            flex-grow: 1;
+        }
+        
+        .tech-category {
+            margin-bottom: 16px;
+        }
+        
+        .category-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8b5cf6;
+        }
+        
+        .category-icon {
+            font-size: 16px;
+        }
+        
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .tech-item {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: #ffffff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(139, 92, 246, 0.2));
+            border-color: #8b5cf6;
+            transform: translateY(-1px);
+        }
+        
+        .architecture-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .architecture-layer {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .architecture-layer:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #06b6d4;
+        }
+        
+        .layer-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #06b6d4;
+            margin-bottom: 4px;
+        }
+        
+        .layer-description {
+            font-size: 12px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .scalability-features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .scalability-feature {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 3px solid #10b981;
+        }
+        
+        .feature-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-description {
+            font-size: 12px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .performance-metrics {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .metric-item {
+            text-align: center;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+        
+        .metric-value {
+            font-size: 18px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .techstack-metrics .metric-value { color: #8b5cf6; }
+        .architecture-metrics .metric-value { color: #06b6d4; }
+        .scalability-metrics .metric-value { color: #10b981; }
+        
+        .tech-highlight {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            text-align: center;
+        }
+        
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            text-align: center;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        
+        .diagram-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #06b6d4;
+            margin-bottom: 8px;
+        }
+        
+        .diagram-content {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- 배경 패턴 -->
+        <div class="dot-pattern">
+            <svg width="400" height="400" viewBox="0 0 100 100">
+                <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <circle cx="5" cy="5" r="1" fill="white" />
+                </pattern>
+                <rect width="100" height="100" fill="url(#dots)" />
+            </svg>
+        </div>
+        
+        <!-- 로고 -->
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+        </div>
+        
+        <!-- 메인 콘텐츠 -->
+        <div class="relative z-10">
+            <h1 class="slide-title">Technology Architecture</h1>
+            <div class="accent-line"></div>
+            
+            <div class="architecture-grid">
+                <!-- 기술 스택 카드 -->
+                <div class="architecture-card card-techstack">
+                    <div class="icon-container icon-techstack">
+                        <i class="fas fa-layer-group text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">Tech Stack</h3>
+                    <div class="card-content">
+                        <div class="tech-category">
+                            <div class="category-title">
+                                <i class="fas fa-brain category-icon"></i>
+                                AI/ML
+                            </div>
+                            <div class="tech-list">
+                                <span class="tech-item">OpenAI GPT-4</span>
+                                <span class="tech-item">LangChain</span>
+                                <span class="tech-item">Hugging Face</span>
+                                <span class="tech-item">TensorFlow</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <div class="category-title">
+                                <i class="fas fa-server category-icon"></i>
+                                Backend
+                            </div>
+                            <div class="tech-list">
+                                <span class="tech-item">Python</span>
+                                <span class="tech-item">FastAPI</span>
+                                <span class="tech-item">PostgreSQL</span>
+                                <span class="tech-item">Redis</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <div class="category-title">
+                                <i class="fas fa-desktop category-icon"></i>
+                                Frontend
+                            </div>
+                            <div class="tech-list">
+                                <span class="tech-item">React</span>
+                                <span class="tech-item">Next.js</span>
+                                <span class="tech-item">TypeScript</span>
+                                <span class="tech-item">Tailwind CSS</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <div class="category-title">
+                                <i class="fas fa-cloud category-icon"></i>
+                                Infrastructure
+                            </div>
+                            <div class="tech-list">
+                                <span class="tech-item">AWS</span>
+                                <span class="tech-item">Docker</span>
+                                <span class="tech-item">Kubernetes</span>
+                                <span class="tech-item">GitHub Actions</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-highlight">
+                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">
+                                <i class="fas fa-rocket mr-2"></i>
+                                최신 기술 스택
+                            </div>
+                            <div style="font-size: 12px;">
+                                업계 표준 기술로 안정성과 성능 보장
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 아키텍처 카드 -->
+                <div class="architecture-card card-architecture">
+                    <div class="icon-container icon-architecture">
+                        <i class="fas fa-sitemap text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">System Architecture</h3>
+                    <div class="card-content">
+                        <p style="margin-bottom: 16px;">
+                            마이크로서비스 기반 확장 가능한 아키텍처 설계
+                        </p>
+                        
+                        <div class="architecture-layers">
+                            <div class="architecture-layer">
+                                <div class="layer-title">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Presentation Layer
+                                </div>
+                                <div class="layer-description">
+                                    React 기반 사용자 인터페이스, 대시보드, 보고서 뷰어
+                                </div>
+                            </div>
+                            
+                            <div class="architecture-layer">
+                                <div class="layer-title">
+                                    <i class="fas fa-cogs mr-2"></i>
+                                    API Gateway
+                                </div>
+                                <div class="layer-description">
+                                    인증, 라우팅, 로드밸런싱, API 버전 관리
+                                </div>
+                            </div>
+                            
+                            <div class="architecture-layer">
+                                <div class="layer-title">
+                                    <i class="fas fa-cubes mr-2"></i>
+                                    Microservices
+                                </div>
+                                <div class="layer-description">
+                                    데이터 수집, AI 분석, 보고서 생성, 알림 서비스
+                                </div>
+                            </div>
+                            
+                            <div class="architecture-layer">
+                                <div class="layer-title">
+                                    <i class="fas fa-database mr-2"></i>
+                                    Data Layer
+                                </div>
+                                <div class="layer-description">
+                                    PostgreSQL, Redis, S3 기반 데이터 저장 및 캐싱
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <div class="diagram-title">
+                                <i class="fas fa-project-diagram mr-2"></i>
+                                Microservices Pattern
+                            </div>
+                            <div class="diagram-content">
+                                독립적 배포 가능한 서비스들로 구성되어<br/>
+                                높은 가용성과 확장성을 제공합니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 확장성 카드 -->
+                <div class="architecture-card card-scalability">
+                    <div class="icon-container icon-scalability">
+                        <i class="fas fa-expand-arrows-alt text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">Scalability & Performance</h3>
+                    <div class="card-content">
+                        <p style="margin-bottom: 16px;">
+                            클라우드 네이티브 설계로 무제한 확장성 제공
+                        </p>
+                        
+                        <div class="scalability-features">
+                            <div class="scalability-feature">
+                                <div class="feature-title">
+                                    <i class="fas fa-expand"></i>
+                                    Auto Scaling
+                                </div>
+                                <div class="feature-description">
+                                    트래픽에 따른 자동 스케일링으로 최적 성능 유지
+                                </div>
+                            </div>
+                            
+                            <div class="scalability-feature">
+                                <div class="feature-title">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Load Balancing
+                                </div>
+                                <div class="feature-description">
+                                    지능형 로드밸런싱으로 고가용성 보장
+                                </div>
+                            </div>
+                            
+                            <div class="scalability-feature">
+                                <div class="feature-title">
+                                    <i class="fas fa-memory"></i>
+                                    Caching Strategy
+                                </div>
+                                <div class="feature-description">
+                                    Redis 기반 다단계 캐싱으로 응답 속도 최적화
+                                </div>
+                            </div>
+                            
+                            <div class="scalability-feature">
+                                <div class="feature-title">
+                                    <i class="fas fa-shield-alt"></i>
+                                    High Availability
+                                </div>
+                                <div class="feature-description">
+                                    99.9% 가용성 보장하는 이중화 구조
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="performance-metrics scalability-metrics">
+                            <div class="metrics-grid">
+                                <div class="metric-item">
+                                    <span class="metric-value">99.9%</span>
+                                    <div class="metric-label">가용성</div>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-value">&lt;100ms</span>
+                                    <div class="metric-label">응답시간</div>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-value">1000+</span>
+                                    <div class="metric-label">동시 사용자</div>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-value">∞</span>
+                                    <div class="metric-label">확장성</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>ESG GenAI Compliance Platform | Technology Architecture</p>
+        </div>
+        
+        <!-- 네비게이션 -->
+        <div class="navigation">
+            <button onclick="window.location.href='07-key-features.html'" class="nav-btn nav-prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="window.location.href='09-business-model.html'" class="nav-btn nav-next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                window.location.href = '07-key-features.html';
+            } else if (event.key === 'ArrowRight') {
+                window.location.href = '09-business-model.html';
+            }
+        });
+    </script>
+</body>
+</html> 

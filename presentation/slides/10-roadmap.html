@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - 성공을 위한 다음 단계</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/common.css">
+  <style>
+    .content-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+    .content-left {
+      padding-right: 20px;
+    }
+    .roadmap-text {
+      margin-bottom: 40px;
+    }
+    .quarter-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .quarter-badge {
+      background-color: #008080;
+      color: white;
+      font-size: 18px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-right: 15px;
+    }
+    .quarter-list {
+      margin-left: 60px;
+      margin-bottom: 30px;
+    }
+    .quarter-item {
+      font-size: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .item-icon {
+      margin-right: 15px;
+      color: #4CAF50;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .timeline-container {
+      height: 700px;
+      background-color: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 40px;
+      position: relative;
+    }
+    .timeline {
+      position: absolute;
+      left: 100px;
+      top: 60px;
+      bottom: 60px;
+      width: 6px;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .timeline-point {
+      position: absolute;
+      left: -12px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .timeline-content {
+      position: absolute;
+      left: 50px;
+      width: 400px;
+      padding: 20px 25px;
+      border-radius: 10px;
+    }
+    .milestone-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .milestone-list {
+      font-size: 16px;
+    }
+    .milestone-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .milestone-icon {
+      margin-right: 8px;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .q3-point {
+      background-color: #2196F3;
+      top: 15%;
+    }
+    .q4-point {
+      background-color: #9C27B0;
+      top: 50%;
+    }
+    .q1-point {
+      background-color: #FF9800;
+      top: 85%;
+    }
+    .q3-content {
+      top: 5%;
+      border-left: 5px solid #2196F3;
+      background-color: rgba(33, 150, 243, 0.1);
+    }
+    .q4-content {
+      top: 40%;
+      border-left: 5px solid #9C27B0;
+      background-color: rgba(156, 39, 176, 0.1);
+    }
+    .q1-content {
+      top: 75%;
+      border-left: 5px solid #FF9800;
+      background-color: rgba(255, 152, 0, 0.1);
+    }
+    .milestone-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .backend-tag {
+      background-color: rgba(33, 150, 243, 0.2);
+      color: #2196F3;
+    }
+    .feature-tag {
+      background-color: rgba(156, 39, 176, 0.2);
+      color: #9C27B0;
+    }
+    .launch-tag {
+      background-color: rgba(255, 152, 0, 0.2);
+      color: #FF9800;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- 배경 패턴 -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- 로고 -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- 메인 콘텐츠 -->
+    <div class="relative z-10">
+      <h1 class="slide-title">성공을 위한 다음 단계</h1>
+      <div class="accent-line"></div>
+      
+      <div class="content-container">
+        <!-- 왼쪽 콘텐츠: 텍스트 설명 -->
+        <div class="content-left">
+          <div class="roadmap-text">
+            <div class="quarter-title">
+              <div class="quarter-badge">Q3 2025</div>
+              <span>백엔드 통합 및 API 개발</span>
+            </div>
+            <div class="quarter-list">
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-database"></i></div>
+                <div>사용자 계정, 기업 정보, 보고서 데이터 관리를 위한 핵심 API 개발</div>
+              </div>
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-robot"></i></div>
+                <div>뉴스 크롤링 및 생성형 AI 모델 연동을 통한 실시간 분석 API 구현</div>
+              </div>
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-sync-alt"></i></div>
+                <div>MSW Mock API를 실제 백엔드 API로 점진적 전환</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="roadmap-text">
+            <div class="quarter-title">
+              <div class="quarter-badge">Q4 2025</div>
+              <span>분석 기능 강화 및 UX 개선</span>
+            </div>
+            <div class="quarter-list">
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-chart-line"></i></div>
+                <div>경쟁사 비교 분석 및 공급망 ESG 리스크 관리 기능 추가</div>
+              </div>
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-file-export"></i></div>
+                <div>보고서 내보내기 기능 강화 (Word, PPT 등 다양한 포맷 지원)</div>
+              </div>
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-server"></i></div>
+                <div>Staging 및 Production 환경 구축</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="roadmap-text">
+            <div class="quarter-title">
+              <div class="quarter-badge">Q1 2026</div>
+              <span>플랫폼 확장 및 공식 런칭</span>
+            </div>
+            <div class="quarter-list">
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-users"></i></div>
+                <div>보고서 협업 기능 및 사용자/권한 관리 기능 구현</div>
+              </div>
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-vial"></i></div>
+                <div>베타 테스트 진행 및 피드백 수집, 개선</div>
+              </div>
+              <div class="quarter-item">
+                <div class="item-icon"><i class="fas fa-rocket"></i></div>
+                <div>공식 서비스 런칭 및 초기 고객 지원</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 오른쪽 콘텐츠: 시각적 요소 (타임라인) -->
+        <div class="content-right">
+          <div class="timeline-container">
+            <!-- 타임라인 중심선 -->
+            <div class="timeline"></div>
+            
+            <!-- Q3 2025 -->
+            <div class="timeline-point q3-point">
+              <i class="fas fa-code-branch text-white"></i>
+            </div>
+            <div class="timeline-content q3-content">
+              <h4 class="milestone-title">Q3 2025: 백엔드 통합</h4>
+              <div class="milestone-list">
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-blue-400"></i></div>
+                  <div><span class="milestone-tag backend-tag">백엔드</span> API 설계 및 핵심 기능 구축</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-blue-400"></i></div>
+                  <div><span class="milestone-tag backend-tag">백엔드</span> 데이터베이스 스키마 최적화</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-blue-400"></i></div>
+                  <div><span class="milestone-tag backend-tag">AI</span> 생성형 AI 파이프라인 구축</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-blue-400"></i></div>
+                  <div><span class="milestone-tag backend-tag">통합</span> 프론트엔드-백엔드 연동 완료</div>
+                </div>
+                <div class="font-semibold mt-4 text-blue-300">핵심 마일스톤: 전체 시스템 아키텍처 통합 완료</div>
+              </div>
+            </div>
+            
+            <!-- Q4 2025 -->
+            <div class="timeline-point q4-point">
+              <i class="fas fa-chart-pie text-white"></i>
+            </div>
+            <div class="timeline-content q4-content">
+              <h4 class="milestone-title">Q4 2025: 기능 고도화</h4>
+              <div class="milestone-list">
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-purple-400"></i></div>
+                  <div><span class="milestone-tag feature-tag">분석</span> 경쟁사 비교 분석 대시보드</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-purple-400"></i></div>
+                  <div><span class="milestone-tag feature-tag">리스크</span> 공급망 ESG 리스크 모니터링</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-purple-400"></i></div>
+                  <div><span class="milestone-tag feature-tag">UX</span> 사용자 피드백 기반 UX 개선</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-purple-400"></i></div>
+                  <div><span class="milestone-tag feature-tag">인프라</span> 스테이징/프로덕션 환경 구축</div>
+                </div>
+                <div class="font-semibold mt-4 text-purple-300">핵심 마일스톤: 베타 테스트 준비 완료</div>
+              </div>
+            </div>
+            
+            <!-- Q1 2026 -->
+            <div class="timeline-point q1-point">
+              <i class="fas fa-rocket text-white"></i>
+            </div>
+            <div class="timeline-content q1-content">
+              <h4 class="milestone-title">Q1 2026: 공식 런칭</h4>
+              <div class="milestone-list">
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-orange-400"></i></div>
+                  <div><span class="milestone-tag launch-tag">협업</span> 다중 사용자 협업 및 권한 관리</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-orange-400"></i></div>
+                  <div><span class="milestone-tag launch-tag">베타</span> 30일 베타 테스트 및 개선</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-orange-400"></i></div>
+                  <div><span class="milestone-tag launch-tag">고객</span> 초기 고객 온보딩 및 교육</div>
+                </div>
+                <div class="milestone-item">
+                  <div class="milestone-icon"><i class="fas fa-check-circle text-orange-400"></i></div>
+                  <div><span class="milestone-tag launch-tag">출시</span> 공식 서비스 출시 및 마케팅</div>
+                </div>
+                <div class="font-semibold mt-4 text-orange-300">핵심 마일스톤: 2026년 3월 공식 출시</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | 성공을 위한 다음 단계</p>
+    </div>
+  </div>
+</body>
+</html> 

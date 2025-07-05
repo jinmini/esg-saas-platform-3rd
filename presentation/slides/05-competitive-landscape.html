@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG GenAI Compliance Platform - Competitive Landscape</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/common.css">
+    <style>
+        .competitive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            height: 600px;
+        }
+        .competitive-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-evolution { border-color: #3b82f6; }
+        .card-competitors { border-color: #f59e0b; }
+        .card-advantage { border-color: #10b981; }
+        
+        .icon-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .icon-evolution { background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .icon-competitors { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .icon-advantage { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .card-content {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.85;
+            flex-grow: 1;
+        }
+        
+        .generation-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid transparent;
+        }
+        .gen-1 { border-color: #ef4444; }
+        .gen-2 { border-color: #f59e0b; }
+        .gen-3 { border-color: #10b981; position: relative; }
+        
+        .current-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #10b981;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        .generation-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .generation-desc {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+        
+        .generation-features {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        
+        .competitor-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .competitor-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .competitor-limitation {
+            font-size: 12px;
+            opacity: 0.7;
+            color: #f59e0b;
+        }
+        
+        .advantage-highlight {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            text-align: center;
+        }
+        
+        .advantage-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- 배경 패턴 -->
+        <div class="dot-pattern">
+            <svg width="400" height="400" viewBox="0 0 100 100">
+                <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <circle cx="5" cy="5" r="1" fill="white" />
+                </pattern>
+                <rect width="100" height="100" fill="url(#dots)" />
+            </svg>
+        </div>
+        
+        <!-- 로고 -->
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+        </div>
+        
+        <!-- 메인 콘텐츠 -->
+        <div class="relative z-10">
+            <h1 class="slide-title">Competitive Landscape</h1>
+            <div class="accent-line"></div>
+            
+            <div class="competitive-grid">
+                <!-- ESG SaaS 진화 카드 -->
+                <div class="competitive-card card-evolution">
+                    <div class="icon-container icon-evolution">
+                        <i class="fas fa-rocket text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">ESG SaaS 3-Generation Evolution</h3>
+                    <div class="card-content">
+                        <div class="generation-item gen-1">
+                            <div class="generation-title">1세대: Data Collection</div>
+                            <div class="generation-desc">기본적인 ESG 데이터 수집 및 저장</div>
+                            <div class="generation-features">수동 입력, 정적 보고서, 기본 대시보드</div>
+                        </div>
+                        
+                        <div class="generation-item gen-2">
+                            <div class="generation-title">2세대: Analytics & Reporting</div>
+                            <div class="generation-desc">분석 기능과 표준화된 보고서 제공</div>
+                            <div class="generation-features">자동화된 분석, 표준 프레임워크, 시각화</div>
+                        </div>
+                        
+                        <div class="generation-item gen-3">
+                            <div class="current-badge">우리 위치</div>
+                            <div class="generation-title">3세대: AI-Powered Intelligence</div>
+                            <div class="generation-desc">AI 기반 자동화 및 예측 인사이트</div>
+                            <div class="generation-features">AI 자동 분석, 예측 모델링, 실시간 모니터링</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 주요 경쟁사 분석 카드 -->
+                <div class="competitive-card card-competitors">
+                    <div class="icon-container icon-competitors">
+                        <i class="fas fa-users text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">주요 경쟁사 분석</h3>
+                    <div class="card-content">
+                        <div class="competitor-item">
+                            <div>
+                                <div class="competitor-name">Workiva</div>
+                                <div style="font-size: 12px; opacity: 0.6;">글로벌 리더</div>
+                            </div>
+                            <div class="competitor-limitation">높은 비용, 복잡한 설정</div>
+                        </div>
+                        
+                        <div class="competitor-item">
+                            <div>
+                                <div class="competitor-name">Sustainalytics</div>
+                                <div style="font-size: 12px; opacity: 0.6;">ESG 평가 전문</div>
+                            </div>
+                            <div class="competitor-limitation">평가 중심, 보고서 생성 한계</div>
+                        </div>
+                        
+                        <div class="competitor-item">
+                            <div>
+                                <div class="competitor-name">Thomson Reuters</div>
+                                <div style="font-size: 12px; opacity: 0.6;">데이터 제공업체</div>
+                            </div>
+                            <div class="competitor-limitation">데이터 중심, AI 기능 부족</div>
+                        </div>
+                        
+                        <div class="competitor-item">
+                            <div>
+                                <div class="competitor-name">국내 솔루션</div>
+                                <div style="font-size: 12px; opacity: 0.6;">로컬 플레이어</div>
+                            </div>
+                            <div class="competitor-limitation">기본 기능, 글로벌 표준 미흡</div>
+                        </div>
+                        
+                        <div class="competitor-item">
+                            <div>
+                                <div class="competitor-name">컨설팅 업체</div>
+                                <div style="font-size: 12px; opacity: 0.6;">서비스 중심</div>
+                            </div>
+                            <div class="competitor-limitation">높은 비용, 확장성 부족</div>
+                        </div>
+                        
+                        <div class="competitor-item">
+                            <div>
+                                <div class="competitor-name">자체 개발</div>
+                                <div style="font-size: 12px; opacity: 0.6;">In-house</div>
+                            </div>
+                            <div class="competitor-limitation">개발 비용, 전문성 부족</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 우리의 경쟁 우위 카드 -->
+                <div class="competitive-card card-advantage">
+                    <div class="icon-container icon-advantage">
+                        <i class="fas fa-star text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">Our Competitive Advantage</h3>
+                    <div class="card-content">
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">핵심 차별화 요소</div>
+                            <div style="font-size: 16px; line-height: 1.5; opacity: 0.9;">
+                                <div style="margin-bottom: 8px;">🤖 <strong>GenAI 기반 완전 자동화</strong></div>
+                                <div style="margin-bottom: 8px;">🇰🇷 <strong>한국 시장 특화</strong></div>
+                                <div style="margin-bottom: 8px;">💰 <strong>합리적 가격 정책</strong></div>
+                            </div>
+                        </div>
+                        
+                        <div class="advantage-highlight">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">
+                                <i class="fas fa-trophy mr-2"></i>
+                                성과 지표
+                            </div>
+                            <div class="advantage-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">80%</div>
+                                    <div class="stat-label">비용 절감</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">90%</div>
+                                    <div class="stat-label">시간 단축</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">95%</div>
+                                    <div class="stat-label">정확도</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>ESG GenAI Compliance Platform | Competitive Landscape</p>
+        </div>
+        
+        <!-- 네비게이션 -->
+        <div class="navigation">
+            <button onclick="window.location.href='04-why-now.html'" class="nav-btn nav-prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="window.location.href='06-solution-overview.html'" class="nav-btn nav-next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                window.location.href = '04-why-now.html';
+            } else if (event.key === 'ArrowRight') {
+                window.location.href = '06-solution-overview.html';
+            }
+        });
+    </script>
+</body>
+</html> 

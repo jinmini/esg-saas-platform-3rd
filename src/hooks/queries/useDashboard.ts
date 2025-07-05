@@ -1,8 +1,8 @@
 // 대시보드 관련 React Query 훅
 
 import { useQuery } from '@tanstack/react-query';
-import * as dashboardApi from '@/pages/dashboard/api';
-
+import { apiClient } from '@/shared/api/client';
+import { DashboardStats } from '@/shared/types/api';
 
 // Query Keys
 const QUERY_KEYS = {
@@ -21,7 +21,7 @@ const QUERY_KEYS = {
 export function useDashboardStats() {
   return useQuery({
     queryKey: [QUERY_KEYS.dashboardStats],
-    queryFn: () => dashboardApi.getDashboardStats(),
+    queryFn: () => apiClient.get<DashboardStats>('/dashboard/stats'),
     staleTime: 1000 * 60 * 2, // 2분
     refetchInterval: 1000 * 60 * 5, // 5분마다 자동 갱신
   });
@@ -31,7 +31,7 @@ export function useDashboardStats() {
 export function useRiskTrend(params?: { period?: string }) {
   return useQuery({
     queryKey: [QUERY_KEYS.riskTrend, params],
-    queryFn: () => dashboardApi.getRiskTrend(params),
+    queryFn: () => apiClient.get<any>('/dashboard/risk-trend', params),
     staleTime: 1000 * 60 * 10, // 10분
   });
 }
@@ -40,7 +40,7 @@ export function useRiskTrend(params?: { period?: string }) {
 export function useRealtimeAlerts(limit: number = 10) {
   return useQuery({
     queryKey: [QUERY_KEYS.realtimeAlerts, limit],
-    queryFn: () => dashboardApi.getRealtimeAlerts(limit),
+    queryFn: () => apiClient.get<any[]>('/dashboard/alerts', { limit }),
     staleTime: 1000 * 30, // 30초
     refetchInterval: 1000 * 60, // 1분마다 자동 갱신
   });
@@ -50,7 +50,7 @@ export function useRealtimeAlerts(limit: number = 10) {
 export function useIndustryRiskSummary() {
   return useQuery({
     queryKey: [QUERY_KEYS.industryRiskSummary],
-    queryFn: () => dashboardApi.getIndustryRiskSummary(),
+    queryFn: () => apiClient.get<any>('/dashboard/industry-risk-summary'),
     staleTime: 1000 * 60 * 15, // 15분
   });
 }
@@ -59,7 +59,7 @@ export function useIndustryRiskSummary() {
 export function useSASBDistribution() {
   return useQuery({
     queryKey: [QUERY_KEYS.sasbDistribution],
-    queryFn: () => dashboardApi.getSASBDistribution(),
+    queryFn: () => apiClient.get<any>('/dashboard/sasb-distribution'),
     staleTime: 1000 * 60 * 10, // 10분
   });
 }
@@ -68,7 +68,7 @@ export function useSASBDistribution() {
 export function useTodayHighlights() {
   return useQuery({
     queryKey: [QUERY_KEYS.todayHighlights],
-    queryFn: () => dashboardApi.getTodayHighlights(),
+    queryFn: () => apiClient.get<any>('/dashboard/today-highlights'),
     staleTime: 1000 * 60 * 5, // 5분
     refetchInterval: 1000 * 60 * 10, // 10분마다 자동 갱신
   });
@@ -78,7 +78,7 @@ export function useTodayHighlights() {
 export function useWatchlistStatus() {
   return useQuery({
     queryKey: [QUERY_KEYS.watchlistStatus],
-    queryFn: () => dashboardApi.getWatchlistStatus(),
+    queryFn: () => apiClient.get<any>('/dashboard/watchlist-status'),
     staleTime: 1000 * 60 * 5, // 5분
   });
 }
@@ -87,7 +87,7 @@ export function useWatchlistStatus() {
 export function useSentimentTrend(params?: { period?: string }) {
   return useQuery({
     queryKey: [QUERY_KEYS.sentimentTrend, params],
-    queryFn: () => dashboardApi.getSentimentTrend(params),
+    queryFn: () => apiClient.get<any>('/dashboard/sentiment-trend', params),
     staleTime: 1000 * 60 * 10, // 10분
   });
 }
@@ -96,7 +96,7 @@ export function useSentimentTrend(params?: { period?: string }) {
 export function useHotTopics(limit: number = 20) {
   return useQuery({
     queryKey: [QUERY_KEYS.hotTopics, limit],
-    queryFn: () => dashboardApi.getHotTopics(limit),
+    queryFn: () => apiClient.get<any[]>('/dashboard/hot-topics', { limit }),
     staleTime: 1000 * 60 * 15, // 15분
   });
 }
