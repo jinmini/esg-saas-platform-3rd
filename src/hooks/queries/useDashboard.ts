@@ -1,7 +1,8 @@
 // 대시보드 관련 React Query 훅
 
 import { useQuery } from '@tanstack/react-query';
-import { dashboardApi } from '@/lib/api';
+import * as dashboardApi from '@/pages/dashboard/api';
+
 
 // Query Keys
 const QUERY_KEYS = {
@@ -27,11 +28,7 @@ export function useDashboardStats() {
 }
 
 // 리스크 추이
-export function useRiskTrend(params: {
-  startDate: string;
-  endDate: string;
-  interval?: 'daily' | 'weekly' | 'monthly';
-}) {
+export function useRiskTrend(params?: { period?: string }) {
   return useQuery({
     queryKey: [QUERY_KEYS.riskTrend, params],
     queryFn: () => dashboardApi.getRiskTrend(params),
@@ -87,16 +84,11 @@ export function useWatchlistStatus() {
 }
 
 // 감성 분석 트렌드
-export function useSentimentTrend(params: {
-  startDate: string;
-  endDate: string;
-  companyId?: string;
-}) {
+export function useSentimentTrend(params?: { period?: string }) {
   return useQuery({
     queryKey: [QUERY_KEYS.sentimentTrend, params],
     queryFn: () => dashboardApi.getSentimentTrend(params),
     staleTime: 1000 * 60 * 10, // 10분
-    enabled: !!params.startDate && !!params.endDate,
   });
 }
 
@@ -127,9 +119,9 @@ export function useDashboardData() {
 }
 
 // 특정 기간의 대시보드 데이터를 위한 훅
-export function usePeriodDashboardData(startDate: string, endDate: string) {
-  const riskTrend = useRiskTrend({ startDate, endDate });
-  const sentimentTrend = useSentimentTrend({ startDate, endDate });
+export function usePeriodDashboardData(period?: string) {
+  const riskTrend = useRiskTrend({ period });
+  const sentimentTrend = useSentimentTrend({ period });
   
   return {
     riskTrend,

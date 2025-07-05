@@ -1,0 +1,1 @@
+export { CompanyFinancialsWidget } from './CompanyFinancialsWidget'; 

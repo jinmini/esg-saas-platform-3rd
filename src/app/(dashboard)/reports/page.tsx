@@ -2,11 +2,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Button } from "@/shared/ui/Button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
+import { Badge } from "@/shared/ui/Badge";
+import { Progress } from "@/shared/ui/Progress";
 import { 
   FileText, 
   Download, 
@@ -19,14 +19,14 @@ import {
   Plus,
   Search
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/shared/ui/Input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/shared/ui/Select";
 import {
   Table,
   TableBody,
@@ -34,7 +34,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/shared/ui/Table";
 
 // 임시 타입 정의 (추후 별도 파일로 분리)
 interface Report {
