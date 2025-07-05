@@ -34,6 +34,11 @@ export default withAuth(
           return true
         }
         
+        // API 라우트는 별도 처리
+        if (pathname.startsWith('/api/')) {
+          return true
+        }
+        
         // 보호된 페이지는 토큰 필요
         const protectedPaths = ['/dashboard', '/reports', '/crawler']
         const isProtectedPath = protectedPaths.some(path => 
@@ -52,6 +57,14 @@ export default withAuth(
 
 export const config = {
   matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
     '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
   ]
 } 
