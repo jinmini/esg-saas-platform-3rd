@@ -1,16 +1,17 @@
 import { apiClient } from '@/shared/api/client';
-import { mockAnalysisResponse } from '@/entities/analysis/__mocks__/mock';
 
-export type AnalyzedNews = (typeof mockAnalysisResponse)['analyzed_news'][number];
+export interface AnalyzedNews {
+  news_item: any;
+  sentiment_analysis: any;
+  esg_classification: any;
+}
 
 export interface RealtimeFeedResponse {
-  items: AnalyzedNews[];
+  analyzed_news: AnalyzedNews[];
 }
 
 // 실시간 분석 피드 조회
-export async function getRealtimeFeed(limit: number = 10): Promise<RealtimeFeedResponse> {
-  const response = await apiClient.get<RealtimeFeedResponse>('/dashboard/feed', {
-    limit: limit.toString(),
-  });
-  return response.data;
+export async function getRealtimeFeed(limit?: number): Promise<RealtimeFeedResponse> {
+  const params = limit ? { limit } : undefined;
+  return apiClient.get<RealtimeFeedResponse>('/dashboard/realtime-feed', params);
 } 

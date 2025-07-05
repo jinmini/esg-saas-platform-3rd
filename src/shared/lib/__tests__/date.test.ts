@@ -18,14 +18,10 @@ import {
   parseDate,
   toDate,
   formatKoreanDate,
-  formatKoreanTimeAgo,
-  formatKoreanDateTime,
-  getCurrentDate,
-  getWeekStart,
-  getMonthStart
+
 } from '../date'
 
-describe('날짜 유틸리티 함수', () => {
+describe('Date Utils', () => {
   const testDate = new Date('2025-01-15T10:30:00Z')
   const testDateString = '2025-01-15T10:30:00Z'
 

@@ -6,5 +6,5 @@ export async function startCrawlJob(params: {
   keywords: string[];
   pages?: number;
 }): Promise<CrawlJob> {
-  return (await apiClient.post<CrawlJob>('/crawl-jobs', params)).data;
+  return await apiClient.post<CrawlJob>('/crawl-jobs', params);
 } 

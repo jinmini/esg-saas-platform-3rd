@@ -1,14 +1,16 @@
-import { httpClient } from '@/shared/api/http-client';
-import { NewsAnalysisParams, NewsAnalysisResponse } from '@/shared/types/api';
+import { apiClient } from '@/shared/api/client';
+import { NewsAnalysisResponse, NewsAnalysisParams } from '@/shared/types/api';
 
-const basePath = '/api/v1/news';
+const basePath = '/api/analyze-company-news';
 
-export async function analyzeCompanyNewsApi(params: NewsAnalysisParams): Promise<NewsAnalysisResponse> {
+export const analyzeCompanyNews = async (params: NewsAnalysisParams): Promise<NewsAnalysisResponse> => {
   const queryParams = new URLSearchParams();
+  
   queryParams.append('company', params.company);
-  if (params.start !== undefined) queryParams.append('start', params.start.toString());
-  if (params.display !== undefined) queryParams.append('display', params.display.toString());
+  if (params.start) queryParams.append('start', params.start.toString());
+  if (params.display) queryParams.append('display', params.display.toString());
   if (params.sort) queryParams.append('sort', params.sort);
   if (params.period) queryParams.append('period', params.period);
-  return httpClient.get<NewsAnalysisResponse>(`${basePath}/analyze-company?${queryParams.toString()}`);
-} 
+
+  return apiClient.get<NewsAnalysisResponse>(`${basePath}/analyze-company?${queryParams.toString()}`);
+}; 

@@ -6,7 +6,7 @@ export async function scheduleCrawl(params: {
   interval: 'hourly' | 'daily' | 'weekly';
   time?: string;
 }): Promise<{ scheduleId: string }> {
-  return (await apiClient.post<{ scheduleId: string }>('/crawl-jobs/schedule', params)).data;
+  return await apiClient.post<{ scheduleId: string }>('/crawl-jobs/schedule', params);
 }
 
 // 크롤링 스케줄 삭제

@@ -9,6 +9,5 @@ export async function updateCompanyESGScore(
     governance: number;
   }
 ): Promise<RiskScore> {
-  const response = await apiClient.post<RiskScore>(`/companies/${companyId}/esg-score`, scores);
-  return response.data;
+  return await apiClient.post<RiskScore>(`/companies/${companyId}/esg-score`, scores);
 } 

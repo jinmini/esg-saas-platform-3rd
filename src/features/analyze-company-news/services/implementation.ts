@@ -1,12 +1,12 @@
 import { INewsAnalysisService } from './interface';
 import { NewsAnalysisParams, NewsAnalysisResponse } from '@/shared/types/api';
-import { analyzeCompanyNewsApi } from '../api';
+import { analyzeCompanyNews } from '../api';
 import { getFallbackNewsAnalysis } from '../api/mock';
 
 class NewsAnalysisService implements INewsAnalysisService {
   async analyzeCompanyNews(params: NewsAnalysisParams): Promise<NewsAnalysisResponse> {
     try {
-      return await analyzeCompanyNewsApi(params);
+      return await analyzeCompanyNews(params);
     } catch (error) {
       console.error('뉴스 분석 API 오류:', error);
       return getFallbackNewsAnalysis(params.company);

@@ -1,19 +1,18 @@
 import { apiClient } from '@/shared/api/client';
 
-// 핫 토픽 키워드
-export async function getHotTopics(limit: number = 20): Promise<Array<{
+export interface HotTopic {
   keyword: string;
   count: number;
   trend: 'up' | 'down' | 'stable';
   relatedCompanies: string[];
-}>> {
-  const response = await apiClient.get<{ items: Array<{
-    keyword: string;
-    count: number;
-    trend: 'up' | 'down' | 'stable';
-    relatedCompanies: string[];
-  }> }>('/dashboard/hot-topics', {
-    limit: limit.toString(),
+}
+
+export async function getHotTopics(
+  limit: number = 10,
+  timeframe: 'day' | 'week' | 'month' = 'day'
+): Promise<{ items: HotTopic[] }> {
+  return apiClient.get<{ items: HotTopic[] }>('/hot-topics', {
+    limit,
+    timeframe,
   });
-  return response.data.items;
 } 

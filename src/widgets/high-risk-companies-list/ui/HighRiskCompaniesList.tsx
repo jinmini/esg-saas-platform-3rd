@@ -19,7 +19,7 @@ export function HighRiskCompaniesList() {
             <Skeleton key={i} className="h-28 w-full" />
           ))}
         {error && <p className="text-red-500">데이터를 불러오는 중 오류가 발생했습니다.</p>}
-        {companies?.map((company) => (
+        {companies?.items?.map((company: any) => (
           <RiskScoreCard key={company.company.id} companyId={company.company.id} />
         ))}
       </CardContent>

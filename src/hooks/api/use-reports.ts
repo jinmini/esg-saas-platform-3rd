@@ -1,16 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { httpClient } from '@/shared/api/http-client'
-import { Report, ApiResponse } from '@/shared/types/api'
+import { apiClient } from '@/shared/api/client'
+import { Report } from '@/shared/types/api'
 
 // 리포트 목록 조회
 export function useReports() {
   return useQuery({
     queryKey: ['reports'],
-    queryFn: async (): Promise<Report[]> => {
-      const response = await httpClient.get<ApiResponse<Report[]>>('/api/reports')
-      return response.data
+    queryFn: async () => {
+      return apiClient.get<Report[]>('/api/reports')
     },
-    staleTime: 5 * 60 * 1000, // 5분
   })
 }
 
@@ -18,23 +16,20 @@ export function useReports() {
 export function useReport(id: string) {
   return useQuery({
     queryKey: ['reports', id],
-    queryFn: async (): Promise<Report> => {
-      const response = await httpClient.get<ApiResponse<Report>>(`/api/reports/${id}`)
-      return response.data
+    queryFn: async () => {
+      return apiClient.get<Report>(`/api/reports/${id}`)
     },
     enabled: !!id,
-    staleTime: 5 * 60 * 1000, // 5분
   })
 }
 
 // 리포트 생성
 export function useCreateReport() {
   const queryClient = useQueryClient()
-
+  
   return useMutation({
-    mutationFn: async (reportData: Partial<Report>): Promise<Report> => {
-      const response = await httpClient.post<ApiResponse<Report>>('/api/reports', reportData)
-      return response.data
+    mutationFn: async (reportData: Partial<Report>) => {
+      return apiClient.post<Report>('/api/reports', reportData)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] })
@@ -42,20 +37,17 @@ export function useCreateReport() {
   })
 }
 
-// 리포트 업데이트
-export function useUpdateReport() {
+// 리포트 수정
+export function useUpdateReport(id: string) {
   const queryClient = useQueryClient()
-
+  
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: Partial<Report> }): Promise<Report> => {
-      const response = await httpClient.put<ApiResponse<Report>>(`/api/reports/${id}`, data)
-      return response.data
+    mutationFn: async (data: Partial<Report>) => {
+      return apiClient.put<Report>(`/api/reports/${id}`, data)
     },
-    onSuccess: (updatedReport) => {
-      // 특정 리포트 쿼리 업데이트
-      queryClient.setQueryData(['reports', updatedReport.id], updatedReport)
-      // 리포트 목록 쿼리 무효화
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] })
+      queryClient.invalidateQueries({ queryKey: ['reports', id] })
     },
   })
 }
@@ -63,10 +55,11 @@ export function useUpdateReport() {
 // 리포트 삭제
 export function useDeleteReport() {
   const queryClient = useQueryClient()
-
+  
   return useMutation({
-    mutationFn: async (id: string): Promise<void> => {
-      await httpClient.delete(`/api/reports/${id}`)
+    mutationFn: async (id: string) => {
+      await apiClient.delete(`/api/reports/${id}`)
+      return id
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] })
@@ -78,12 +71,10 @@ export function useDeleteReport() {
 export function useReportsByCompany(companyId: string) {
   return useQuery({
     queryKey: ['reports', 'company', companyId],
-    queryFn: async (): Promise<Report[]> => {
-      const response = await httpClient.get<ApiResponse<Report[]>>(`/api/reports?company_id=${companyId}`)
-      return response.data
+    queryFn: async () => {
+      return apiClient.get<Report[]>(`/api/reports?company_id=${companyId}`)
     },
     enabled: !!companyId,
-    staleTime: 5 * 60 * 1000, // 5분
   })
 }
 
@@ -91,11 +82,9 @@ export function useReportsByCompany(companyId: string) {
 export function useReportsByFramework(framework: string) {
   return useQuery({
     queryKey: ['reports', 'framework', framework],
-    queryFn: async (): Promise<Report[]> => {
-      const response = await httpClient.get<ApiResponse<Report[]>>(`/api/reports?framework=${framework}`)
-      return response.data
+    queryFn: async () => {
+      return apiClient.get<Report[]>(`/api/reports?framework=${framework}`)
     },
     enabled: !!framework,
-    staleTime: 5 * 60 * 1000, // 5분
   })
 } 

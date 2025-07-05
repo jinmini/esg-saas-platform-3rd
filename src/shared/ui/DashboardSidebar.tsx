@@ -135,7 +135,7 @@ export function Sidebar() {
             </p>
           )}
           {[...sidebarItems, ...developmentItems].map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isActive = pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
             
             return (
               <Link key={item.href} href={item.href}>

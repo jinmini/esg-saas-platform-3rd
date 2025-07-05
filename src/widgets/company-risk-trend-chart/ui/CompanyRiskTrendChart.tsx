@@ -13,7 +13,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { chartDateFormat, chartDateFormatter } from '@/shared/lib/chart-date-formatters';
+import { getChartDateFormat } from '@/shared/lib/chart-date-formatters';
 
 interface CompanyRiskTrendChartProps {
   companyId: string;
@@ -49,10 +49,10 @@ export function CompanyRiskTrendChart({
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={trendData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" tickFormatter={(date) => chartDateFormat(date, 'short')} />
+            <XAxis dataKey="date" tickFormatter={(date) => getChartDateFormat(date)} />
             <YAxis />
-            <Tooltip
-              labelFormatter={(label) => chartDateFormat(label, 'long')}
+                          <Tooltip
+                labelFormatter={(label) => getChartDateFormat(label)}
               formatter={(value: number, name: string) => [
                 value.toFixed(2),
                 name.charAt(0).toUpperCase() + name.slice(1),

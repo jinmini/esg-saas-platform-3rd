@@ -7,7 +7,7 @@ import { Skeleton } from '@/shared/ui/Skeleton';
 import { Line, LineChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { DateRange } from 'react-day-picker';
 import { addDays, format } from 'date-fns';
-import { DatePickerWithRange } from '@/shared/ui/DatePickerWithRange';
+import { DatePickerWithRange, DateRange as CustomDateRange } from '@/shared/ui';
 
 export function SentimentTrendChart() {
   const [date, setDate] = useState<DateRange | undefined>({
@@ -24,7 +24,10 @@ export function SentimentTrendChart() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>감성 분석 트렌드</CardTitle>
-        <DatePickerWithRange date={date} onDateChange={setDate} />
+        <DatePickerWithRange 
+          value={date} 
+          onChange={(range: CustomDateRange) => setDate(range as any)} 
+        />
       </CardHeader>
       <CardContent>
         {isLoading ? (

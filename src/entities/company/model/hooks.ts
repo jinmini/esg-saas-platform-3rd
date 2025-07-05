@@ -4,9 +4,10 @@ import { Company, PaginatedResponse, PaginationParams } from '@/shared/types'
 
 // 회사 목록 조회
 export function useCompanies(params?: PaginationParams & { search?: string; industry?: string }) {
+  const defaultParams = { page: 1, limit: 10, ...params };
   return useQuery<PaginatedResponse<Company>, Error>({
-    queryKey: ['companies', params],
-    queryFn: () => companiesApi.getCompanies(params),
+    queryKey: ['companies', defaultParams],
+    queryFn: () => companiesApi.getCompanies(defaultParams),
     staleTime: 5 * 60 * 1000, // 5분
   })
 }
@@ -26,7 +27,7 @@ export function useCreateCompany() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (companyData: Omit<Company, 'id'>) => companiesApi.createCompany(companyData),
+    mutationFn: (companyData: Omit<Company, 'id'>) => companiesApi.createCompany(companyData as any),
     onSuccess: () => {
       // 회사 목록 쿼리 무효화하여 다시 fetching
       queryClient.invalidateQueries({ queryKey: ['companies'] })

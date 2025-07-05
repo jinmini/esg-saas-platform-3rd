@@ -6,4 +6,5 @@ export * from './Input';
 export * from './Label';
 export * from './Skeleton';
 export * from './ScrollArea';
-export * from './RiskBadge'; 
+export * from './RiskBadge';
+export * from './DatePickerWithRange'; 

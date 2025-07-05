@@ -3,7 +3,7 @@ import {
   CardContent
 } from "@/shared/ui/Card";
 import { Badge } from "@/shared/ui/Badge";
-import { CheckCircle2 } from 'lucide-react';
+
 import { INTEGRATED_SECTIONS } from '@/entities/report/model/constants';
 import { ReportSectionIcon } from '@/entities/report/ui/ReportSectionIcon';
 

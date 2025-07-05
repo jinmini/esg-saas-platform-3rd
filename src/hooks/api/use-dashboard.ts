@@ -1,16 +1,15 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query'
-import { httpClient } from '@/shared/api/http-client'
-import { DashboardStats, ApiResponse, WorkflowStatus, CompanyFinancials } from '@/shared/types/api'
+import { apiClient } from '@/shared/api/client'
+import { DashboardStats, WorkflowStatus, CompanyFinancials } from '@/shared/types/api'
 
 // 대시보드 통계 조회
 export function useDashboardStats() {
   return useQuery({
     queryKey: ['dashboard', 'stats'],
     queryFn: async () => {
-      const response = await httpClient.get<ApiResponse<DashboardStats>>('/api/dashboard/stats')
-      return response.data
+      return apiClient.get<DashboardStats>('/api/dashboard/stats')
     },
     refetchInterval: 30000, // 30초마다 갱신
   })
@@ -21,8 +20,7 @@ export function useDashboardWorkflows() {
   return useQuery({
     queryKey: ['dashboard', 'workflows'],
     queryFn: async () => {
-      const response = await httpClient.get<ApiResponse<WorkflowStatus[]>>('/api/dashboard/workflows')
-      return response.data
+      return apiClient.get<WorkflowStatus[]>('/api/dashboard/workflows')
     },
     refetchInterval: 60000, // 1분마다 갱신
   })
@@ -33,8 +31,7 @@ export function useDashboardFinancials() {
   return useQuery({
     queryKey: ['dashboard', 'financials'],
     queryFn: async () => {
-      const response = await httpClient.get<ApiResponse<CompanyFinancials[]>>('/api/dashboard/financials')
-      return response.data
+      return apiClient.get<CompanyFinancials[]>('/api/dashboard/financials')
     },
     refetchInterval: 300000, // 5분마다 갱신 (재무 정보는 자주 변하지 않음)
   })
@@ -45,8 +42,7 @@ export function useDashboardFeed() {
   return useQuery({
     queryKey: ['dashboard', 'feed'],
     queryFn: async () => {
-      const response = await httpClient.get<ApiResponse<any[]>>('/api/dashboard/feed')
-      return response.data
+      return apiClient.get<any[]>('/api/dashboard/feed')
     },
     staleTime: 2 * 60 * 1000, // 2분
     refetchInterval: 5 * 60 * 1000, // 5분마다 자동 갱신
@@ -58,8 +54,7 @@ export function useRealtimeNotifications() {
   return useQuery({
     queryKey: ['dashboard', 'notifications'],
     queryFn: async () => {
-      const response = await httpClient.get<ApiResponse<any[]>>('/api/dashboard/notifications')
-      return response.data
+      return apiClient.get<any[]>('/api/dashboard/notifications')
     },
     staleTime: 1 * 60 * 1000, // 1분
     refetchInterval: 2 * 60 * 1000, // 2분마다 자동 갱신

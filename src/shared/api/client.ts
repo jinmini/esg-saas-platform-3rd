@@ -1,18 +1,18 @@
 // API 클라이언트 설정
 
 import { PaginationParams } from '@/shared/types';
-import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type InternalAxiosRequestConfig, AxiosInstance } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1';
-
-// 기본 fetch 옵션
-const defaultOptions: RequestInit = {
+// Axios 인스턴스 생성
+const instance: AxiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1',
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
-  },
-  credentials: 'include',
-};
+    'Accept': 'application/json'
+  }
+});
 
 // API 에러 클래스
 export class ApiError extends Error {
@@ -25,14 +25,6 @@ export class ApiError extends Error {
     this.name = 'ApiError';
   }
 }
-
-const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 // 요청 인터셉터: 모든 요청에 인증 토큰 추가
 instance.interceptors.request.use(
@@ -142,7 +134,7 @@ export async function get<T>(
       ).toString()
     : '';
   
-  return instance.get<T>(`${endpoint}${queryString}`);
+  return instance.get<T>(`${endpoint}${queryString}`) as Promise<T>;
 }
 
 // POST 요청
@@ -150,7 +142,7 @@ export async function post<T>(
   endpoint: string,
   body?: unknown
 ): Promise<T> {
-  return instance.post<T>(endpoint, body);
+  return instance.post<T>(endpoint, body) as Promise<T>;
 }
 
 // PUT 요청
@@ -158,24 +150,38 @@ export async function put<T>(
   endpoint: string,
   body?: unknown
 ): Promise<T> {
-  return instance.put<T>(endpoint, body);
+  return instance.put<T>(endpoint, body) as Promise<T>;
 }
 
 // DELETE 요청
 export async function del<T>(
   endpoint: string
 ): Promise<T> {
-  return instance.delete<T>(endpoint);
+  return instance.delete<T>(endpoint) as Promise<T>;
 }
 
 // 페이지네이션 파라미터 변환
-export function buildPaginationParams(params: PaginationParams): Record<string, string> {
-  return {
-    page: params.page.toString(),
-    limit: params.limit.toString(),
-    ...(params.sortBy && { sortBy: params.sortBy }),
-    ...(params.sortOrder && { sortOrder: params.sortOrder }),
-  };
+export function buildPaginationParams(params: Partial<PaginationParams> & Record<string, any>): Record<string, string> {
+  const result: Record<string, string> = {};
+  
+  // 기본값 설정
+  const page = params.page ?? 1;
+  const limit = params.limit ?? 10;
+  
+  result.page = page.toString();
+  result.limit = limit.toString();
+  
+  if (params.sortBy) result.sortBy = params.sortBy;
+  if (params.sortOrder) result.sortOrder = params.sortOrder;
+  
+  // 추가 필터 파라미터들 처리
+  Object.keys(params).forEach(key => {
+    if (!['page', 'limit', 'sortBy', 'sortOrder'].includes(key) && params[key] !== undefined) {
+      result[key] = String(params[key]);
+    }
+  });
+  
+  return result;
 }
 
 // API 응답 변환 헬퍼
@@ -205,16 +211,12 @@ export function getErrorMessage(error: unknown): string {
   return '알 수 없는 오류가 발생했습니다';
 }
 
-// API 클라이언트 export
+// API 클라이언트 함수들
 export const apiClient = {
-  get: <T>(endpoint: string, params?: object) =>
-    instance.get<T>(endpoint, { params }).then(res => res),
-  post: <T>(endpoint: string, body?: unknown) =>
-    instance.post<T>(endpoint, body).then(res => res),
-  put: <T>(endpoint: string, body?: unknown) =>
-    instance.put<T>(endpoint, body).then(res => res),
-  delete: <T>(endpoint: string) =>
-    instance.delete<T>(endpoint).then(res => res),
+  get,
+  post,
+  put,
+  delete: del,
 };
 
 export default apiClient;

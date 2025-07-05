@@ -11,6 +11,9 @@ export interface SASBDistribution {
 export function useSASBDistribution() {
   return useQuery<SASBDistribution[], Error>({
     queryKey: ['sasbDistribution'],
-    queryFn: getSASBDistribution,
+    queryFn: async () => {
+      const response = await getSASBDistribution();
+      return response.items;
+    },
   });
 } 

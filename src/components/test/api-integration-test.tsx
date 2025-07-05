@@ -20,10 +20,10 @@ import {
   Trash2, 
   RefreshCw, 
   CheckCircle, 
+  Clock,
 
-  Clock
 } from 'lucide-react'
-import type { Company } from '@/entities/company/model/types'
+
 
 export function ApiIntegrationTest() {
   const [testCompany, setTestCompany] = useState('삼성전자')
@@ -63,10 +63,10 @@ export function ApiIntegrationTest() {
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Badge variant={newsApiStatus?.available ? "default" : "destructive"}>
-                뉴스 분석 API: {newsApiStatus?.available ? "연결됨" : "오프라인"}
+              <Badge variant={newsApiStatus?.status === 'connected' ? "default" : "destructive"}>
+                뉴스 분석 API: {newsApiStatus?.status === 'connected' ? "연결됨" : "오프라인"}
               </Badge>
-              <p className="text-sm text-gray-600 mt-1">{newsApiStatus?.message}</p>
+              <p className="text-sm text-gray-600 mt-1">{newsApiStatus?.status || '상태 확인 중'}</p>
             </div>
             <div>
               <Badge variant="default">Mock API: 활성화됨</Badge>
@@ -175,7 +175,7 @@ export function ApiIntegrationTest() {
                 <h4 className="font-semibold">분석 요약</h4>
                 <p>총 분석 뉴스: {newsAnalysis.analysis_summary.total_analyzed}개</p>
                 <div className="grid grid-cols-3 gap-2 mt-2">
-                  {Object.entries(newsAnalysis.analysis_summary.esg_distribution as Record<string, number>).map(([key, value]) => (
+                  {Object.entries(newsAnalysis.analysis_summary.esg_distribution as unknown as Record<string, number>).map(([key, value]) => (
                     <div key={key} className="text-sm">
                       {key}: {value}개
                     </div>

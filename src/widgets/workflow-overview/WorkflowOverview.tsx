@@ -9,12 +9,7 @@ import { Clock, Calendar } from 'lucide-react';
 import { formatTimeAgo, formatDate } from '@/shared/lib';
 import { WorkflowStatus } from '@/shared/lib/mocks/dashboard-mock-data';
 import { getWorkflowStatusColor } from '@/shared/lib/ui-helpers';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/shared/ui/Tooltip";
+
 
 interface WorkflowOverviewProps {
   workflows: WorkflowStatus[];

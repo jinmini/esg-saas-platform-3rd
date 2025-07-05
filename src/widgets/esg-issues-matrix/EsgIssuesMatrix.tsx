@@ -4,12 +4,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/shared/ui/Tooltip";
+
 import { ESGIssue } from '@/shared/lib/mocks/dashboard-mock-data';
 import { getPriorityColor } from '@/shared/lib/ui-helpers';
 import { Leaf, Users, Shield } from 'lucide-react';

@@ -6,7 +6,7 @@ export function useRealtimeFeed(limit: number = 10) {
     queryKey: ['realtimeFeed', limit],
     queryFn: async () => {
       const response = await getRealtimeFeed(limit);
-      return response.items;
+      return response.analyzed_news;
     },
   });
 }

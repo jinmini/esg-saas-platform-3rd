@@ -1,8 +1,10 @@
 // 기업 관련 React Query 훅
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { companiesApi } from '@/entities/company';
 import { PaginationParams } from '@/shared/types';
 import { toast } from 'sonner';
+
 
 // Query Keys
 const QUERY_KEYS = {
@@ -20,9 +22,10 @@ export function useCompanies(params?: PaginationParams & {
   search?: string;
   industry?: string;
 }) {
+  const defaultParams = { page: 1, limit: 10, ...params };
   return useQuery({
-    queryKey: [QUERY_KEYS.companies, params],
-    queryFn: () => companiesApi.getCompanies(params),
+    queryKey: [QUERY_KEYS.companies, defaultParams],
+    queryFn: () => companiesApi.getCompanies(defaultParams),
     staleTime: 1000 * 60 * 5, // 5분
   });
 }

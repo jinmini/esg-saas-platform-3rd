@@ -1,16 +1,22 @@
 import { apiClient } from '@/shared/api/client';
 
 export interface RiskScoreData {
-  companyId: string;
   companyName: string;
   score: number;
-  trend: number;
-  category?: string;
-  lastUpdated?: string;
+  trend: number; // 변화율 (-100 ~ 100)
+  category: string;
+  lastUpdated: string;
+  currentScore: number;
+  previousScore: number;
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  breakdown: {
+    environmental: number;
+    social: number;
+    governance: number;
+  };
 }
 
 // 개별 기업 리스크 스코어 조회
-export async function getRiskScore(companyId: string): Promise<RiskScoreData> {
-  const response = await apiClient.get<RiskScoreData>(`/company/${companyId}/risk-score`);
-  return response.data;
+export async function getRiskScoreData(companyId: string): Promise<RiskScoreData> {
+  return apiClient.get<RiskScoreData>(`/companies/${companyId}/risk-score-data`);
 } 

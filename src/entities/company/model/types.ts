@@ -14,6 +14,13 @@ export interface Company {
   last_updated: string;
 }
 
+export interface CompanyFilter {
+  industry?: string;
+  riskLevel?: 'low' | 'medium' | 'high' | 'critical';
+  searchTerm?: string;
+  size?: 'small' | 'medium' | 'large';
+}
+
 export interface CompanyStats {
   total: number;
   byIndustry: Record<string, number>;

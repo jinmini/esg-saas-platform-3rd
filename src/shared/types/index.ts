@@ -189,11 +189,15 @@ export interface SentimentTrendData {
 
 export interface TodayHighlights {
   newArticles: number;
+  totalAnalyses: number;
   highRiskAlerts: number;
+  newCompanies: number;
+  avgRiskScore: number;
   topIssue: {
     title: string;
     company: string;
     riskScore: number;
   };
   keyFindings: string[];
+  trendingTopics: string[];
 }

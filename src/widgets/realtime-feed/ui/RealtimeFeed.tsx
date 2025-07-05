@@ -7,12 +7,11 @@ import { Badge } from '@/shared/ui/Badge';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { ScrollArea } from '@/shared/ui/ScrollArea';
 import { formatTimeAgo, cn } from '@/shared/lib';
-import { useRealtimeFeed, AnalyzedNews } from '../model';
+import { useRealtimeFeed } from '../model';
 import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/Alert';
 import { AlertCircle } from 'lucide-react';
-import { mockAnalysisResponse } from '@/entities/analysis/__mocks__/mock';
 
-type AnalyzedNews = (typeof mockAnalysisResponse)['analyzed_news'][number];
+
 
 const sentimentBorderColor: Record<string, string> = {
   '긍정': 'border-l-blue-500',

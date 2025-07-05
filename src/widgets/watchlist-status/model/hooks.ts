@@ -5,6 +5,9 @@ import { CompanyRisk } from '@/shared/types';
 export function useWatchlistStatus() {
   return useQuery<CompanyRisk[], Error>({
     queryKey: ['watchlistStatus'],
-    queryFn: getWatchlistStatus,
+    queryFn: async () => {
+      const response = await getWatchlistStatus();
+      return response.items;
+    },
   });
 } 

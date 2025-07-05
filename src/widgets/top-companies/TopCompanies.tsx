@@ -102,7 +102,8 @@ export function TopCompanies({
               ))
             ) : (
               // 실제 데이터
-              companies?.map((companyRisk: CompanyRiskInfo, index: number) => {
+              companies?.map((company: any, index: number) => {
+                const companyRisk = company as CompanyRiskInfo;
                 const riskLevel = getRiskLevel(companyRisk.riskScore.score);
                 const trendIcon = companyRisk.riskScore.trend > 0 
                   ? <TrendingUp className="h-3 w-3" />

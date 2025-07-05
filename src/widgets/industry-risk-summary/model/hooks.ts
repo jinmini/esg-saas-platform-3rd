@@ -12,6 +12,9 @@ export interface IndustryRiskSummary {
 export function useIndustryRiskSummary() {
   return useQuery<IndustryRiskSummary[], Error>({
     queryKey: ['industryRiskSummary'],
-    queryFn: getIndustryRiskSummary,
+    queryFn: async () => {
+      const response = await getIndustryRiskSummary();
+      return response.items;
+    },
   });
 } 

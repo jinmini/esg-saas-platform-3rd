@@ -6,6 +6,30 @@ export interface ApiResponse<T> {
   error?: string
 }
 
+// 페이지네이션 요청 파라미터
+export interface PaginationParams {
+  page?: number
+  limit?: number
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+}
+
+// 페이지네이션 응답 타입은 shared/types/index.ts에서 import 사용
+
+// 리스크 관련 타입들
+export interface RiskScore {
+  companyId: string;
+  score: number;
+  level: 'low' | 'medium' | 'high' | 'critical';
+  lastUpdated: string;
+}
+
+export interface RiskTrendData {
+  date: string;
+  score: number;
+  level: 'low' | 'medium' | 'high' | 'critical';
+}
+
 // 뉴스 분석 관련 타입 (crawler.json 기반)
 export interface NewsSearchInfo {
   company: string

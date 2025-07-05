@@ -14,6 +14,9 @@ export interface RealtimeAlert {
 export function useRealtimeAlerts(limit: number = 10) {
   return useQuery<RealtimeAlert[], Error>({
     queryKey: ['realtimeAlerts', limit],
-    queryFn: () => getRealtimeAlerts(limit),
+    queryFn: async () => {
+      const response = await getRealtimeAlerts(limit);
+      return response.items;
+    },
   });
 } 

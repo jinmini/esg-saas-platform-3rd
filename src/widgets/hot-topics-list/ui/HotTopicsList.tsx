@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { Badge } from '@/shared/ui/Badge';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { cn } from '@/shared/lib';
+
 
 const trendIcon = {
   up: <TrendingUp className="h-4 w-4 text-red-500" />,

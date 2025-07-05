@@ -5,9 +5,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select';
 import { Badge } from '@/shared/ui/Badge';
-import { Building2, TrendingUp, TrendingDown, Minus, Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from "@/shared/lib/cn";
-import { Button } from "@/shared/ui/Button";
+import { Building2, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+
 import { CompanyOverview } from '@/shared/lib/mocks/dashboard-mock-data';
 import { getRiskLevelColor } from '@/shared/lib/ui-helpers';
 

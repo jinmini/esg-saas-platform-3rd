@@ -86,7 +86,7 @@ export function TcfdReportBuilder() {
           <TabsContent value="form">
             <RecommendationForm
               pillar={currentPillar}
-              recommendation={currentRecommendation}
+              recommendation={currentRecommendation || null}
               responses={responses}
               onResponseChange={handleResponseChange}
             />

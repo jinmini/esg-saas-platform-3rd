@@ -11,6 +11,9 @@ export interface HotTopic {
 export function useHotTopics(limit: number = 20) {
   return useQuery<HotTopic[], Error>({
     queryKey: ['hotTopics', limit],
-    queryFn: () => getHotTopics(limit),
+    queryFn: async () => {
+      const response = await getHotTopics(limit);
+      return response.items;
+    },
   });
 } 
