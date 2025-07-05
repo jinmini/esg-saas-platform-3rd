@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - Executive Summary</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/common.css">
+  <style>
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      height: 600px;
+    }
+    .summary-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      border-top: 5px solid transparent;
+    }
+    .card-problem { border-color: #FF5252; }
+    .card-solution { border-color: #4CAF50; }
+    .card-achievement { border-color: #2196F3; }
+    .card-vision { border-color: #9C27B0; }
+    .card-ask { border-color: #FF9800; }
+    
+    .icon-container {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .icon-problem { background-color: rgba(255, 82, 82, 0.15); color: #FF5252; }
+    .icon-solution { background-color: rgba(76, 175, 80, 0.15); color: #4CAF50; }
+    .icon-achievement { background-color: rgba(33, 150, 243, 0.15); color: #2196F3; }
+    .icon-vision { background-color: rgba(156, 39, 176, 0.15); color: #9C27B0; }
+    .icon-ask { background-color: rgba(255, 152, 0, 0.15); color: #FF9800; }
+    
+    .card-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .card-content {
+      font-size: 18px;
+      line-height: 1.6;
+      opacity: 0.85;
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- 배경 패턴 -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- 로고 -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- 메인 콘텐츠 -->
+    <div class="relative z-10">
+      <h1 class="slide-title">한 장으로 보는 현황과 비전</h1>
+      <div class="accent-line"></div>
+      
+      <div class="summary-grid">
+        <!-- 문제 카드 -->
+        <div class="summary-card card-problem">
+          <div class="icon-container icon-problem">
+            <i class="fas fa-exclamation-triangle text-3xl"></i>
+          </div>
+          <h3 class="card-title">문제</h3>
+          <div class="card-content">
+            <p class="mb-3">• 복잡한 ESG 공시 의무</p>
+            <p class="mb-3">• 높은 보고서 작성 비용</p>
+            <p>• 과다한 데이터 수집/처리 시간</p>
+          </div>
+        </div>
+        
+        <!-- 솔루션 카드 -->
+        <div class="summary-card card-solution">
+          <div class="icon-container icon-solution">
+            <i class="far fa-lightbulb text-3xl"></i>
+          </div>
+          <h3 class="card-title">솔루션</h3>
+          <div class="card-content">
+            <p class="mb-3">• AI 기반 데이터 자동 분석</p>
+            <p class="mb-3">• 지능형 보고서 작성 자동화</p>
+            <p>• 다중 프레임워크 지원</p>
+          </div>
+        </div>
+        
+        <!-- 성과 카드 -->
+        <div class="summary-card card-achievement">
+          <div class="icon-container icon-achievement">
+            <i class="fas fa-check-circle text-3xl"></i>
+          </div>
+          <h3 class="card-title">성과</h3>
+          <div class="card-content">
+            <p class="mb-3">• 통합 대시보드 구축 완료</p>
+            <p class="mb-3">• AI 보고서 빌더 프로토타입</p>
+            <p>• 핵심 기술 검증 완료</p>
+          </div>
+        </div>
+        
+        <!-- 비전 카드 -->
+        <div class="summary-card card-vision">
+          <div class="icon-container icon-vision">
+            <i class="far fa-eye text-3xl"></i>
+          </div>
+          <h3 class="card-title">비전</h3>
+          <div class="card-content">
+            <p class="mb-3">• ESG SaaS 시장 선도</p>
+            <p class="mb-3">• 지속가능경영의 파트너</p>
+            <p>• AI 기반 종합 ESG 플랫폼</p>
+          </div>
+        </div>
+        
+        <!-- 요청 사항 카드 -->
+        <div class="summary-card card-ask">
+          <div class="icon-container icon-ask">
+            <i class="fas fa-hand-point-right text-3xl"></i>
+          </div>
+          <h3 class="card-title">요청</h3>
+          <div class="card-content">
+            <p class="mb-3">• 상용화 개발 단계 승인</p>
+            <p class="mb-3">• 백엔드/AI 개발 리소스 투입</p>
+            <p>• 2026년 Q1 런칭 목표 설정</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | Executive Summary</p>
+    </div>
+  </div>
+</body>
+</html> 

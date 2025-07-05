@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - Q&A</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/common.css">
+  <style>
+    .content-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 40px;
+    }
+    
+    .content-left {
+      padding-right: 20px;
+    }
+    
+    .content-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    
+    .thanks-message {
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+    
+    .highlight {
+      color: #4CAF50;
+      font-weight: 600;
+    }
+    
+    .qa-icon-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .qa-icon-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .qa-icon-item:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(76, 175, 80, 0.3);
+    }
+    
+    .qa-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+      color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .qa-icon-item:hover .qa-icon {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.3) 0%, rgba(76, 175, 80, 0.2) 100%);
+      transform: scale(1.1);
+    }
+    
+    .qa-icon-title {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: white;
+    }
+    
+    .qa-icon-desc {
+      font-size: 16px;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+    
+    .qa-large {
+      font-size: 180px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1;
+      margin-bottom: 30px;
+      color: #ffffff;
+      position: relative;
+    }
+    
+    .qa-large .q {
+      color: #4CAF50;
+    }
+    
+    .qa-large .a {
+      color: #008080;
+    }
+    
+    .qa-subtitle {
+      font-size: 28px;
+      font-weight: 400;
+      opacity: 0.8;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .contact-info {
+      font-size: 24px;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(76, 175, 80, 0.2);
+    }
+    
+    .contact-info i {
+      color: #4CAF50;
+      font-size: 28px;
+    }
+    
+    .hexagon-pattern {
+      position: absolute;
+      right: 120px;
+      bottom: 120px;
+      opacity: 0.07;
+      width: 500px;
+      height: 500px;
+      z-index: 0;
+    }
+    
+    .welcome-topics {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .topic-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #4CAF50;
+      transition: all 0.3s ease;
+    }
+    
+    .topic-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(5px);
+    }
+    
+    .topic-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #4CAF50;
+    }
+    
+    .topic-desc {
+      font-size: 16px;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- Background Pattern -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <div class="hexagon-pattern">
+      <svg width="500" height="500" viewBox="0 0 100 100">
+        <pattern id="hexagons" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M10,0 L20,5 L20,15 L10,20 L0,15 L0,5 Z" fill="none" stroke="white" stroke-width="0.5"/>
+        </pattern>
+        <rect width="100" height="100" fill="url(#hexagons)" />
+      </svg>
+    </div>
+    
+    <!-- Logo -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="relative z-10">
+      <h1 class="slide-title">Q&A</h1>
+      <div class="accent-line"></div>
+      
+      <div class="content-container">
+        <!-- Left Content: Thank You Message -->
+        <div class="content-left">
+          <div class="thanks-message">
+            ESG GenAI Platform의 <span class="highlight">MVP 성과와 향후 비전</span>에 대한 발표를 들어주셔서 감사합니다.
+          </div>
+          
+          <div class="thanks-message">
+            지속가능한 미래를 위한 <span class="highlight">AI 기반 ESG 솔루션</span>의 가능성에 대한 여러분의 의견과 질문을 환영합니다.
+          </div>
+          
+          <div class="welcome-topics">
+            <div class="topic-item">
+              <div class="topic-title">비즈니스 가치 및 ROI</div>
+              <div class="topic-desc">시장 기회, 수익 모델, 투자 대비 효과에 대한 질문</div>
+            </div>
+            
+            <div class="topic-item">
+              <div class="topic-title">기술 아키텍처</div>
+              <div class="topic-desc">AI 모델, 시스템 구조, 확장성 및 보안에 대한 질문</div>
+            </div>
+            
+            <div class="topic-item">
+              <div class="topic-title">개발 로드맵</div>
+              <div class="topic-desc">향후 개발 계획, 일정, 리소스에 대한 질문</div>
+            </div>
+          </div>
+          
+          <div class="qa-icon-grid">
+            <div class="qa-icon-item">
+              <div class="qa-icon">
+                <i class="fas fa-business-time text-3xl"></i>
+              </div>
+              <div class="qa-icon-title">비즈니스</div>
+              <div class="qa-icon-desc">시장 전략 및 수익성</div>
+            </div>
+            
+            <div class="qa-icon-item">
+              <div class="qa-icon">
+                <i class="fas fa-code-branch text-3xl"></i>
+              </div>
+              <div class="qa-icon-title">기술</div>
+              <div class="qa-icon-desc">아키텍처 및 구현</div>
+            </div>
+            
+            <div class="qa-icon-item">
+              <div class="qa-icon">
+                <i class="fas fa-tasks text-3xl"></i>
+              </div>
+              <div class="qa-icon-title">로드맵</div>
+              <div class="qa-icon-desc">개발 계획</div>
+            </div>
+          </div>
+          
+          <div class="contact-info mt-12">
+            <i class="fas fa-envelope"></i>
+            <span>esg-platform@company.com</span>
+          </div>
+        </div>
+        
+        <!-- Right Content: Large Q&A Graphic -->
+        <div class="content-right">
+          <div class="qa-large">
+            <span class="q">Q</span><span class="a">&A</span>
+          </div>
+          <div class="qa-subtitle">질문을 환영합니다</div>
+          
+          <div class="mt-8 text-center">
+            <div class="text-lg opacity-80 mb-4">
+              <i class="fas fa-comments text-2xl text-green-400 mr-3"></i>
+              자유롭게 질문해 주세요
+            </div>
+            <div class="text-base opacity-70">
+              ESG 컴플라이언스의 미래를 함께 만들어갑시다
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | 감사합니다</p>
+    </div>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - Appendix</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A2A4D;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .slide-container {
+      width: 1920px;
+      min-height: 1080px;
+      position: relative;
+      padding: 80px 120px;
+    }
+    .slide-title {
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+    .accent-line {
+      width: 100px;
+      height: 6px;
+      background-color: #4CAF50;
+      margin-bottom: 40px;
+    }
+    .content-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      height: calc(100% - 200px);
+    }
+    .content-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .content-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .subtitle {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #fff;
+      opacity: 0.9;
+    }
+    .usecase-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .usecase-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #4CAF50;
+      display: flex;
+      align-items: center;
+    }
+    .usecase-title i {
+      margin-right: 10px;
+      background-color: rgba(76, 175, 80, 0.2);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step {
+      display: flex;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+    .step-number {
+      background-color: rgba(0, 128, 128, 0.2);
+      color: #008080;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .step-content {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .feature-section {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .feature-category {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #2196F3;
+    }
+    .feature-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .feature-item {
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .feature-item i {
+      color: #4CAF50;
+      margin-right: 8px;
+      font-size: 12px;
+    }
+    .competitive-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 10px;
+    }
+    .competitive-table th {
+      background-color: rgba(0, 128, 128, 0.2);
+      padding: 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .competitive-table td {
+      padding: 8px 10px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .check-icon {
+      color: #4CAF50;
+    }
+    .partial-icon {
+      color: #FFC107;
+    }
+    .missing-icon {
+      color: #F44336;
+    }
+    .dot-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    .logo-container {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A2A4D;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .footer {
+      position: absolute;
+      bottom: 40px;
+      left: 120px;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+    .appendix-note {
+      font-size: 14px;
+      opacity: 0.7;
+      font-style: italic;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- 배경 패턴 -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- 로고 -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- 메인 콘텐츠 -->
+    <div class="relative z-10">
+      <h1 class="slide-title">Appendix</h1>
+      <div class="accent-line"></div>
+      
+      <div class="content-container">
+        <!-- 왼쪽 콘텐츠: 상세 유스케이스 -->
+        <div class="content-left">
+          <div>
+            <h3 class="subtitle">상세 유스케이스</h3>
+            
+            <div class="usecase-card">
+              <div class="usecase-title">
+                <i class="fas fa-search"></i>
+                UC-01: ESG 담당자의 일일 리스크 점검
+              </div>
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  대시보드에 접속하여 <strong>StatsCards</strong>로 주요 지표 변화 확인
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <strong>CompanySelector</strong>에서 관리 대상 기업 선택 후, <strong>ESGIssuesMatrix</strong>에서 핵심 영역 이슈 확인
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <strong>RealtimeFeed</strong>와 <strong>HotTopicsList</strong>를 통해 최신 뉴스와 키워드 확인 및 초기 대응 방향 구상
+                </div>
+              </div>
+            </div>
+            
+            <div class="usecase-card">
+              <div class="usecase-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                UC-03: 신규 발생한 부정 이슈에 대한 분석 및 대응
+              </div>
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  고위험 알림이나 관련 위젯을 클릭하여 분석 페이지로 이동
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  기업명 입력으로 최신 부정 뉴스를 분석하고 ESG 토픽, 부정 감성 점수, 키워드 확인
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  분석 결과를 바탕으로 내부 보고 준비 및 리포트 관련 항목에 데이터 연동
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 오른쪽 콘텐츠: 기능 목록 및 경쟁사 분석 -->
+        <div class="content-right">
+          <div>
+            <h3 class="subtitle">세부 기능 목록</h3>
+            
+            <div class="feature-section">
+              <div class="feature-category">데이터 수집 및 분석 기능</div>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  뉴스/공시 자동 크롤링
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  AI 기반 ESG 토픽 분류
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  감성 분석 (긍/부정)
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  리스크 점수화 알고리즘
+                </div>
+              </div>
+            </div>
+            
+            <div class="feature-section">
+              <div class="feature-category">대시보드 및 모니터링 기능</div>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  커스터마이징 가능한 위젯
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  ESG 이슈 매트릭스
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  실시간 알림 시스템
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  경쟁사 벤치마킹 도구
+                </div>
+              </div>
+            </div>
+            
+            <div class="feature-section">
+              <div class="feature-category">AI 보고서 작성 지원 기능</div>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  SmartTextarea 자동 제안
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  다중 프레임워크 지원
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  데이터 자동 검증 로직
+                </div>
+                <div class="feature-item">
+                  <i class="fas fa-circle"></i>
+                  자동 저장 (IndexedDB)
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="subtitle">경쟁사 분석 요약</h3>
+            <table class="competitive-table">
+              <thead>
+                <tr>
+                  <th width="30%">주요 기능</th>
+                  <th width="23%">당사 플랫폼</th>
+                  <th width="23%">경쟁사 A</th>
+                  <th width="23%">경쟁사 B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>AI 기반 보고서 자동화</td>
+                  <td><i class="fas fa-check check-icon"></i> 완전 지원</td>
+                  <td><i class="fas fa-adjust partial-icon"></i> 부분 지원</td>
+                  <td><i class="fas fa-times missing-icon"></i> 미지원</td>
+                </tr>
+                <tr>
+                  <td>다중 프레임워크 지원</td>
+                  <td><i class="fas fa-check check-icon"></i> GRI, SASB, TCFD</td>
+                  <td><i class="fas fa-adjust partial-icon"></i> GRI만</td>
+                  <td><i class="fas fa-adjust partial-icon"></i> GRI, SASB</td>
+                </tr>
+                <tr>
+                  <td>실시간 이슈 모니터링</td>
+                  <td><i class="fas fa-check check-icon"></i> 완전 지원</td>
+                  <td><i class="fas fa-check check-icon"></i> 완전 지원</td>
+                  <td><i class="fas fa-adjust partial-icon"></i> 일간 업데이트</td>
+                </tr>
+                <tr>
+                  <td>오프라인 작업 지원</td>
+                  <td><i class="fas fa-check check-icon"></i> IndexedDB</td>
+                  <td><i class="fas fa-times missing-icon"></i> 미지원</td>
+                  <td><i class="fas fa-times missing-icon"></i> 미지원</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="appendix-note">* 2025년 6월 기준, 공개된 정보를 바탕으로 분석</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | Appendix</p>
+    </div>
+  </div>
+</body>
+</html>

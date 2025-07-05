@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - Why Now?</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A2A4D;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .slide-container {
+      width: 1920px;
+      min-height: 1080px;
+      position: relative;
+      padding: 80px 120px;
+    }
+    .slide-title {
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+    .accent-line {
+      width: 100px;
+      height: 6px;
+      background-color: #4CAF50;
+      margin-bottom: 40px;
+    }
+    .warning-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: rgba(244, 67, 54, 0.15);
+      color: #F44336;
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .warning-badge i {
+      margin-right: 8px;
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    .trend-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .trend-card:hover {
+      transform: translateY(-5px);
+    }
+    .trend-number {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 48px;
+      font-weight: 800;
+      opacity: 0.1;
+    }
+    .trend-icon {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(76, 175, 80, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .trend-icon i {
+      font-size: 28px;
+      color: #4CAF50;
+    }
+    .trend-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+    .trend-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .trend-list li {
+      font-size: 16px;
+      line-height: 1.8;
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .trend-list li::before {
+      content: "•";
+      color: #4CAF50;
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .gap-card {
+      background-color: rgba(0, 128, 128, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gap-card-icon {
+      background-color: rgba(0, 128, 128, 0.2);
+    }
+    .gap-card-icon i {
+      color: #008080;
+    }
+    .gap-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 20px;
+    }
+    .gap-item {
+      text-align: center;
+    }
+    .gap-label {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+    .gap-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: #4CAF50;
+    }
+    .ai-gap-card {
+      background-color: rgba(33, 150, 243, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+    }
+    .ai-gap-card-icon {
+      background-color: rgba(33, 150, 243, 0.2);
+    }
+    .ai-gap-card-icon i {
+      color: #2196F3;
+    }
+    .progress-bar {
+      background-color: rgba(255, 255, 255, 0.1);
+      height: 8px;
+      border-radius: 4px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    .progress-green {
+      background-color: #4CAF50;
+    }
+    .progress-red {
+      background-color: #F44336;
+    }
+    .bottom-message {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bottom-message i {
+      margin-right: 15px;
+      color: #F44336;
+    }
+    .highlight {
+      color: #4CAF50;
+      font-weight: 700;
+    }
+    .dot-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    .logo-container {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A2A4D;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .footer {
+      position: absolute;
+      bottom: 40px;
+      left: 120px;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- 배경 패턴 -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- 로고 -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- 메인 콘텐츠 -->
+    <div class="relative z-10">
+      <div class="warning-badge">
+        <i class="fas fa-exclamation-triangle"></i>
+        2025년, ESG 관리의 패러다임 전환
+      </div>
+      <h1 class="slide-title">Why Now? - 시장의 변곡점</h1>
+      <div class="accent-line"></div>
+      
+      <div class="content-grid">
+        <!-- 규제 쓰나미 카드 -->
+        <div class="trend-card">
+          <div class="trend-number">1</div>
+          <div class="trend-icon">
+            <i class="fas fa-gavel"></i>
+          </div>
+          <h3 class="trend-title">규제 쓰나미</h3>
+          <ul class="trend-list">
+            <li>EU CSRD: 2025년부터 4만개 기업 대상</li>
+            <li>SEC Climate Rule: 상장사 의무화</li>
+            <li>공급망 실사법: 전 밸류체인 확대</li>
+          </ul>
+        </div>
+        
+        <!-- 투자자 압력 급증 카드 -->
+        <div class="trend-card">
+          <div class="trend-number">2</div>
+          <div class="trend-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="trend-title">투자자 압력 급증</h3>
+          <ul class="trend-list">
+            <li>ESG 펀드 규모: $35조 (2024)</li>
+            <li>ESG 데이터 요구: 분기별 → 실시간</li>
+            <li>그린워싱 검증 강화</li>
+          </ul>
+        </div>
+        
+        <!-- AI가 만든 격차 카드 -->
+        <div class="trend-card">
+          <div class="trend-number">3</div>
+          <div class="trend-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3 class="trend-title">AI가 만든 격차</h3>
+          <ul class="trend-list">
+            <li>선도 기업: 90% 자동화, 실시간 대응</li>
+            <li>후발 기업: 여전히 Excel, 연 2회 보고</li>
+            <li>데이터 처리 속도 3-5배 차이</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- 현재 상황 vs 미래 격차 -->
+      <div class="content-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="gap-card">
+          <div class="trend-icon gap-card-icon">
+            <i class="fas fa-business-time"></i>
+          </div>
+          <h3 class="trend-title">현재 우리의 위치</h3>
+          <div class="gap-content">
+            <div class="gap-item">
+              <div class="gap-label">보고 주기</div>
+              <div class="gap-value">연 2회</div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-label">소요 시간</div>
+              <div class="gap-value">3-4개월</div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-label">자동화율</div>
+              <div class="gap-value">20%</div>
+              <div class="progress-bar">
+                <div class="progress-fill progress-red" style="width: 20%;"></div>
+              </div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-label">인력 투입</div>
+              <div class="gap-value">15명+</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ai-gap-card">
+          <div class="trend-icon ai-gap-card-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3 class="trend-title">AI 플랫폼 도입 시</h3>
+          <div class="gap-content">
+            <div class="gap-item">
+              <div class="gap-label">보고 주기</div>
+              <div class="gap-value">실시간</div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-label">소요 시간</div>
+              <div class="gap-value">즉시</div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-label">자동화율</div>
+              <div class="gap-value">90%</div>
+              <div class="progress-bar">
+                <div class="progress-fill progress-green" style="width: 90%;"></div>
+              </div>
+            </div>
+            <div class="gap-item">
+              <div class="gap-label">인력 투입</div>
+              <div class="gap-value">3-5명</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 하단 메시지 -->
+      <div class="bottom-message">
+        <i class="fas fa-arrow-right"></i>
+        "지금 움직이지 않으면 <span class="highlight">3년 후</span> 따라잡을 수 없습니다"
+      </div>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | ESG SaaS 시장 분석</p>
+    </div>
+  </div>
+</body>
+</html>

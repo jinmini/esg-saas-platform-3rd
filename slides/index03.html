@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - The Opportunity</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A2A4D;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .slide-container {
+      width: 1920px;
+      min-height: 1080px;
+      position: relative;
+      padding: 80px 120px;
+    }
+    .slide-title {
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+    .accent-line {
+      width: 100px;
+      height: 6px;
+      background-color: #4CAF50;
+      margin-bottom: 40px;
+    }
+    .content-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      height: calc(100% - 120px);
+    }
+    .content-left {
+      padding-right: 20px;
+    }
+    .content-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .bullet-point {
+      font-size: 24px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .bullet-icon {
+      background-color: rgba(76, 175, 80, 0.2);
+      color: #4CAF50;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    .bullet-text {
+      flex-grow: 1;
+      line-height: 1.5;
+    }
+    .highlight {
+      color: #4CAF50;
+      font-weight: 600;
+    }
+    .subtitle {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #fff;
+      opacity: 0.9;
+    }
+    .chart-container {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+      height: 300px;
+      width: 100%;
+      position: relative;
+    }
+    .persona-card {
+      background-color: rgba(0, 128, 128, 0.1);
+      border-left: 5px solid #008080;
+      border-radius: 8px;
+      padding: 25px;
+      margin-top: 40px;
+    }
+    .persona-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .persona-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #008080;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+    }
+    .persona-name {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .persona-role {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+    .pain-point {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .pain-point-icon {
+      color: #FF5252;
+      margin-right: 15px;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .dot-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    .logo-container {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A2A4D;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .footer {
+      position: absolute;
+      bottom: 40px;
+      left: 120px;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+    .world-map-container {
+      position: relative;
+      height: 280px;
+      margin-bottom: 40px;
+    }
+    .map-region {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(76, 175, 80, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .region-eu {
+      width: 100px;
+      height: 100px;
+      top: 70px;
+      left: 350px;
+      background-color: rgba(76, 175, 80, 0.7);
+    }
+    .region-us {
+      width: 90px;
+      height: 90px;
+      top: 100px;
+      left: 180px;
+      background-color: rgba(76, 175, 80, 0.5);
+    }
+    .region-asia {
+      width: 80px;
+      height: 80px;
+      top: 120px;
+      left: 550px;
+      background-color: rgba(76, 175, 80, 0.4);
+    }
+    .map-line {
+      position: absolute;
+      background-color: rgba(76, 175, 80, 0.3);
+      height: 2px;
+    }
+    .line-eu {
+      width: 120px;
+      top: 120px;
+      left: 450px;
+      transform: rotate(20deg);
+    }
+    .line-us {
+      width: 100px;
+      top: 145px;
+      left: 270px;
+    }
+    .line-asia {
+      width: 80px;
+      top: 160px;
+      left: 630px;
+      transform: rotate(-20deg);
+    }
+    .map-label {
+      position: absolute;
+      font-size: 14px;
+      color: white;
+      background-color: rgba(10, 42, 77, 0.8);
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+    .label-eu {
+      top: 70px;
+      left: 550px;
+    }
+    .label-us {
+      top: 100px;
+      left: 80px;
+    }
+    .label-asia {
+      top: 120px;
+      left: 650px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- 배경 패턴 -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- 로고 -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- 메인 콘텐츠 -->
+    <div class="relative z-10">
+      <h1 class="slide-title">왜 지금 ESG 플랫폼인가?</h1>
+      <div class="accent-line"></div>
+      
+      <div class="content-container">
+        <!-- 왼쪽 콘텐츠: 불렛 포인트 -->
+        <div class="content-left">
+          <div class="bullet-point">
+            <div class="bullet-icon">
+              <i class="fas fa-globe-asia text-2xl"></i>
+            </div>
+            <div class="bullet-text">
+              전 세계적인 ESG 관련 규제 및 공시 의무화 가속화 - <span class="highlight">5년 내 84%</span>의 기업이 의무적 ESG 보고서 작성 필요
+            </div>
+          </div>
+          
+          <div class="bullet-point">
+            <div class="bullet-icon">
+              <i class="fas fa-ban text-2xl"></i>
+            </div>
+            <div class="bullet-text">
+              기존 솔루션의 한계:
+              <ul class="mt-4 ml-4 space-y-3">
+                <li><i class="fas fa-dollar-sign mr-2 text-yellow-400"></i> 높은 비용: 컨설팅 기반 접근법 (연 5천만원+)</li>
+                <li><i class="fas fa-user-clock mr-2 text-yellow-400"></i> 수작업 의존: 반복적 데이터 정제에 월 80시간+</li>
+                <li><i class="fas fa-hourglass-half mr-2 text-yellow-400"></i> 실시간 대응 부재: 평균 이슈 인지까지 7일 소요</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="bullet-point">
+            <div class="bullet-icon">
+              <i class="fas fa-user-tie text-2xl"></i>
+            </div>
+            <div class="bullet-text">
+              ESG 담당자는 <span class="highlight">데이터 분석부터 보고서 작성까지</span> 모든 단계에서 효율적인 통합 솔루션을 필요로 함
+            </div>
+          </div>
+        </div>
+        
+        <!-- 오른쪽 콘텐츠: 시각적 요소 -->
+        <div class="content-right">
+          <div>
+            <h3 class="subtitle">ESG 규제 의무화 트렌드</h3>
+            <div class="world-map-container">
+              <!-- 간략화된 세계 지도 표현 -->
+              <svg width="700" height="280" viewBox="0 0 700 280" style="position: absolute; top: 0; left: 0; opacity: 0.2;">
+                <path d="M120,80 C200,60 300,100 400,80 C500,60 600,90 680,70 C690,150 600,200 500,180 C400,200 300,170 200,190 C100,170 50,120 120,80 Z" fill="none" stroke="white" stroke-width="1" />
+              </svg>
+              
+              <div class="map-region region-eu">EU</div>
+              <div class="map-line line-eu"></div>
+              <div class="map-label label-eu">CSRD: 강화된 지속가능성 보고 지침</div>
+              
+              <div class="map-region region-us">US</div>
+              <div class="map-line line-us"></div>
+              <div class="map-label label-us">SEC: 기후 관련 공시 규정</div>
+              
+              <div class="map-region region-asia">ASIA</div>
+              <div class="map-line line-asia"></div>
+              <div class="map-label label-asia">한국/일본: K-ESG/TCFD 의무화</div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="subtitle">ESG 담당자 페인포인트</h3>
+            <div class="persona-card">
+              <div class="persona-header">
+                <div class="persona-avatar">
+                  <i class="fas fa-user text-3xl"></i>
+                </div>
+                <div>
+                  <div class="persona-name">김 ESG 매니저</div>
+                  <div class="persona-role">A기업 지속가능경영팀</div>
+                </div>
+              </div>
+              
+              <div class="pain-point">
+                <div class="pain-point-icon">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div>산재된 내외부 데이터 취합 및 정제에 과도한 시간 소요</div>
+              </div>
+              
+              <div class="pain-point">
+                <div class="pain-point-icon">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div>각 표준의 복잡한 요구사항 해석 및 반영 어려움</div>
+              </div>
+              
+              <div class="pain-point">
+                <div class="pain-point-icon">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div>최신 ESG 이슈 및 경쟁사 동향 실시간 파악 불가</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <canvas id="esgTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | The Opportunity</p>
+    </div>
+  </div>
+  
+  <script>
+    // ESG 트렌드 차트
+    const ctx = document.getElementById('esgTrendChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['2021', '2022', '2023', '2024', '2025', '2026'],
+        datasets: [
+          {
+            label: 'ESG 공시 의무화 기업',
+            data: [30, 45, 55, 70, 84, 92],
+            borderColor: '#4CAF50',
+            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: '기업의 ESG 준비도',
+            data: [20, 28, 35, 42, 50, 65],
+            borderColor: '#FF9800',
+            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'ESG 트렌드 vs 기업 준비도 (단위: %)',
+            color: 'white',
+            font: {
+              size: 16
+            }
+          },
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: 'white',
+              font: {
+                size: 14
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

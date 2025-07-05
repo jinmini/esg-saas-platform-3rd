@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG GenAI Compliance Platform - Solution Overview</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/common.css">
+    <style>
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            height: 600px;
+        }
+        
+        .solution-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-intelligence { border-color: #8b5cf6; }
+        .card-automation { border-color: #06b6d4; }
+        .card-compliance { border-color: #10b981; }
+        
+        .icon-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .icon-intelligence { background-color: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+        .icon-automation { background-color: rgba(6, 182, 212, 0.15); color: #06b6d4; }
+        .icon-compliance { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+        
+        .ai-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            animation: rainbow 3s infinite;
+        }
+        
+        @keyframes rainbow {
+            0% { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); }
+            25% { background: linear-gradient(45deg, #4ecdc4, #45b7d1); }
+            50% { background: linear-gradient(45deg, #45b7d1, #96ceb4); }
+            75% { background: linear-gradient(45deg, #96ceb4, #ffeaa7); }
+            100% { background: linear-gradient(45deg, #ffeaa7, #ff6b6b); }
+        }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .card-content {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.85;
+            flex-grow: 1;
+        }
+        
+        .process-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .process-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #8b5cf6;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+        }
+        
+        .step-1 { border-color: #ef4444; }
+        .step-2 { border-color: #f59e0b; }
+        .step-3 { border-color: #3b82f6; }
+        .step-4 { border-color: #10b981; }
+        
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex-grow: 1;
+        }
+        
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .step-description {
+            font-size: 12px;
+            opacity: 0.7;
+            line-height: 1.3;
+        }
+        
+        .automation-features {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+        }
+        
+        .feature-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #06b6d4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: white;
+        }
+        
+        .feature-text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .compliance-standards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .standard-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 8px 12px;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .standard-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 2px;
+        }
+        
+        .standard-desc {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        .value-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+        
+        .intelligence-metrics .metric-value { color: #8b5cf6; }
+        .automation-metrics .metric-value { color: #06b6d4; }
+        .compliance-metrics .metric-value { color: #10b981; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- 배경 패턴 -->
+        <div class="dot-pattern">
+            <svg width="400" height="400" viewBox="0 0 100 100">
+                <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+                    <circle cx="5" cy="5" r="1" fill="white" />
+                </pattern>
+                <rect width="100" height="100" fill="url(#dots)" />
+            </svg>
+        </div>
+        
+        <!-- 로고 -->
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+        </div>
+        
+        <!-- 메인 콘텐츠 -->
+        <div class="relative z-10">
+            <h1 class="slide-title">Solution Overview</h1>
+            <div class="accent-line"></div>
+            
+            <div class="solution-grid">
+                <!-- Intelligence 카드 -->
+                <div class="solution-card card-intelligence">
+                    <div class="icon-container icon-intelligence">
+                        <div class="ai-badge">AI-Powered</div>
+                        <i class="fas fa-brain text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">Intelligence</h3>
+                    <div class="card-content">
+                        <p style="margin-bottom: 16px;">
+                            GenAI 기반 자동 분석으로 ESG 데이터를 실시간으로 처리하고 
+                            인사이트를 제공합니다.
+                        </p>
+                        
+                        <div class="process-section">
+                            <div class="process-title">
+                                <i class="fas fa-route mr-2"></i>
+                                AI 분석 프로세스
+                            </div>
+                            <div class="process-steps">
+                                <div class="process-step step-1">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <div class="step-title">Data Collection</div>
+                                        <div class="step-description">AI 크롤링으로 뉴스, 보고서, 공시자료 자동 수집</div>
+                                    </div>
+                                </div>
+                                <div class="process-step step-2">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <div class="step-title">AI Analysis</div>
+                                        <div class="step-description">GenAI 기반 ESG 리스크 자동 분석 및 평가</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="value-metrics intelligence-metrics">
+                            <div class="metric">
+                                <span class="metric-value">95%</span>
+                                <div class="metric-label">정확도</div>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">24/7</span>
+                                <div class="metric-label">실시간 분석</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Automation 카드 -->
+                <div class="solution-card card-automation">
+                    <div class="icon-container icon-automation">
+                        <div class="ai-badge">Automated</div>
+                        <i class="fas fa-cogs text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">Automation</h3>
+                    <div class="card-content">
+                        <p style="margin-bottom: 16px;">
+                            수작업 프로세스를 완전 자동화하여 
+                            효율성을 극대화합니다.
+                        </p>
+                        
+                        <div class="automation-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-text">자동 보고서 생성</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-text">실시간 모니터링</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-text">알림 시스템</div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-text">워크플로우 자동화</div>
+                            </div>
+                        </div>
+                        
+                        <div class="value-metrics automation-metrics">
+                            <div class="metric">
+                                <span class="metric-value">90%</span>
+                                <div class="metric-label">시간 단축</div>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">80%</span>
+                                <div class="metric-label">비용 절감</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Compliance 카드 -->
+                <div class="solution-card card-compliance">
+                    <div class="icon-container icon-compliance">
+                        <div class="ai-badge">Compliant</div>
+                        <i class="fas fa-shield-alt text-3xl"></i>
+                    </div>
+                    <h3 class="card-title">Compliance</h3>
+                    <div class="card-content">
+                        <p style="margin-bottom: 16px;">
+                            글로벌 ESG 표준을 완벽하게 준수하는 보고서를 생성합니다.
+                        </p>
+                        
+                        <div class="compliance-standards">
+                            <div class="standard-item">
+                                <div class="standard-name">GRI</div>
+                                <div class="standard-desc">Global Reporting Initiative</div>
+                            </div>
+                            <div class="standard-item">
+                                <div class="standard-name">SASB</div>
+                                <div class="standard-desc">Sustainability Accounting Standards</div>
+                            </div>
+                            <div class="standard-item">
+                                <div class="standard-name">TCFD</div>
+                                <div class="standard-desc">Task Force on Climate</div>
+                            </div>
+                            <div class="standard-item">
+                                <div class="standard-name">ISSB</div>
+                                <div class="standard-desc">International Sustainability Standards</div>
+                            </div>
+                        </div>
+                        
+                        <div class="value-metrics compliance-metrics">
+                            <div class="metric">
+                                <span class="metric-value">100%</span>
+                                <div class="metric-label">표준 준수</div>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">4+</span>
+                                <div class="metric-label">글로벌 표준</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>ESG GenAI Compliance Platform | Solution Overview</p>
+        </div>
+        
+        <!-- 네비게이션 -->
+        <div class="navigation">
+            <button onclick="window.location.href='05-competitive-landscape.html'" class="nav-btn nav-prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="window.location.href='07-key-features.html'" class="nav-btn nav-next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 키보드 네비게이션
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                window.location.href = '05-competitive-landscape.html';
+            } else if (event.key === 'ArrowRight') {
+                window.location.href = '07-key-features.html';
+            }
+        });
+    </script>
+</body>
+</html> 

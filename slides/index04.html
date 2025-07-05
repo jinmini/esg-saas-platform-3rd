@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG GenAI Compliance Platform - Our Solution</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A2A4D;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .slide-container {
+      width: 1920px;
+      min-height: 1080px;
+      position: relative;
+      padding: 80px 120px;
+    }
+    .slide-title {
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+    .accent-line {
+      width: 100px;
+      height: 6px;
+      background-color: #4CAF50;
+      margin-bottom: 40px;
+    }
+    .content-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      height: calc(100% - 120px);
+    }
+    .content-left {
+      padding-right: 20px;
+    }
+    .content-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .value-prop {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .value-prop-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    .icon-intelligence {
+      background-color: rgba(33, 150, 243, 0.15);
+      color: #2196F3;
+    }
+    .icon-automation {
+      background-color: rgba(76, 175, 80, 0.15);
+      color: #4CAF50;
+    }
+    .icon-compliance {
+      background-color: rgba(156, 39, 176, 0.15);
+      color: #9C27B0;
+    }
+    .value-prop-content {
+      flex-grow: 1;
+    }
+    .value-prop-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .value-prop-desc {
+      font-size: 18px;
+      line-height: 1.5;
+      opacity: 0.85;
+    }
+    .dot-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    .logo-container {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A2A4D;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .footer {
+      position: absolute;
+      bottom: 40px;
+      left: 120px;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+    .process-flow {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px;
+      position: relative;
+      height: 580px;
+    }
+    .flow-step {
+      position: absolute;
+      width: 200px;
+      height: 100px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+    }
+    .step-1 { top: 50px; left: 290px; }
+    .step-2 { top: 200px; left: 290px; }
+    .step-3 { top: 350px; left: 290px; }
+    .step-4 { top: 500px; left: 290px; }
+    
+    .flow-arrow {
+      position: absolute;
+      width: 100px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .arrow-1 { top: 155px; left: 340px; }
+    .arrow-2 { top: 305px; left: 340px; }
+    .arrow-3 { top: 455px; left: 340px; }
+    .arrow-4 { top: 520px; left: 180px; transform: rotate(90deg); }
+    
+    .step-number {
+      font-size: 16px;
+      font-weight: 700;
+      color: #4CAF50;
+      margin-bottom: 5px;
+    }
+    .step-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .step-subtitle {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    .highlight {
+      color: #4CAF50;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- 배경 패턴 -->
+    <div class="dot-pattern">
+      <svg width="400" height="400" viewBox="0 0 100 100">
+        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1" fill="white" />
+        </pattern>
+        <rect width="100" height="100" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- 로고 -->
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+      </div>
+    </div>
+    
+    <!-- 메인 콘텐츠 -->
+    <div class="relative z-10">
+      <h1 class="slide-title">ESG GenAI Platform: 데이터 기반 자동화 솔루션</h1>
+      <div class="accent-line"></div>
+      
+      <div class="content-container">
+        <!-- 왼쪽 콘텐츠: 가치 제안 -->
+        <div class="content-left">
+          <div class="value-prop">
+            <div class="value-prop-icon icon-intelligence">
+              <i class="fas fa-brain text-3xl"></i>
+            </div>
+            <div class="value-prop-content">
+              <h3 class="value-prop-title">Intelligence</h3>
+              <p class="value-prop-desc">
+                AI 기반 데이터 분석 및 리스크 예측 시스템이 <span class="highlight">ESG 관련 뉴스와 공시 데이터를 자동으로 크롤링하고 분석</span>하여 잠재적 위협과 기회를 선제적으로 감지합니다.
+              </p>
+            </div>
+          </div>
+          
+          <div class="value-prop">
+            <div class="value-prop-icon icon-automation">
+              <i class="fas fa-robot text-3xl"></i>
+            </div>
+            <div class="value-prop-content">
+              <h3 class="value-prop-title">Automation</h3>
+              <p class="value-prop-desc">
+                <span class="highlight">AI 어시스턴트를 통한 보고서 작성 자동화</span>로 ESG 담당자의 시간을 절약하고, SmartTextarea 기능을 통해 데이터 기반의 최적화된 문구를 제안합니다.
+              </p>
+            </div>
+          </div>
+          
+          <div class="value-prop">
+            <div class="value-prop-icon icon-compliance">
+              <i class="fas fa-clipboard-check text-3xl"></i>
+            </div>
+            <div class="value-prop-content">
+              <h3 class="value-prop-title">Compliance</h3>
+              <p class="value-prop-desc">
+                <span class="highlight">GRI, SASB, TCFD 등 다중 프레임워크</span>를 완벽 지원하여 글로벌 표준에 부합하는 보고서 작성이 가능하며, 규제 변화에 유연하게 대응합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 오른쪽 콘텐츠: 프로세스 플로우 다이어그램 -->
+        <div class="content-right">
+          <div class="process-flow">
+            <div class="flow-step step-1">
+              <div class="step-number">STEP 1</div>
+              <div class="step-title">데이터 수집 및 분석</div>
+              <div class="step-subtitle">뉴스/공시 크롤링, 내부 데이터 연동</div>
+            </div>
+            
+            <div class="flow-arrow arrow-1">
+              <i class="fas fa-long-arrow-alt-down text-xl text-green-400"></i>
+            </div>
+            
+            <div class="flow-step step-2">
+              <div class="step-number">STEP 2</div>
+              <div class="step-title">ESG 현황 모니터링</div>
+              <div class="step-subtitle">통합 대시보드, 이슈 매트릭스</div>
+            </div>
+            
+            <div class="flow-arrow arrow-2">
+              <i class="fas fa-long-arrow-alt-down text-xl text-green-400"></i>
+            </div>
+            
+            <div class="flow-step step-3">
+              <div class="step-number">STEP 3</div>
+              <div class="step-title">보고서 작성 및 관리</div>
+              <div class="step-subtitle">AI 초안 작성, 데이터 자동 연동</div>
+            </div>
+            
+            <div class="flow-arrow arrow-3">
+              <i class="fas fa-long-arrow-alt-down text-xl text-green-400"></i>
+            </div>
+            
+            <div class="flow-step step-4">
+              <div class="step-number">STEP 4</div>
+              <div class="step-title">성과 평가 및 피드백</div>
+              <div class="step-subtitle">성과 분석, 개선 영역 도출</div>
+            </div>
+            
+            <div class="flow-arrow arrow-4">
+              <i class="fas fa-long-arrow-alt-up text-xl text-green-400"></i>
+            </div>
+            
+            <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: -1; opacity: 0.1;">
+              <rect x="270" y="20" width="240" height="550" rx="20" stroke="#4CAF50" stroke-width="2" fill="none" />
+              <path d="M100,520 L270,520" stroke="#4CAF50" stroke-width="2" fill="none" />
+              <path d="M100,520 L100,80" stroke="#4CAF50" stroke-width="2" fill="none" />
+              <path d="M100,80 L270,80" stroke="#4CAF50" stroke-width="2" fill="none" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 푸터 -->
+    <div class="footer">
+      <p>ESG GenAI Compliance Platform | Our Solution</p>
+    </div>
+  </div>
+</body>
+</html>
