@@ -19,7 +19,6 @@ import {
   Sun,
   Moon,
   User,
-  LogOut,
   Settings,
   HelpCircle,
 } from 'lucide-react';
@@ -50,11 +49,6 @@ export function Header() {
 
   const handleSettingsClick = () => {
     router.push('/settings');
-  };
-
-  const handleLogout = () => {
-    // TODO: 로그아웃 처리
-    console.log('Logout');
   };
 
   return (
@@ -167,11 +161,6 @@ export function Header() {
             <DropdownMenuItem onClick={handleSettingsClick}>
               <Settings className="mr-2 h-4 w-4" />
               설정
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="text-destructive">
-              <LogOut className="mr-2 h-4 w-4" />
-              로그아웃
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
