@@ -145,7 +145,7 @@ export interface WorkflowStatus {
   id: string;
   companyName: string;
   reportType: 'GRI' | 'SASB' | 'TCFD';
-  currentStage: '초안 작성' | '검토' | '승인' | '발행';
+  currentStage: '계획 수립' | '데이터 수집' | '초안 작성' | '내부 검토' | '외부 검증' | '발간 준비' | '성과 모니터링';
   progress: number; // 0-100
   deadline: string;
   lastUpdated: string;

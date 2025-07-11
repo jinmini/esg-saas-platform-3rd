@@ -1,10 +1,47 @@
 // 총괄 대시보드용 Mock 데이터
 
+// 기존 WorkflowStatus를 확장한 ESG 보고서 전용 인터페이스
+export interface ESGReportWorkflow {
+  id: string;
+  companyName: string;
+  reportType: 'GRI' | 'SASB' | 'TCFD';
+  targetYear: number;
+  
+  // ESG 보고서 7단계 생명주기
+  phases: {
+    planning: ESGPhaseStatus;
+    dataCollection: ESGPhaseStatus;
+    drafting: ESGPhaseStatus;
+    review: ESGPhaseStatus;
+    verification: ESGPhaseStatus;
+    publication: ESGPhaseStatus;
+    monitoring: ESGPhaseStatus;
+  };
+  
+  // 전체 진행 상황
+  overallProgress: number; // 0-100
+  deadline: string;
+  lastUpdated: string;
+  assignee: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+export interface ESGPhaseStatus {
+  status: 'not_started' | 'in_progress' | 'completed' | 'delayed';
+  progress: number; // 0-100
+  startDate?: string;
+  completedAt?: string;
+  estimatedDuration: number; // 예상 소요일
+  pendingItems?: string[];
+  assignee?: string;
+}
+
+// 기존 WorkflowStatus (하위 호환성 유지)
 export interface WorkflowStatus {
   id: string;
   companyName: string;
   reportType: 'GRI' | 'SASB' | 'TCFD';
-  currentStage: '초안 작성' | '검토' | '승인' | '발행';
+  currentStage: '계획 수립' | '데이터 수집' | '초안 작성' | '내부 검토' | '외부 검증' | '발간 준비' | '성과 모니터링';
   progress: number; // 0-100
   deadline: string;
   lastUpdated: string;
@@ -48,7 +85,7 @@ export const mockWorkflowStatuses: WorkflowStatus[] = [
     id: 'wf-001',
     companyName: '한국중부발전',
     reportType: 'GRI',
-    currentStage: '검토',
+    currentStage: '내부 검토',
     progress: 75,
     deadline: '2025-02-15',
     lastUpdated: '2025-01-15T14:30:00+09:00',
@@ -56,23 +93,149 @@ export const mockWorkflowStatuses: WorkflowStatus[] = [
   },
   {
     id: 'wf-002',
-    companyName: 'SK에너지',
-    reportType: 'GRI',
+    companyName: '한국중부발전',
+    reportType: 'TCFD',
     currentStage: '초안 작성',
     progress: 45,
     deadline: '2025-03-01',
     lastUpdated: '2025-01-14T16:20:00+09:00',
-    assignee: '김영희'
+    assignee: '박민수'
   },
   {
     id: 'wf-003',
-    companyName: '현대건설',
+    companyName: '한국중부발전',
     reportType: 'GRI',
-    currentStage: '승인',
-    progress: 95,
-    deadline: '2025-01-30',
+    currentStage: '성과 모니터링',
+    progress: 100,
+    deadline: '2024-12-31',
     lastUpdated: '2025-01-13T09:15:00+09:00',
     assignee: '김영희'
+  }
+];
+
+// 한국중부발전 ESG 보고서 워크플로우 (상세 버전)
+export const mockESGWorkflows: ESGReportWorkflow[] = [
+  {
+    id: 'esg-001',
+    companyName: '한국중부발전',
+    reportType: 'GRI',
+    targetYear: 2024,
+    overallProgress: 75,
+    deadline: '2025-02-15',
+    lastUpdated: '2025-01-15T14:30:00+09:00',
+    assignee: '김영희',
+    priority: 'high',
+    phases: {
+      planning: {
+        status: 'completed',
+        progress: 100,
+        startDate: '2024-11-01',
+        completedAt: '2024-11-30',
+        estimatedDuration: 30,
+        assignee: '김영희'
+      },
+      dataCollection: {
+        status: 'completed',
+        progress: 100,
+        startDate: '2024-12-01',
+        completedAt: '2025-01-10',
+        estimatedDuration: 40,
+        assignee: '박민수'
+      },
+      drafting: {
+        status: 'in_progress',
+        progress: 80,
+        startDate: '2025-01-11',
+        estimatedDuration: 25,
+        pendingItems: ['지배구조 부문 최종 검토', 'GRI 413-1 지역사회 영향평가 보완'],
+        assignee: '김영희'
+      },
+      review: {
+        status: 'in_progress',
+        progress: 40,
+        startDate: '2025-01-20',
+        estimatedDuration: 15,
+        pendingItems: ['경영진 검토 대기', '법무팀 검토 예정'],
+        assignee: '이지원'
+      },
+      verification: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 20,
+        assignee: '외부 검증기관'
+      },
+      publication: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 5,
+        assignee: '홍보팀'
+      },
+      monitoring: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 365,
+        assignee: '김영희'
+      }
+    }
+  },
+  {
+    id: 'esg-002',
+    companyName: '한국중부발전',
+    reportType: 'TCFD',
+    targetYear: 2024,
+    overallProgress: 45,
+    deadline: '2025-03-01',
+    lastUpdated: '2025-01-14T16:20:00+09:00',
+    assignee: '박민수',
+    priority: 'medium',
+    phases: {
+      planning: {
+        status: 'completed',
+        progress: 100,
+        startDate: '2024-12-01',
+        completedAt: '2024-12-20',
+        estimatedDuration: 20,
+        assignee: '박민수'
+      },
+      dataCollection: {
+        status: 'in_progress',
+        progress: 60,
+        startDate: '2024-12-21',
+        estimatedDuration: 35,
+        pendingItems: ['시나리오 분석 데이터 수집', '기후 리스크 정량화'],
+        assignee: '박민수'
+      },
+      drafting: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 30,
+        assignee: '박민수'
+      },
+      review: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 15,
+        assignee: '이지원'
+      },
+      verification: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 20,
+        assignee: '외부 검증기관'
+      },
+      publication: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 5,
+        assignee: '홍보팀'
+      },
+      monitoring: {
+        status: 'not_started',
+        progress: 0,
+        estimatedDuration: 365,
+        assignee: '박민수'
+      }
+    }
   }
 ];
 
