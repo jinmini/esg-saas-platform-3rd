@@ -12,7 +12,7 @@ interface AnalysisFormProps {
 }
 
 export function AnalysisForm({ onAnalyze, isLoading }: AnalysisFormProps) {
-  const [companyName, setCompanyName] = useState('한국중부발전');
+  const [companyName, setCompanyName] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
