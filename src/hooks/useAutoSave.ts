@@ -93,6 +93,7 @@ export function useAutoSave<T>(
         save(data)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // 의존성 배열을 비워서 언마운트 시에만 실행
 
   return {

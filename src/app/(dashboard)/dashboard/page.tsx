@@ -1,33 +1,41 @@
-// ESG 총괄 관리 대시보드
+// ESG 통합 관리 대시보드
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import { WorkflowOverview } from '@/widgets/workflow-overview';
-import { CompanyFinancialsWidget } from '@/widgets/company-financials';
+import { ProjectDetailWorkflow } from '@/widgets/materiality-assessment-flow';
 import { ESGIssuesMatrix } from '@/widgets/esg-issues-matrix';
-import { CompanySelector } from '@/widgets/company-selector';
-import { StatsCards } from '@/widgets/stats-cards';
 import { 
-  mockCompaniesOverview 
+  mockCompaniesOverview,
+  mockProjectPipelines
 } from '@/shared/lib/mocks/dashboard-mock-data';
 import { 
-  useDashboardStats, 
-  useDashboardWorkflows, 
-  useDashboardFinancials 
+  useDashboardWorkflows
 } from '@/hooks/api/use-dashboard';
 
 export default function DashboardPage() {
-  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  // 🚀 API 훅 사용 - 핵심 위젯만 연동
+  const { isLoading: workflowsLoading } = useDashboardWorkflows();
   
-  // 🚀 API 훅 사용 - 모든 위젯 API 연동!
-  const { data: dashboardStats, isLoading: statsLoading } = useDashboardStats();
-  const { data: workflows, isLoading: workflowsLoading } = useDashboardWorkflows();
-  const { data: financials, isLoading: financialsLoading } = useDashboardFinancials();
+  // 프로젝트 선택 상태 관리
+  const [selectedProjectId, setSelectedProjectId] = useState<string>();
   
-  // 선택된 기업의 이슈들 필터링
-  const selectedCompany = mockCompaniesOverview.find(c => c.id === selectedCompanyId);
-  const selectedCompanyIssues = selectedCompany?.activeIssues || [];
+  // 선택된 프로젝트 찾기
+  const selectedProject = selectedProjectId 
+    ? mockProjectPipelines.find(p => p.id === selectedProjectId)
+    : undefined;
+  
+  // 초기 로드 시 첫 번째 프로젝트 자동 선택
+  useEffect(() => {
+    if (!selectedProjectId && mockProjectPipelines.length > 0) {
+      setSelectedProjectId(mockProjectPipelines[0].id);
+    }
+  }, [selectedProjectId]);
+  
+  // 전체 활성 이슈들 (모든 기업의 이슈 통합)
+  const allActiveIssues = mockCompaniesOverview.flatMap(company => company.activeIssues);
 
   return (
     <div className="space-y-6">
@@ -39,117 +47,32 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* 🚀 새로운 패턴: API 연동 StatsCards */}
-      <StatsCards 
-        stats={dashboardStats}
-        isLoading={statsLoading}
-      />
-
-      {/* 상단 레이아웃: 워크플로우 + 기업 선택 */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="lg:col-span-1">
-          <WorkflowOverview 
-            workflows={workflows || []}
-            isLoading={workflowsLoading}
-          />
-        </div>
-        
-        <div className="lg:col-span-1">
-          <CompanySelector 
-            companies={mockCompaniesOverview}
-            selectedCompanyId={selectedCompanyId}
-            onCompanySelect={setSelectedCompanyId}
-            isLoading={false}
-          />
-        </div>
-      </div>
-
-      {/* 중간 레이아웃: 기업 재무 현황 */}
+      {/* 메인: 클라이언트 프로젝트 파이프라인 */}
       <div className="grid gap-6">
-        <CompanyFinancialsWidget 
-          companies={financials || []}
-          isLoading={financialsLoading}
+        <WorkflowOverview 
+          pipelines={mockProjectPipelines}
+          isLoading={workflowsLoading}
+          selectedProjectId={selectedProjectId}
+          onProjectSelect={setSelectedProjectId}
         />
       </div>
 
-      {/* 하단 레이아웃: ESG 이슈 매트릭스 */}
+      {/* 중간 레이아웃: 프로젝트 상세 워크플로우 */}
+      <div className="grid gap-6">
+        <ProjectDetailWorkflow 
+          selectedProject={selectedProject}
+          isLoading={workflowsLoading}
+        />
+      </div>
+
+      {/* 하단 레이아웃: ESG 이슈 매트릭스 (전체 기업 통합) */}
       <div className="grid gap-6">
         <ESGIssuesMatrix 
-          issues={selectedCompanyIssues}
-          selectedCompany={selectedCompany?.name}
+          issues={allActiveIssues}
+          selectedCompany="전체 클라이언트"
           isLoading={false}
         />
       </div>
-
-      {/* 추가 정보나 액션 섹션 */}
-      {selectedCompany && (
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-blue-900">
-            📊 {selectedCompany.name} 통합 현황
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-            <div className="bg-white rounded-lg p-4 border border-blue-100">
-              <p className="text-blue-600 font-medium">ESG 점수</p>
-              <p className="text-2xl font-bold text-blue-800">{selectedCompany.esgScore}/100</p>
-            </div>
-            
-            <div className="bg-white rounded-lg p-4 border border-green-100">
-              <p className="text-green-600 font-medium">진행 중인 보고서</p>
-              <p className="text-2xl font-bold text-green-800">{selectedCompany.reportStatus.length}건</p>
-            </div>
-            
-            <div className="bg-white rounded-lg p-4 border border-orange-100">
-              <p className="text-orange-600 font-medium">활성 이슈</p>
-              <p className="text-2xl font-bold text-orange-800">{selectedCompany.activeIssues.length}건</p>
-            </div>
-            
-            <div className="bg-white rounded-lg p-4 border border-purple-100">
-              <p className="text-purple-600 font-medium">위험 등급</p>
-              <p className="text-2xl font-bold text-purple-800">
-                {selectedCompany.riskLevel === 'low' && '낮음'}
-                {selectedCompany.riskLevel === 'medium' && '보통'}
-                {selectedCompany.riskLevel === 'high' && '높음'}
-              </p>
-            </div>
-          </div>
-
-          {/* 빠른 액션 버튼들 */}
-          <div className="flex flex-wrap gap-3 mt-6">
-            <button 
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-              onClick={() => window.open('/reports/builder/gri', '_blank')}
-            >
-              <span>📝</span>
-              <span>GRI 보고서 작성</span>
-            </button>
-            
-            <button 
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
-              onClick={() => window.open('/crawler', '_blank')}
-            >
-              <span>📰</span>
-              <span>뉴스 분석</span>
-            </button>
-            
-            <button 
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center space-x-2"
-              onClick={() => {/* 향후 상세 페이지 구현 */}}
-            >
-              <span>📈</span>
-              <span>상세 분석</span>
-            </button>
-            
-            <button 
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center space-x-2"
-              onClick={() => {/* 향후 설정 페이지 구현 */}}
-            >
-              <span>⚙️</span>
-              <span>설정</span>
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

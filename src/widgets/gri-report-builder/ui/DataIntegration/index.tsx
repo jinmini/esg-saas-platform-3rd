@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Button } from "@/shared/ui/Button";
 import { Badge } from "@/shared/ui/Badge";
@@ -34,14 +34,7 @@ export function DataIntegration({ disclosure, onDataMapped }: DataIntegrationPro
 
   const mappingInfo = DATA_MAPPINGS[disclosure as keyof typeof DATA_MAPPINGS];
 
-  useEffect(() => {
-    // 컴포넌트 마운트 시 자동으로 데이터 매핑 시작
-    if (mappingInfo && !autoFilled) {
-      startMapping();
-    }
-  }, [disclosure, mappingInfo, autoFilled]);
-
-  const startMapping = async () => {
+  const startMapping = useCallback(async () => {
     if (!mappingInfo) return;
 
     setIsMapping(true);
@@ -63,7 +56,14 @@ export function DataIntegration({ disclosure, onDataMapped }: DataIntegrationPro
     } else {
       onDataMapped(5); // 부분적 데이터만 있는 경우 5% 진행률 추가
     }
-  };
+  }, [mappingInfo, onDataMapped]);
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 자동으로 데이터 매핑 시작
+    if (mappingInfo && !autoFilled) {
+      startMapping();
+    }
+  }, [disclosure, mappingInfo, autoFilled, startMapping]);
 
   if (!mappingInfo) {
     return (
