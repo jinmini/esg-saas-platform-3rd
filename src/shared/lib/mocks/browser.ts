@@ -10,20 +10,27 @@ export const startMocking = async () => {
     return
   }
 
-  if (process.env.NODE_ENV === 'development') {
+  // MSW 활성화 여부 확인
+  const isMSWEnabled = process.env.NEXT_PUBLIC_MSW_ENABLED === 'true'
+  
+  if (process.env.NODE_ENV === 'development' && isMSWEnabled) {
     console.log('🔧 MSW: Mock Service Worker 활성화')
     
     try {
       await worker.start({
-        onUnhandledRequest: 'bypass', // 핸들러가 없는 요청은 그대로 통과
+        onUnhandledRequest: 'warn', // 핸들러가 없는 요청은 경고 표시
         serviceWorker: {
           url: '/mockServiceWorker.js',
         },
+        quiet: false, // MSW 로그 표시
       })
       console.log('✅ MSW: Mock Service Worker 시작됨')
     } catch (error) {
       console.error('❌ MSW: Mock Service Worker 시작 실패:', error)
+      throw error // 에러를 다시 던져서 상위에서 처리할 수 있도록
     }
+  } else {
+    console.log('🔧 MSW: 비활성화 상태 (NODE_ENV:', process.env.NODE_ENV, ', MSW_ENABLED:', isMSWEnabled, ')')
   }
 }
 

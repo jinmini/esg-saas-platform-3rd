@@ -9,9 +9,9 @@ export function useDashboardStats() {
   return useQuery({
     queryKey: ['dashboard', 'stats'],
     queryFn: async () => {
-      return apiClient.get<DashboardStats>('/api/dashboard/stats')
+      return apiClient.get<DashboardStats>('/dashboard/stats') // /api 제거
     },
-    refetchInterval: 30000, // 30초마다 갱신
+    refetchInterval: 30000,
   })
 }
 
@@ -20,9 +20,9 @@ export function useDashboardWorkflows() {
   return useQuery({
     queryKey: ['dashboard', 'workflows'],
     queryFn: async () => {
-      return apiClient.get<WorkflowStatus[]>('/api/dashboard/workflows')
+      return apiClient.get<WorkflowStatus[]>('/dashboard/workflows') // /api 제거
     },
-    refetchInterval: 60000, // 1분마다 갱신
+    refetchInterval: 60000,
   })
 }
 

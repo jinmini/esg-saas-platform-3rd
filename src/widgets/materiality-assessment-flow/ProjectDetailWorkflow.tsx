@@ -8,18 +8,15 @@ import { Button } from '@/shared/ui/Button';
 import { ESGIssuesMatrix } from '@/widgets/esg-issues-matrix';
 import { 
   ProjectPipeline, 
-  detailedWorkflows,
   mockCompaniesOverview 
 } from '@/shared/lib/mocks/dashboard-mock-data';
 import { 
   CheckCircle, 
-  Clock, 
-  AlertTriangle, 
+  Clock,
   Target,
   ArrowRight,
   Play,
   Save,
-  ExternalLink,
   Calendar,
   User
 } from 'lucide-react';
@@ -29,294 +26,358 @@ interface ProjectDetailWorkflowProps {
   isLoading?: boolean;
 }
 
-// 스테퍼 단계 상태 아이콘
-const getStageIcon = (stageKey: string, project: ProjectPipeline) => {
-  const stage = project.stages[stageKey as keyof typeof project.stages];
-  switch (stage.status) {
-    case 'completed':
-      return <CheckCircle className="h-5 w-5 text-green-600" />;
-    case 'in_progress':
-      return <Clock className="h-5 w-5 text-blue-600" />;
-    case 'pending':
-      return <AlertTriangle className="h-5 w-5 text-gray-400" />;
-    default:
-      return <Target className="h-5 w-5 text-gray-400" />;
-  }
-};
-
-// 세부 스텝 상태 아이콘
-const getStepIcon = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return <CheckCircle className="h-4 w-4 text-green-600" />;
-    case 'in_progress':
-      return <Clock className="h-4 w-4 text-blue-600" />;
-    case 'blocked':
-      return <AlertTriangle className="h-4 w-4 text-red-600" />;
-    default:
-      return <Target className="h-4 w-4 text-gray-400" />;
-  }
-};
-
 // 현재 활성 단계 찾기
 const getCurrentStage = (project: ProjectPipeline): keyof ProjectPipeline['stages'] => {
   const stages = ['materialityAssessment', 'reportWriting', 'reviewApproval', 'completion'] as const;
-  
-  // in_progress인 단계 찾기
-  for (const stageKey of stages) {
-    if (project.stages[stageKey].status === 'in_progress') {
-      return stageKey;
+  for (const stage of stages) {
+    if (project.stages[stage].status === 'in_progress') {
+      return stage;
     }
   }
-  
-  // 첫 번째 not_started나 pending 단계 찾기
-  for (const stageKey of stages) {
-    if (['not_started', 'pending'].includes(project.stages[stageKey].status)) {
-      return stageKey;
+  // 기본값: 첫 번째 미완료 단계
+  for (const stage of stages) {
+    if (project.stages[stage].status !== 'completed') {
+      return stage;
     }
   }
-  
-  return 'materialityAssessment'; // fallback
+  return 'materialityAssessment';
 };
 
-export function ProjectDetailWorkflow({ 
-  selectedProject, 
-  isLoading = false 
+// 상위 단계 정보 정의
+const getStageDisplayInfo = (stageKey: keyof ProjectPipeline['stages']) => {
+  const stageMap = {
+    materialityAssessment: { name: '이중중대성 평가', shortName: '중대성 평가', icon: '🎯' },
+    reportWriting: { name: '보고서 작성', shortName: '보고서 작성', icon: '📝' },
+    reviewApproval: { name: '검토/승인', shortName: '검토/승인', icon: '✅' },
+    completion: { name: '완료', shortName: '완료', icon: '🏁' }
+  };
+  return stageMap[stageKey];
+};
+
+export default function ProjectDetailWorkflow({
+  selectedProject,
+  isLoading = false
 }: ProjectDetailWorkflowProps) {
+  // 프로젝트가 선택되지 않은 경우 첫 번째 프로젝트를 기본값으로 사용
+  const project = selectedProject || mockCompaniesOverview[0]?.reportStatus?.[0] as unknown as ProjectPipeline;
+
   if (isLoading) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>프로젝트 상세 워크플로우</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Card className="w-full max-w-5xl">
+        <CardContent className="p-6">
           <div className="animate-pulse space-y-4">
-            <div className="h-16 bg-gray-200 rounded"></div>
-            <div className="h-12 bg-gray-200 rounded"></div>
+            <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+            <div className="h-20 bg-gray-200 rounded"></div>
             <div className="h-40 bg-gray-200 rounded"></div>
-            <div className="h-32 bg-gray-200 rounded"></div>
           </div>
         </CardContent>
       </Card>
     );
   }
 
-  if (!selectedProject) {
+  if (!project) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>프로젝트 상세 워크플로우</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-12 text-muted-foreground">
-            <Target className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-            <p className="text-lg font-medium mb-2">프로젝트를 선택해주세요</p>
-            <p className="text-sm">상단 파이프라인에서 프로젝트를 클릭하면 상세 워크플로우가 표시됩니다.</p>
+      <Card className="w-full max-w-5xl">
+        <CardContent className="p-6">
+          <div className="text-center text-gray-500">
+            프로젝트를 선택해주세요.
           </div>
         </CardContent>
       </Card>
     );
   }
 
-  // 현재 활성 단계와 상세 워크플로우 가져오기
-  const currentStageKey = getCurrentStage(selectedProject);
-  const currentStageWorkflow = detailedWorkflows[selectedProject.id]?.[currentStageKey];
-  
-  // 전체 단계 정의
-  const allStages = [
-    { key: 'materialityAssessment', name: '이중중대성 평가' },
-    { key: 'reportWriting', name: '보고서 작성' },
-    { key: 'reviewApproval', name: '검토/승인' },
-    { key: 'completion', name: '완료' }
-  ];
+  const currentStage = getCurrentStage(project);
+  const currentStageData = project.stages[currentStage];
+  const currentStageInfo = getStageDisplayInfo(currentStage);
 
-  // 프로젝트 ESG 이슈 가져오기
-  const projectIssues = mockCompaniesOverview
-    .find(company => company.name === selectedProject.companyName)?.activeIssues || [];
+  // 프로젝트와 관련된 ESG 이슈들 가져오기
+  const projectCompany = mockCompaniesOverview.find(company => 
+    company.name === project.companyName
+  );
+  const projectIssues = projectCompany?.activeIssues || [];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center">
-          <Target className="h-5 w-5 mr-2" />
-          {selectedProject.companyName} 워크플로우
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* 프로젝트 헤더 정보 */}
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="font-medium text-lg">{selectedProject.companyName} 2024 ESG 보고서</h4>
-            <Badge variant="outline">{selectedProject.industry}</Badge>
-          </div>
-          <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
-            <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-2" />
-              마감일: {selectedProject.deadline}
+    <div className="w-full max-w-5xl space-y-6">
+      {/* 간소화된 프로젝트 헤더 (진행률 바 제거) */}
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl font-bold text-gray-900">
+                {project.companyName} - 지속가능성 보고서 프로젝트
+              </CardTitle>
+              <p className="text-sm text-gray-600 mt-1">
+                {project.industry}
+              </p>
             </div>
-            <div className="flex items-center">
-              <User className="h-4 w-4 mr-2" />
-              담당자: {selectedProject.assignee}
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="flex items-center justify-between text-sm mb-1">
-              <span>전체 진행률</span>
-              <span className="font-medium">{selectedProject.overallProgress}%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="h-2 rounded-full bg-blue-500"
-                style={{ width: `${selectedProject.overallProgress}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* 단계별 스테퍼 */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-          {allStages.map((stage, index) => {
-            const isActive = stage.key === currentStageKey;
-            const isCompleted = selectedProject.stages[stage.key as keyof typeof selectedProject.stages].status === 'completed';
-            
-            return (
-              <div key={stage.key} className="flex items-center">
-                <div className={`flex flex-col items-center ${isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-400'}`}>
-                  <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
-                    isActive ? 'border-blue-600 bg-blue-50' : 
-                    isCompleted ? 'border-green-600 bg-green-50' : 
-                    'border-gray-300 bg-white'
-                  }`}>
-                    {getStageIcon(stage.key, selectedProject)}
-                  </div>
-                  <span className={`text-xs mt-1 font-medium ${isActive ? 'text-blue-800' : ''}`}>
-                    {stage.name}
-                  </span>
-                </div>
-                {index < allStages.length - 1 && (
-                  <ArrowRight className="h-4 w-4 text-gray-400 mx-3" />
-                )}
+            <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center">
+                <Calendar className="h-4 w-4 mr-1" />
+                마감: {new Date(project.deadline).toLocaleDateString('ko-KR')}
               </div>
-            );
-          })}
-        </div>
+              <div className="flex items-center">
+                <User className="h-4 w-4 mr-1" />
+                담당자: {project.assignee}
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
 
-        {/* 현재 단계의 상세 워크플로우 */}
-        {currentStageWorkflow && (
-          <div>
-            <h5 className="font-medium mb-4 text-lg">
-              {currentStageWorkflow.stageName} 세부 진행 현황
-            </h5>
-            
-            {/* 세부 스텝들 */}
-            <div className="space-y-3 mb-6">
-              {currentStageWorkflow.steps.map((step, index) => {
-                const isCurrentStep = index === currentStageWorkflow.currentStepIndex;
+      {/* 메인 워크플로우 카드 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center text-xl">
+            <span className="mr-2 text-2xl">{currentStageInfo.icon}</span>
+            {currentStageInfo.name} 워크플로우
+            <Badge variant="secondary" className="ml-3 bg-blue-100 text-blue-800">
+              현재 진행 중
+            </Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          
+          {/* Level 1: 상위 단계 진행 표시 */}
+          <div className="bg-gray-50 rounded-lg p-6">
+            <h4 className="font-medium text-gray-900 mb-4 text-center">프로젝트 전체 진행 상황</h4>
+            <div className="flex items-center justify-between">
+              {(['materialityAssessment', 'reportWriting', 'reviewApproval'] as const).map((stageKey, index) => {
+                const stage = project.stages[stageKey];
+                const stageInfo = getStageDisplayInfo(stageKey);
+                const isActive = stageKey === currentStage;
+                const isCompleted = stage.status === 'completed';
                 
                 return (
-                  <div key={step.id} className={`p-4 border rounded-lg ${
-                    isCurrentStep ? 'border-blue-500 bg-blue-50' : 
-                    step.status === 'completed' ? 'border-green-300 bg-green-50' :
-                    'border-gray-200 bg-white'
-                  }`}>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center">
-                        {getStepIcon(step.status)}
-                        <span className={`ml-2 font-medium ${isCurrentStep ? 'text-blue-800' : ''}`}>
-                          Step {index + 1}: {step.name}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {step.estimatedHours && (
-                          <Badge variant="outline" className="text-xs">
-                            {step.estimatedHours}시간
-                          </Badge>
+                  <div key={stageKey} className="flex items-center flex-1">
+                    <div className="flex flex-col items-center">
+                      {/* 상위 단계 원형 아이콘 */}
+                      <div className={`
+                        w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold
+                        ${isCompleted 
+                          ? 'bg-green-500 text-white' 
+                          : isActive 
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-300 text-gray-600'
+                        }
+                      `}>
+                        {isCompleted ? (
+                          <CheckCircle className="h-6 w-6" />
+                        ) : (
+                          stageInfo.icon
                         )}
-                        <span className="text-sm font-medium">{step.progress}%</span>
                       </div>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-2">{step.description}</p>
-                    
-                    {/* 진행률 바 */}
-                    <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                      <div 
-                        className={`h-2 rounded-full ${
-                          step.status === 'completed' ? 'bg-green-500' :
-                          step.status === 'in_progress' ? 'bg-blue-500' :
-                          'bg-gray-300'
-                        }`}
-                        style={{ width: `${step.progress}%` }}
-                      />
+                      
+                      {/* 상위 단계 정보 */}
+                      <div className="mt-3 text-center min-w-[140px]">
+                        <p className={`text-sm font-medium ${
+                          isActive ? 'text-blue-700' : 
+                          isCompleted ? 'text-green-700' : 
+                          'text-gray-500'
+                        }`}>
+                          {stageInfo.shortName}
+                        </p>
+                        {(isActive || isCompleted) && (
+                          <p className="text-xs text-gray-600 mt-1">
+                            {stage.progress}% 완료
+                          </p>
+                        )}
+                      </div>
                     </div>
 
-                    {/* 다음 액션 (현재 진행 중인 스텝에만 표시) */}
-                    {isCurrentStep && step.nextAction && (
-                      <div className="bg-yellow-100 border border-yellow-300 rounded p-3 mt-3">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-yellow-800">다음 할 일</p>
-                            <p className="text-sm text-yellow-700">{step.nextAction}</p>
-                          </div>
-                          {step.actionUrl && (
-                            <Button size="sm" className="ml-4">
-                              <Play className="h-3 w-3 mr-1" />
-                              시작하기
-                            </Button>
-                          )}
-                        </div>
-                      </div>
+                    {/* 상위 단계 연결선 */}
+                    {index < 2 && (
+                      <div className={`
+                        flex-1 h-0.5 mx-6 mt-[-30px]
+                        ${isCompleted ? 'bg-green-500' : 'bg-gray-300'}
+                      `} />
                     )}
                   </div>
                 );
               })}
             </div>
+          </div>
 
-            {/* 즉시 실행 가능한 액션들 */}
-            {currentStageWorkflow.nextActions.length > 0 && (
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h6 className="font-medium mb-3">가능한 액션들</h6>
-                <div className="flex flex-wrap gap-2">
-                  {currentStageWorkflow.nextActions.map((action, index) => (
-                    <Button key={index} variant="outline" size="sm">
-                      <ExternalLink className="h-3 w-3 mr-1" />
+          {/* Level 2: 현재 활성 단계의 세부 워크플로우 */}
+          <div className="border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-r-lg p-6">
+            <h4 className="font-semibold text-blue-900 mb-6 text-lg">
+              📋 {currentStageInfo.name} 세부 단계
+            </h4>
+            
+            {/* 세부 스텝 Horizontal Stepper */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-blue-200">
+              <div className="flex items-center justify-between mb-6">
+                {currentStageData.steps.map((step, index) => (
+                  <div key={step.id} className="flex items-center flex-1">
+                    {/* 세부 스텝 원형 아이콘 */}
+                    <div className="flex flex-col items-center">
+                      <div className={`
+                        w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold border-2
+                        ${step.status === 'completed' 
+                          ? 'bg-green-500 border-green-500 text-white' 
+                          : step.status === 'in_progress' 
+                            ? 'bg-blue-500 border-blue-500 text-white animate-pulse'
+                            : 'bg-white border-gray-300 text-gray-600'
+                        }
+                      `}>
+                        {step.status === 'completed' ? (
+                          <CheckCircle className="h-5 w-5" />
+                        ) : step.status === 'in_progress' ? (
+                          <Clock className="h-5 w-5" />
+                        ) : (
+                          index + 1
+                        )}
+                      </div>
+                      
+                      {/* 세부 스텝 정보 */}
+                      <div className="mt-2 text-center min-w-[120px]">
+                        <p className={`text-xs font-medium ${
+                          step.status === 'in_progress' ? 'text-blue-700' : 
+                          step.status === 'completed' ? 'text-green-700' : 
+                          'text-gray-500'
+                        }`}>
+                          Step {index + 1}
+                        </p>
+                        <p className={`text-xs leading-tight mt-1 ${
+                          step.status === 'in_progress' ? 'text-blue-600' : 
+                          step.status === 'completed' ? 'text-green-600' : 
+                          'text-gray-400'
+                        }`}>
+                          {step.name}
+                        </p>
+                        {step.status !== 'pending' && (
+                          <p className="text-xs font-semibold mt-1 text-gray-700">
+                            {step.progress}%
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* 세부 스텝 연결선 */}
+                    {index < currentStageData.steps.length - 1 && (
+                      <div className={`
+                        flex-1 h-0.5 mx-4 mt-[-20px]
+                        ${step.status === 'completed' ? 'bg-green-500' : 'bg-gray-300'}
+                      `} />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Level 3: 현재 작업 상세 정보 */}
+              {(() => {
+                const currentStep = currentStageData.steps[currentStageData.currentStepIndex];
+                if (!currentStep || currentStep.status === 'pending') {
+                  return (
+                    <div className="text-center text-gray-500 py-6">
+                      아직 시작되지 않은 단계입니다.
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h5 className="font-semibold text-blue-900 mb-2 flex items-center">
+                          <Target className="h-5 w-5 mr-2" />
+                          현재 작업: {currentStep.name}
+                        </h5>
+                        <p className="text-blue-800 text-sm mb-4 leading-relaxed">
+                          {currentStep.description}
+                        </p>
+                        
+                        {/* 진행률 바 */}
+                        <div className="mb-4">
+                          <div className="flex justify-between text-xs text-blue-700 mb-2">
+                            <span>진행률</span>
+                            <span className="font-semibold">{currentStep.progress}%</span>
+                          </div>
+                          <div className="w-full bg-blue-200 rounded-full h-2.5">
+                            <div 
+                              className="bg-blue-600 h-2.5 rounded-full transition-all duration-500"
+                              style={{ width: `${currentStep.progress}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {currentStep.nextAction && (
+                          <div className="bg-white border border-blue-200 rounded p-4">
+                            <p className="text-sm font-medium text-blue-900 mb-1 flex items-center">
+                              <ArrowRight className="h-4 w-4 mr-1" />
+                              다음 할 일:
+                            </p>
+                            <p className="text-sm text-blue-800">
+                              {currentStep.nextAction}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="ml-6 flex flex-col space-y-3">
+                        {currentStep.actionUrl && (
+                          <Button size="sm" className="bg-blue-600 hover:bg-blue-700 px-4">
+                            <Play className="h-4 w-4 mr-2" />
+                            작업 시작
+                          </Button>
+                        )}
+                        <Button variant="outline" size="sm" className="px-4">
+                          <Save className="h-4 w-4 mr-2" />
+                          임시 저장
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+
+            {/* 추천 다음 액션들 */}
+            {currentStageData.nextActions.length > 0 && (
+              <div className="mt-6 bg-white rounded-lg p-4 border border-blue-200">
+                <h6 className="font-medium text-blue-900 mb-3 flex items-center">
+                  💡 추천 다음 액션
+                </h6>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {currentStageData.nextActions.map((action, index) => (
+                    <div key={index} className="flex items-center text-sm text-blue-700 bg-blue-50 rounded px-3 py-2">
+                      <ArrowRight className="h-3 w-3 mr-2 text-blue-500" />
                       {action}
-                    </Button>
+                    </div>
                   ))}
                 </div>
               </div>
             )}
           </div>
-        )}
+        </CardContent>
+      </Card>
 
-        {/* 현재 단계가 이중중대성 평가이고 이슈가 있으면 매트릭스 표시 */}
-        {currentStageKey === 'materialityAssessment' && projectIssues.length > 0 && (
-          <div>
-            <h5 className="font-medium mb-3">ESG 이슈 매트릭스</h5>
-            <ESGIssuesMatrix 
-              issues={projectIssues}
-              selectedCompany={selectedProject.companyName}
-              isLoading={false}
-            />
-          </div>
-        )}
-
-        {/* 하단 액션 버튼들 */}
-        <div className="flex justify-between pt-4 border-t">
-          <div className="text-sm text-gray-500">
-            최종 업데이트: {selectedProject.lastUpdated}
-          </div>
-          <div className="space-x-2">
-            <Button variant="outline" size="sm">
-              <Save className="h-3 w-3 mr-1" />
-              임시 저장
-            </Button>
-            <Button size="sm">
-              <ArrowRight className="h-3 w-3 mr-1" />
-              다음 단계로
-            </Button>
-          </div>
+      {/* ESG 이슈 매트릭스 - 이중중대성 평가 단계에서만 표시 */}
+      {currentStage === 'materialityAssessment' && projectIssues.length > 0 && (
+        <div>
+          <ESGIssuesMatrix 
+            issues={projectIssues}
+            selectedCompany={project.companyName}
+            isLoading={false}
+            onIssueSelect={(issue) => {
+              console.log('선택된 이슈:', issue);
+              // 필요시 이슈 선택 시 추가 작업 수행
+            }}
+            onThresholdChange={(financialThreshold, impactThreshold) => {
+              console.log('임계값 변경:', { financialThreshold, impactThreshold });
+              // 필요시 임계값 변경 시 추가 작업 수행
+            }}
+            onConfirmMaterialIssues={(materialIssues) => {
+              console.log('중대 이슈 확정:', materialIssues);
+              // TODO: 중대 이슈를 확정하고 다음 단계로 진행
+              // 1. 중대 이슈 목록을 서버에 저장
+              // 2. 현재 단계를 완료로 표시
+              // 3. 다음 단계(보고서 작성)로 자동 진행
+              alert(`${materialIssues.length}개의 중대 이슈가 확정되었습니다. 보고서 작성 단계로 진행합니다.`);
+            }}
+          />
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 } 

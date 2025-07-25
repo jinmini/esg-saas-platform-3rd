@@ -76,7 +76,7 @@ export default function CrawlerTestPage() {
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder="기업 이름 입력 (예: 삼성전자)"
+            placeholder="기업 이름 입력 (예: 한국중부발전)"
           />
           <Button onClick={handleSearch} disabled={isFetching}>
             {isFetching ? '분석 중...' : '분석 시작'}

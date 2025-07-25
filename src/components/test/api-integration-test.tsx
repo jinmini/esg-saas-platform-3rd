@@ -26,7 +26,7 @@ import {
 
 
 export function ApiIntegrationTest() {
-  const [testCompany, setTestCompany] = useState('삼성전자')
+  const [testCompany, setTestCompany] = useState('한국중부발전')
 
   // API 훅들 사용
   const { data: companies, isLoading: companiesLoading, error: companiesError } = useCompanies()

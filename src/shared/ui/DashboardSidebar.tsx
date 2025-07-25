@@ -4,206 +4,83 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/shared/lib';
-import { Button } from '@/shared/ui/Button';
-import { ScrollArea } from '@/shared/ui/ScrollArea';
-import {
-  LayoutDashboard,
-  FileText,
-  Building2,
-  Search,
-  FileBarChart,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  AlertTriangle,
-  TrendingUp,
-  Globe,
+import { cn } from '@/shared/lib/cn';
+import { 
+  Home, 
+  FileText, 
+  TestTube,
+  ExternalLink
 } from 'lucide-react';
-import { useState } from 'react';
-import { Badge } from '@/shared/ui/Badge';
 
-interface SidebarItem {
-  title: string;
-  href: string;
-  icon: React.ReactNode;
-  badge?: number;
-}
-
-const sidebarItems: SidebarItem[] = [
-  {
-    title: '대시보드',
-    href: '/dashboard',
-    icon: <LayoutDashboard className="h-4 w-4" />,
-  },
-  {
-    title: '분석 결과',
-    href: '/analysis',
-    icon: <FileText className="h-4 w-4" />,
-  },
-  {
-    title: '기업 관리',
-    href: '/companies',
-    icon: <Building2 className="h-4 w-4" />,
-  },
-  {
-    title: '크롤링',
-    href: '/crawler',
-    icon: <Globe className="h-4 w-4" />,
-  },
-  {
-    title: '리포트',
-    href: '/reports',
-    icon: <FileBarChart className="h-4 w-4" />,
-  },
-  {
-    title: '설정',
-    href: '/settings',
-    icon: <Settings className="h-4 w-4" />,
-  },
+const navigation = [
+  { name: '대시보드', href: '/dashboard', icon: Home },
+  { name: '리포트', href: '/reports', icon: FileText },
+  { name: '외부 이슈 분석', href: '/external-issues', icon: ExternalLink },
+  { name: '중대성 평가', href: '/materiality-assessment', icon: TestTube },
 ];
 
-// 개발 환경에서만 표시되는 메뉴
-const developmentItems: SidebarItem[] = process.env.NODE_ENV === 'development' ? [
-  {
-    title: 'API 테스트',
-    href: '/api-test',
-    icon: <Search className="h-4 w-4" />,
-  },
-] : [];
-
-const quickLinks = [
-  {
-    title: '고위험 알림',
-    href: '/alerts/high-risk',
-    icon: <AlertTriangle className="h-4 w-4" />,
-    badge: 3,
-  },
-  {
-    title: '트렌드 분석',
-    href: '/trends',
-    icon: <TrendingUp className="h-4 w-4" />,
-  },
-  {
-    title: '빠른 검색',
-    href: '/search',
-    icon: <Search className="h-4 w-4" />,
-  },
+// 개발환경에서만 표시되는 메뉴
+const developmentNavigation = [
+  { name: 'API 테스트', href: '/api-test', icon: TestTube },
 ];
 
-export function Sidebar() {
+export function DashboardSidebar() {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // 현재 환경에 따라 네비게이션 메뉴 구성
+  const currentNavigation = isDevelopment 
+    ? [...navigation, ...developmentNavigation]
+    : navigation;
 
   return (
-    <div
-      className={cn(
-        'relative flex flex-col h-full bg-card border-r transition-all duration-300',
-        collapsed ? 'w-16' : 'w-64'
-      )}
-    >
+    <div className="flex h-full w-64 flex-col bg-gray-50">
       {/* 로고 영역 */}
-      <div className="flex items-center h-16 px-4 border-b">
-        {!collapsed && (
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">E</span>
-            </div>
-            <span className="font-semibold text-lg">ESG Analyzer</span>
-          </div>
-        )}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn('ml-auto', collapsed && 'mx-auto')}
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          {collapsed ? (
-            <ChevronRight className="h-4 w-4" />
-          ) : (
-            <ChevronLeft className="h-4 w-4" />
-          )}
-        </Button>
+      <div className="flex h-16 flex-shrink-0 items-center border-b border-gray-200 px-4">
+        <h1 className="text-xl font-bold text-gray-900">ESG Platform</h1>
       </div>
 
-      {/* 메인 네비게이션 */}
-      <ScrollArea className="flex-1 px-3 py-4">
-        <nav className="space-y-2">
-          {!collapsed && (
-            <p className="text-xs font-semibold text-muted-foreground mb-2 px-3">
-              메인 메뉴
-            </p>
-          )}
-          {[...sidebarItems, ...developmentItems].map((item) => {
-            const isActive = pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
-            
-            return (
-              <Link key={item.href} href={item.href}>
-                <Button
-                  variant={isActive ? 'secondary' : 'ghost'}
-                  className={cn(
-                    'w-full justify-start gap-3',
-                    collapsed && 'justify-center px-2'
-                  )}
-                >
-                  {item.icon}
-                  {!collapsed && (
-                    <>
-                      <span>{item.title}</span>
-                      {item.badge && (
-                        <Badge variant="secondary" className="ml-auto">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </>
-                  )}
-                </Button>
-              </Link>
-            );
-          })}
-
-          {/* 빠른 링크 */}
-          {!collapsed && (
-            <>
-              <div className="my-4 border-t" />
-              <p className="text-xs font-semibold text-muted-foreground mb-2 px-3">
-                빠른 링크
-              </p>
-              {quickLinks.map((item) => {
-                const isActive = pathname === item.href;
-                
-                return (
-                  <Link key={item.href} href={item.href}>
-                    <Button
-                      variant={isActive ? 'secondary' : 'ghost'}
-                      className="w-full justify-start gap-3"
-                      size="sm"
-                    >
-                      {item.icon}
-                      <span>{item.title}</span>
-                      {item.badge && (
-                        <Badge variant="destructive" className="ml-auto">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </Button>
-                  </Link>
-                );
-              })}
-            </>
-          )}
-        </nav>
-      </ScrollArea>
+      {/* 네비게이션 메뉴 */}
+      <nav className="flex-1 space-y-1 px-2 py-4">
+        {currentNavigation.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                'group flex items-center rounded-md px-2 py-2 text-sm font-medium',
+                isActive
+                  ? 'bg-blue-100 text-blue-900'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              )}
+            >
+              <item.icon
+                className={cn(
+                  'mr-3 h-5 w-5 flex-shrink-0',
+                  isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'
+                )}
+                aria-hidden="true"
+              />
+              {item.name}
+              {/* 개발환경 전용 메뉴 표시 */}
+              {isDevelopment && item.name === 'API 테스트' && (
+                <span className="ml-auto text-xs text-orange-500 font-medium">DEV</span>
+              )}
+            </Link>
+          );
+        })}
+      </nav>
 
       {/* 하단 정보 */}
-      {!collapsed && (
-        <div className="p-4 border-t">
-          <div className="text-xs text-muted-foreground">
-            <p>버전 1.0.0</p>
-            <p className="mt-1">© 2025 ESG Analyzer</p>
-          </div>
+      <div className="flex-shrink-0 border-t border-gray-200 p-4">
+        <div className="text-xs text-gray-500">
+          <p>ESG Platform v1.0</p>
+          {isDevelopment && (
+            <p className="mt-1 text-orange-500 font-medium">개발 환경</p>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

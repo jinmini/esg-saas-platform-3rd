@@ -6,7 +6,7 @@ import { getSession, signOut } from 'next-auth/react';
 
 // Axios 인스턴스 생성
 const instance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api', // 기본 URL을 /api로 변경
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',

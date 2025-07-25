@@ -33,7 +33,7 @@ export function AnalysisForm({ onAnalyze, isLoading }: AnalysisFormProps) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <Input
               type="text"
-              placeholder="예: 삼성전자, LG에너지솔루션"
+              placeholder="예: 한국중부발전, 두산퓨얼셀"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               className="pl-10"

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Metadata } from 'next';
-import { Sidebar } from '@/shared/ui/DashboardSidebar';
+import { DashboardSidebar } from '@/shared/ui/DashboardSidebar';
 import { Header } from '@/shared/ui/DashboardHeader';
 
 export const metadata: Metadata = {
@@ -18,18 +18,16 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen overflow-hidden">
       {/* 사이드바 */}
-      <Sidebar />
+      <DashboardSidebar />
       
       {/* 메인 콘텐츠 영역 */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* 헤더 */}
         <Header />
         
-        {/* 페이지 콘텐츠 */}
+        {/* 페이지 콘텐츠 - 패딩 제거하여 위젯들이 전체 너비 사용 */}
         <main className="flex-1 overflow-y-auto bg-muted/10">
-          <div className="container mx-auto p-6">
-            {children}
-          </div>
+          {children}
         </main>
       </div>
     </div>

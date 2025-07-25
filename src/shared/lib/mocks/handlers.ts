@@ -15,29 +15,29 @@ import {
 const createMockCompanies = (): Company[] => [
   {
     id: '1',
-    name: '삼성전자',
-    industry: '반도체',
+    name: '한국중부발전',
+    industry: '전력공급업',
     size: 'large',
-    esg_score: 87.5,
-    risk_level: 'low',
+    esg_score: 72.0,
+    risk_level: 'medium',
     last_updated: new Date().toISOString()
   },
   {
     id: '2',
-    name: 'SK하이닉스',
-    industry: '반도체',
-    size: 'large',
-    esg_score: 82.3,
-    risk_level: 'medium',
+    name: '두산퓨얼셀',
+    industry: '연료전지제조업',
+    size: 'medium',
+    esg_score: 78.0,
+    risk_level: 'low',
     last_updated: new Date().toISOString()
   },
   {
     id: '3',
-    name: 'LG전자',
-    industry: '가전',
+    name: 'LS일렉트릭',
+    industry: '전력설비제조업',
     size: 'large',
-    esg_score: 79.1,
-    risk_level: 'medium',
+    esg_score: 65.0,
+    risk_level: 'high',
     last_updated: new Date().toISOString()
   }
 ]
@@ -47,7 +47,7 @@ const createMockReports = (): Report[] => [
     id: '1',
     company_id: '1',
     framework: 'gri',
-    title: '삼성전자 2024 GRI 보고서',
+    title: '한국중부발전 2024 GRI 보고서',
     data: { sections: [] },
     status: 'completed',
     created_at: new Date().toISOString(),
@@ -55,11 +55,21 @@ const createMockReports = (): Report[] => [
   },
   {
     id: '2',
-    company_id: '1',
+    company_id: '2',
     framework: 'sasb',
-    title: '삼성전자 2024 SASB 보고서',
+    title: '두산퓨얼셀 2024 SASB 보고서',
     data: { sections: [] },
     status: 'draft',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  },
+  {
+    id: '3',
+    company_id: '3',
+    framework: 'tcfd',
+    title: 'LS일렉트릭 2024 TCFD 보고서',
+    data: { sections: [] },
+    status: 'in_review',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   }
@@ -300,18 +310,26 @@ export const handlers = [
       {
         id: '1',
         type: 'news',
-        title: '삼성전자, RE100 달성 목표 발표',
-        content: '2030년까지 재생에너지 100% 사용 목표',
+        title: '한국중부발전, 탄소중립 로드맵 발표',
+        content: '2050년까지 탄소중립 달성을 위한 단계적 로드맵 공개',
         timestamp: new Date().toISOString(),
-        company: '삼성전자'
+        company: '한국중부발전'
       },
       {
         id: '2',
         type: 'report',
-        title: 'SK하이닉스 ESG 보고서 완성',
+        title: '두산퓨얼셀 ESG 보고서 완성',
         content: '2024년 지속가능경영보고서 발간',
         timestamp: new Date(Date.now() - 3600000).toISOString(),
-        company: 'SK하이닉스'
+        company: '두산퓨얼셀'
+      },
+      {
+        id: '3',
+        type: 'news',
+        title: 'LS일렉트릭, 스마트 그리드 기술 개발',
+        content: '차세대 전력망 기술 혁신으로 ESG 경영 강화',
+        timestamp: new Date(Date.now() - 7200000).toISOString(),
+        company: 'LS일렉트릭'
       }
     ]
     

@@ -1,1 +1,1 @@
-export { ProjectDetailWorkflow } from './ProjectDetailWorkflow'; 
+export { default as ProjectDetailWorkflow } from './ProjectDetailWorkflow'; 

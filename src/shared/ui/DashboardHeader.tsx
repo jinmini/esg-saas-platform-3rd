@@ -102,7 +102,7 @@ export function Header() {
               <div className="flex flex-col gap-1">
                 <p className="text-sm font-medium">고위험 알림</p>
                 <p className="text-xs text-muted-foreground">
-                  삼성전자의 ESG 리스크 점수가 80%를 초과했습니다
+                  한국중부발전의 ESG 리스크 점수가 80%를 초과했습니다
                 </p>
                 <p className="text-xs text-muted-foreground">5분 전</p>
               </div>

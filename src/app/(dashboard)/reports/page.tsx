@@ -61,22 +61,22 @@ const mockReports: Report[] = [
     progress: 65,
     createdAt: '2024-03-15',
     updatedAt: '2024-03-20',
-    author: '김민수',
-    reviewers: ['이영희', '박철수'],
-    company: '삼성전자',
+    author: '김영희',
+    reviewers: ['박철수', '이지은'],
+    company: '한국중부발전',
     period: '2024 Q1'
   },
   {
     id: '2',
-    title: 'SASB 기후변화 리스크 보고서',
+    title: 'SASB 연료전지 지속가능성 보고서',
     type: 'SASB',
     status: 'completed',
     progress: 100,
     createdAt: '2024-03-01',
     updatedAt: '2024-03-18',
-    author: '박지영',
-    reviewers: ['김민수'],
-    company: 'SK하이닉스',
+    author: '박철수',
+    reviewers: ['김영희'],
+    company: '두산퓨얼셀',
     period: '2023 Annual'
   },
   {
@@ -87,9 +87,9 @@ const mockReports: Report[] = [
     progress: 85,
     createdAt: '2024-03-10',
     updatedAt: '2024-03-19',
-    author: '이준호',
-    reviewers: ['박지영', '최서연'],
-    company: 'LG에너지솔루션',
+    author: '이지은',
+    reviewers: ['박철수', '김영희'],
+    company: 'LS일렉트릭',
     period: '2024 Q1'
   },
   {
@@ -100,9 +100,9 @@ const mockReports: Report[] = [
     progress: 20,
     createdAt: '2024-03-18',
     updatedAt: '2024-03-20',
-    author: '최서연',
+    author: '김영희',
     reviewers: [],
-    company: '현대자동차',
+    company: '한국중부발전',
     period: '2024 Q1'
   }
 ];
