@@ -61,12 +61,164 @@ export interface ESGClassification {
 }
 
 export interface SentimentAnalysis {
-  sentiment: '긍정' | '부정' | '중립'
-  confidence_score: number
-  positive: number
-  negative: number
-  neutral: number
-  analysis_method: string
+  sentiment: '긍정' | '부정' | '중립';
+  confidence: number;
+  analysis_method: 'keyword_based' | 'ml_based';
+}
+
+export interface CombinedKeywordArticle {
+  title: string;
+  description: string;
+  link: string;
+  sentiment: SentimentAnalysis;
+  matched_keywords?: string[]; // 해당 기사를 찾은 키워드 조합
+}
+
+export interface CombinedKeywordsResponse {
+  task_id: string;
+  status: 'completed' | 'in_progress' | 'failed';
+  searched_keywords: string[];
+  total_articles_found: number;
+  analysis_type: 'combined_keywords';
+  analyzed_articles: CombinedKeywordArticle[];
+}
+
+// 조합 키워드 검색 API 요청 파라미터
+export interface CombinedKeywordsParams {
+  max_results?: number;
+}
+
+// 회사별 조합 검색 API 응답 타입
+export interface CompanyCombinedResponse {
+  task_id: string;
+  status: 'completed' | 'in_progress' | 'failed';
+  company: string;
+  searched_keywords: string[];
+  total_articles_found: number;
+  analysis_type: 'company_combined';
+  analyzed_articles: CombinedKeywordArticle[];
+}
+
+// 회사별 조합 검색 API 요청 파라미터
+export interface CompanyCombinedParams {
+  company: string;
+  max_results?: number;
+}
+
+// MVP 지원 회사 목록
+export const SUPPORTED_COMPANIES = [
+  '두산퓨얼셀',
+  'LS ELECTRIC', 
+  '한국중부발전'
+] as const;
+
+export type SupportedCompany = typeof SUPPORTED_COMPANIES[number];
+
+// 중대성 분석 API 관련 타입 (실제 API 응답 구조에 맞게 수정)
+export interface MaterialityAnalysisMetadata {
+  company_name: string;
+  analysis_year: number;
+  base_year: number;
+  analysis_date: string;
+  analysis_type: string;
+  status: string;
+  disclaimer: string;
+}
+
+export interface NewsAnalysisSummary {
+  total_articles_analyzed: number;
+  analysis_period: string;
+  overall_trend: string;
+  update_necessity: string;
+  confidence_level: number;
+}
+
+export interface ExistingTopic {
+  topic_name: string;
+  current_priority: number;
+  suggested_direction: string;
+  suggested_change: number;
+  rationale: string;
+  confidence: number;
+  change_type: string;
+  supporting_evidence: string[];
+}
+
+export interface TopicAnalysisSummary {
+  total_topics_analyzed: number;
+  topics_with_significant_change: number;
+  average_confidence: number;
+  news_coverage: {
+    total_articles_analyzed: number;
+    analysis_period: string;
+  };
+}
+
+export interface ChangeDistribution {
+  moderate_decrease: number;
+  stable: number;
+  emerging: number;
+  declining: number;
+}
+
+export interface ChangeAnalysis {
+  existing_topics: ExistingTopic[];
+  topic_analysis_summary: TopicAnalysisSummary;
+  change_distribution: ChangeDistribution;
+  significant_changes: number;
+}
+
+export interface MaterialityRecommendation {
+  type: string;
+  topic_name?: string;
+  current_priority?: number;
+  suggested_action: string;
+  rationale: string;
+  confidence: number;
+  news_evidence?: {
+    total_articles: number;
+    relevant_articles: number;
+    avg_sentiment: string;
+  };
+  scope?: string;
+}
+
+export interface ActionItem {
+  type: string;
+  title: string;
+  description: string;
+  urgency: string;
+  estimated_effort: string;
+}
+
+export interface ConfidenceAssessment {
+  overall_confidence_score: number;
+  confidence_grade: string;
+  data_confidence: number;
+  analysis_confidence: number;
+  confidence_factors: {
+    article_count: number;
+    analysis_depth: number;
+    data_recency: string;
+  };
+  recommendations: string[];
+}
+
+export interface MaterialityAnalysisResponse {
+  analysis_metadata: MaterialityAnalysisMetadata;
+  news_analysis_summary: NewsAnalysisSummary;
+  change_analysis: ChangeAnalysis;
+  recommendations: MaterialityRecommendation[];
+  action_items: ActionItem[];
+  confidence_assessment: ConfidenceAssessment;
+}
+
+// 중대성 분석 API 요청 파라미터
+export interface MaterialityAnalysisParams {
+  company_name: string;
+  year?: number;
+  include_news?: boolean;
+  max_articles?: number;
 }
 
 export interface AnalyzedNewsItem {

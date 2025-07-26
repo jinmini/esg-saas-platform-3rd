@@ -32,11 +32,8 @@ export function getFallbackNewsAnalysis(company: string): NewsAnalysisResponse {
         },
         sentiment_analysis: {
           sentiment: "긍정",
-          confidence_score: 0.92,
-          positive: 0.85,
-          negative: 0.10,
-          neutral: 0.05,
-          analysis_method: "fallback"
+          confidence: 0.92,
+          analysis_method: "ml_based"
         }
       }
     ],

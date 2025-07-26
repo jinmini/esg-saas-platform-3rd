@@ -41,6 +41,8 @@ import {
   mockStakeholderContacts,
   stakeholderGroupInfo
 } from '@/shared/lib/mocks/dashboard-mock-data';
+import { useMaterialityAnalysis } from '@/features/analyze-company-news/hooks/use-materiality-analysis';
+import { SUPPORTED_COMPANIES, MaterialityAnalysisResponse } from '@/shared/types/api';
 
 // 탭 정의
 const analysisTabs = [
@@ -356,37 +358,414 @@ export default function AnalysisPage() {
 
 // 1. 이슈 풀 관리 컴포넌트
 function IssuePoolManagement() {
+  const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [analysisParams, setAnalysisParams] = useState({
+    year: 2025,
+    include_news: true,
+    max_articles: 100,
+  });
+
+  const materialityAnalysis = useMaterialityAnalysis();
+  
+  const handleAnalyze = () => {
+    if (!selectedCompany) return;
+    
+    materialityAnalysis.mutate({
+      company_name: selectedCompany,
+      ...analysisParams
+    });
+  };
+
+  const analysisData = materialityAnalysis.data;
+  const isAnalyzing = materialityAnalysis.isPending;
+  const analysisError = materialityAnalysis.error;
+
   return (
     <div className="space-y-6">
+      {/* 분석 실행 패널 */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
             <Database className="h-5 w-5 mr-2 text-blue-600" />
-            ESG 이슈 풀 관리
+            ESG 이슈 풀 분석
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-12">
-            <Database className="h-16 w-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">이슈 풀 관리</h3>
-            <p className="text-gray-500 mb-6">
-              GRI, SASB, TCFD 기준에 따른 ESG 이슈를 식별하고 관리합니다
-            </p>
-            <div className="max-w-md mx-auto space-y-2 text-sm text-gray-600">
-              <div className="flex items-center justify-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                <span>업종별 이슈 라이브러리 제공</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                <span>사용자 정의 이슈 추가 기능</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                <span>이슈별 상세 정보 관리</span>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="space-y-2">
+              <Label htmlFor="company-select">분석 대상 회사</Label>
+              <Select value={selectedCompany} onValueChange={setSelectedCompany}>
+                <SelectTrigger>
+                  <SelectValue placeholder="회사를 선택하세요" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SUPPORTED_COMPANIES.map((company) => (
+                    <SelectItem key={company} value={company}>
+                      {company}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="year-select">분석 연도</Label>
+              <Select 
+                value={analysisParams.year.toString()} 
+                onValueChange={(value) => setAnalysisParams({...analysisParams, year: parseInt(value)})}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="2025">2025</SelectItem>
+                  <SelectItem value="2024">2024</SelectItem>
+                  <SelectItem value="2023">2023</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="articles-count">최대 뉴스 수</Label>
+              <Input
+                id="articles-count"
+                type="number"
+                value={analysisParams.max_articles}
+                onChange={(e) => setAnalysisParams({
+                  ...analysisParams, 
+                  max_articles: parseInt(e.target.value) || 100
+                })}
+                min="50"
+                max="500"
+              />
+            </div>
+            
+            <div className="flex items-end">
+              <Button 
+                onClick={handleAnalyze}
+                disabled={!selectedCompany || isAnalyzing}
+                className="w-full"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Clock className="h-4 w-4 mr-2 animate-spin" />
+                    분석 중...
+                  </>
+                ) : (
+                  <>
+                    <TrendingUp className="h-4 w-4 mr-2" />
+                    중대성 분석 실행
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {/* MVP 안내 */}
+          <div className="bg-blue-50 p-3 rounded-lg">
+            <div className="flex items-start space-x-2">
+              <AlertCircle className="h-4 w-4 text-blue-600 mt-0.5" />
+              <div className="text-sm text-blue-700">
+                <strong>MVP 단계:</strong> 현재 {SUPPORTED_COMPANIES.join(', ')} 회사의 중대성 분석을 지원합니다.
               </div>
             </div>
-            <Button className="mt-6">구현 예정</Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 분석 진행 상태 */}
+      {isAnalyzing && (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center py-8">
+              <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">중대성 분석 진행 중</h3>
+              <p className="text-gray-500">
+                {selectedCompany}의 ESG 이슈를 분석하고 있습니다. 잠시만 기다려주세요.
+              </p>
+              <div className="mt-4 text-sm text-gray-600">
+                • 기업 보고서 분석 중...<br/>
+                • 뉴스 데이터 수집 및 분석 중...<br/>
+                • 중대성 매트릭스 생성 중...
+              </div>
+              </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 분석 오류 */}
+      {analysisError && (
+        <Card className="border-red-200 bg-red-50">
+          <CardHeader>
+            <CardTitle className="text-red-600 flex items-center">
+              <AlertCircle className="h-5 w-5 mr-2" />
+              분석 실행 오류
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-red-700 mb-3">{analysisError.message}</p>
+            <Button onClick={handleAnalyze} variant="outline">
+              다시 시도
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 분석 결과 - 이슈 풀 */}
+      {analysisData && (
+        <MaterialityAnalysisResults data={analysisData} />
+      )}
+              </div>
+  );
+}
+
+// 중대성 분석 결과 표시 컴포넌트 (실제 API 응답 구조에 맞게 새로 작성)
+function MaterialityAnalysisResults({ data }: { data: MaterialityAnalysisResponse }) {
+  // 데이터 안전성 확인
+  if (!data || !data.analysis_metadata || !data.change_analysis || !data.news_analysis_summary) {
+    return (
+      <Card className="border-orange-200 bg-orange-50">
+        <CardContent className="pt-6">
+          <div className="text-center py-8">
+            <AlertCircle className="h-12 w-12 mx-auto text-orange-500 mb-4" />
+            <h3 className="text-lg font-semibold text-orange-800 mb-2">데이터 불완전</h3>
+            <p className="text-orange-700">
+              분석 결과 데이터가 불완전합니다. 다시 분석을 실행해주세요.
+            </p>
+            </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const getChangeTypeColor = (changeType: string) => {
+    switch (changeType) {
+      case 'moderate_decrease':
+        return 'border-red-200 bg-red-50';
+      case 'stable':
+        return 'border-gray-200 bg-gray-50';
+      case 'emerging':
+        return 'border-green-200 bg-green-50';
+      case 'declining':
+        return 'border-orange-200 bg-orange-50';
+      default:
+        return 'border-gray-200 bg-gray-50';
+    }
+  };
+
+  const getChangeTypeText = (changeType: string) => {
+    switch (changeType) {
+      case 'moderate_decrease':
+        return '중간 감소';
+      case 'stable':
+        return '안정';
+      case 'emerging':
+        return '신규 등장';
+      case 'declining':
+        return '감소';
+      default:
+        return changeType;
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* 분석 메타데이터 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center">
+              <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
+              {data.analysis_metadata.company_name} 중대성 분석 완료
+            </div>
+            <Badge variant="outline" className="bg-green-50">
+              {new Date(data.analysis_metadata.analysis_date).toLocaleDateString()}
+            </Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="text-center p-3 bg-blue-50 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600">
+                {data.change_analysis?.existing_topics?.length || 0}
+              </div>
+              <div className="text-sm text-muted-foreground">분석 대상 이슈</div>
+            </div>
+            <div className="text-center p-3 bg-green-50 rounded-lg">
+              <div className="text-2xl font-bold text-green-600">
+                {data.change_analysis?.significant_changes || 0}
+              </div>
+              <div className="text-sm text-muted-foreground">중요 변화 이슈</div>
+            </div>
+            <div className="text-center p-3 bg-orange-50 rounded-lg">
+              <div className="text-2xl font-bold text-orange-600">
+                {data.news_analysis_summary?.total_articles_analyzed || 0}
+              </div>
+              <div className="text-sm text-muted-foreground">분석 뉴스</div>
+            </div>
+            <div className="text-center p-3 bg-purple-50 rounded-lg">
+              <div className="text-2xl font-bold text-purple-600">
+                {data.recommendations?.length || 0}
+              </div>
+              <div className="text-sm text-muted-foreground">권고사항</div>
+            </div>
+          </div>
+          
+          <div className="mt-4 text-sm text-gray-600">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><strong>회사:</strong> {data.analysis_metadata?.company_name || '정보 없음'}</div>
+              <div><strong>분석 기간:</strong> {data.news_analysis_summary?.analysis_period || '정보 없음'}</div>
+              <div><strong>신뢰도:</strong> <span className={
+                data.confidence_assessment?.confidence_grade === '매우 낮음' ? 'text-red-600 font-medium' : 'text-gray-600'
+              }>{data.confidence_assessment?.confidence_grade || '정보 없음'}</span></div>
+            </div>
+            <div className="text-xs text-gray-500 mt-2">{data.analysis_metadata?.disclaimer || ''}</div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 이슈 변화 분석 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>이슈 변화 분석</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {(data.change_analysis?.existing_topics || []).map((topic, index) => (
+              <div key={index} className={`p-4 rounded-lg border ${getChangeTypeColor(topic.change_type)}`}>
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h4 className="font-medium text-gray-900">{topic.topic_name}</h4>
+                    <p className="text-sm text-gray-600">현재 우선순위: {topic.current_priority}순위</p>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="outline" className="mb-1">
+                      {getChangeTypeText(topic.change_type)}
+                    </Badge>
+                    <div className="text-xs text-gray-500">
+                      변화량: {topic.suggested_change > 0 ? '+' : ''}{topic.suggested_change}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-700 mb-2">{topic.rationale}</p>
+                <div className="text-xs text-gray-500">
+                  <strong>제안 방향:</strong> {topic.suggested_direction}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 권고사항 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>권고사항</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {(data.recommendations || []).map((rec, index) => (
+              <div key={index} className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h4 className="font-medium text-blue-900">{rec.suggested_action}</h4>
+                    {rec.topic_name && (
+                      <p className="text-sm text-blue-700">대상 이슈: {rec.topic_name}</p>
+                    )}
+                  </div>
+                  <Badge variant="outline" className="bg-white">
+                    {rec.type}
+                  </Badge>
+                </div>
+                <p className="text-sm text-blue-800">{rec.rationale}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 실행 계획 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>실행 계획</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {(data.action_items || []).map((action, index) => (
+              <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-medium text-gray-900">{action.title}</h4>
+                  <div className="flex space-x-2">
+                    <Badge variant={action.urgency === 'high' ? 'destructive' : action.urgency === 'medium' ? 'default' : 'secondary'}>
+                      {action.urgency === 'high' ? '높음' : action.urgency === 'medium' ? '보통' : '낮음'}
+                    </Badge>
+                    <Badge variant="outline">
+                      {action.estimated_effort === 'high' ? '많음' : action.estimated_effort === 'medium' ? '보통' : '적음'}
+                    </Badge>
+                  </div>
+                </div>
+                {action.description && (
+                  <p className="text-sm text-gray-600">{action.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 신뢰도 평가 */}
+      {data.confidence_assessment && (
+        <Card className="border-orange-200">
+          <CardHeader>
+            <CardTitle className="text-orange-800">신뢰도 평가</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-orange-50 p-4 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600">
+                    {Math.round(data.confidence_assessment.overall_confidence_score * 100)}%
+                  </div>
+                  <div className="text-sm text-orange-800">전체 신뢰도</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600">
+                    {data.confidence_assessment.confidence_factors.article_count}
+                  </div>
+                  <div className="text-sm text-orange-800">분석 기사 수</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600">
+                    {data.confidence_assessment.confidence_grade}
+                  </div>
+                  <div className="text-sm text-orange-800">신뢰도 등급</div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <h5 className="font-medium text-orange-800">개선 권고사항:</h5>
+                <ul className="list-disc list-inside space-y-1 text-sm text-orange-700">
+                  {(data.confidence_assessment.recommendations || []).map((recommendation, index) => (
+                    <li key={index}>{recommendation}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 다음 단계 안내 */}
+      <Card className="border-green-200 bg-green-50">
+        <CardContent className="pt-6">
+          <div className="flex items-start space-x-3">
+            <CheckCircle className="h-6 w-6 text-green-600 mt-0.5" />
+            <div>
+              <h4 className="font-medium text-green-900 mb-1">이슈 풀 생성 완료</h4>
+              <p className="text-sm text-green-700 mb-3">
+                총 {data.change_analysis?.existing_topics?.length || 0}개의 ESG 이슈가 분석되었습니다. 
+                이제 '점수 매기기' 탭에서 각 이슈의 재무적 영향과 이해관계자 관심도를 평가할 수 있습니다.
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>

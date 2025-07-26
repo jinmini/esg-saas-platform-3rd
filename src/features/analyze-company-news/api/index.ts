@@ -13,4 +13,13 @@ export const analyzeCompanyNews = async (params: NewsAnalysisParams): Promise<Ne
   if (params.period) queryParams.append('period', params.period);
 
   return apiClient.get<NewsAnalysisResponse>(`${basePath}/analyze-company?${queryParams.toString()}`);
-}; 
+};
+
+// 새로운 조합 키워드 검색 API 내보내기
+export { fetchCombinedKeywords } from './combined-keywords';
+
+// 회사별 조합 검색 API 내보내기
+export { fetchCompanyCombined } from './company-combined';
+
+// 중대성 분석 API 내보내기
+export { fetchMaterialityAnalysis } from './materiality-analysis'; 
